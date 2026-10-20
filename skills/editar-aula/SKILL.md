@@ -27,7 +27,7 @@ Direção para editar uma aula gravada sem improviso: o que limpar, como estrutu
 3. **Estruture:** divida em seções, dê um título curto a cada uma e anote o tempo de cada início para os capítulos.
 4. **Planeje os motions** dentro do orçamento (`references/motions.md`): título da aula, título de cada seção, destaques de termos-chave e, só quando a ideia for densa, um motion explicativo.
 5. **Combine uma vez com o usuário** antes de executar: duração antes e depois, o que será removido, as seções e a lista de motions com o tempo de cada. Se ele já pediu para fazer tudo, siga direto.
-6. **Execute:** limpe o vídeo (os scripts abaixo ajudam) e crie os motions no Remotion, usando o vídeo limpo como base. Siga a skill do Remotion para criar e exportar.
+6. **Execute:** limpe o vídeo (os scripts abaixo ajudam) e crie os motions no Remotion (skill do Remotion). Para **exportar**, escolha: motions que só **colocam coisas por cima** (títulos, destaques, listas, cartelas) usam a **exportação rápida**, que renderiza só os segundos com motion (`references/exportacao.md`); motions que **transformam o vídeo** (zoom, tela dividida) pedem o render direto no Remotion, com o vídeo dentro da composição.
 7. **Confira e entregue** com a lista abaixo, junto de `capitulos.txt` (um por linha, `00:00 Título`).
 
 ## Antes de entregar, confira
@@ -36,16 +36,18 @@ Direção para editar uma aula gravada sem improviso: o que limpar, como estrutu
 - Frases importantes não foram cortadas e nada ficou duplicado (transcrever o vídeo limpo mostra isso).
 - Pausas e volume estão naturais; o volume é parecido do começo ao fim.
 - Os textos dos motions são curtos, legíveis e têm tempo de ser lidos.
+- Veja um quadro de cada motion no vídeo final (a exportação rápida gera `folha_motions.png` para isso).
 - Cores e fontes seguem a identidade do projeto do começo ao fim.
 
 ## Scripts de limpeza (opcionais)
 
-Fazem só os cortes e o áudio, não os motions. Use `python` (Windows) ou `python3` (macOS); precisam de FFmpeg. A saída vai sempre para outra pasta e o original não é alterado.
+Cortes e áudio (os dois últimos, a exportação dos motions). Use `python` (Windows) ou `python3` (macOS); precisam de FFmpeg. A saída vai sempre para outra pasta e o original não é alterado.
 
 - `python <skill>/scripts/diagnosticar.py aula.mp4` mostra formato, volume e avisos.
 - `python <skill>/scripts/planejar_cortes.py aula.mp4 --saida trabalho --remover "62-71.5,120-131"` planeja os cortes (os tempos podem vir da transcrição: o script os alinha ao som real).
 - `python <skill>/scripts/montar.py trabalho/cortes.json --saida trabalho` gera `aula_limpa.mp4`.
 - `python <skill>/scripts/verificar.py trabalho/aula_limpa.mp4 --timeline trabalho/timeline.json` mede duração, volume, pausas e estalos.
+- Exportação rápida dos motions: `clips.mjs` e `colar.py` (`references/exportacao.md`).
 
 Os cortes usam emenda por sobreposição: o trecho novo entra colado no começo da fala, sem respiro, e começa ainda no finalzinho do anterior. Detalhes em `references/limpeza.md`.
 
@@ -54,3 +56,4 @@ Os cortes usam emenda por sobreposição: o trecho novo entra colado no começo 
 - `references/formatos.md`: o que fazer em cada formato de aula e como não atrapalhar a tela.
 - `references/limpeza.md`: o que remover, estilos de corte e problemas comuns.
 - `references/motions.md`: tipos de motion, orçamento e como escolher o que destacar.
+- `references/exportacao.md`: exportação rápida dos motions (só as janelas com motion) e quando não usar.

@@ -28,7 +28,7 @@ Crie cada tipo de motion **uma vez** e **duplique ajustando** texto e tempo, em 
 
 ## Onde criar e exportar
 
-No **Remotion**: use o vídeo limpo como base da composição e coloque os motions por cima, na mesma composição. A skill do Remotion explica como montar e exportar. Use o mesmo tamanho e a mesma taxa de quadros do vídeo limpo (estão em `timeline.json`, se você usou os scripts).
+**Criar:** no Remotion (a skill do Remotion explica como). **Exportar:** se os motions só **colocam coisas por cima** do vídeo (títulos, destaques, listas, cartelas), use a exportação rápida, que renderiza só as janelas com motion e deixa o FFmpeg codificar o vídeo uma vez (`exportacao.md`). Se algum motion **transforma o vídeo** (zoom, tela dividida), use o render direto do Remotion, com o vídeo limpo dentro da composição. Em ambos os casos use o mesmo tamanho e a mesma taxa de quadros do vídeo limpo (estão em `timeline.json`, se você usou os scripts).
 
 ## De onde tirar os tempos
 
