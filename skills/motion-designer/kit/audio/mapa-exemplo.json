@@ -1,0 +1,14 @@
+{
+  "duracao": 12,
+  "semente": 7,
+  "fade_final": 0.7,
+  "trilha": {"bpm": 120, "de": 0, "ate": 12, "acordes": [[50, 57, 60, 64], [46, 53, 57, 62], [41, 53, 57, 60], [48, 55, 58, 62]], "ganho": 0.8},
+  "eventos": [
+    {"t": 0.4, "tipo": "toque", "nota": 81, "ganho": 0.7},
+    {"t": 3.9, "tipo": "clique", "ganho": 0.9},
+    {"t": 5.5, "tipo": "clique", "ganho": 0.9},
+    {"t": 7.1, "tipo": "clique", "ganho": 0.9},
+    {"t": 7.9, "tipo": "whoosh", "ganho": 0.6},
+    {"t": 9.7, "tipo": "acorde", "nota": [57, 60, 64, 69], "ganho": 0.9}
+  ]
+}
