@@ -33,6 +33,8 @@ Também funciona pedir ao próprio agente: *"instale a skill rodando este comand
 | [`editar-reels`](skills/editar-reels) | Guia de edição de Reels, TikTok e Shorts para retenção: gancho com o assunto em destaque no primeiro segundo, uma novidade visual a cada 2 a 3 s, zoom com ênfase, inserts e cortes com sobreposição na fala. Funciona com qualquer ferramenta de edição. |
 | [`editar-aula`](skills/editar-aula) | Direção para editar aulas gravadas (câmera, tela com rosto, slides ou só áudio): o que limpar, como dividir em seções com capítulos e onde colocar títulos, destaques e motions sem cobrir o que o aluno precisa ver. Inclui scripts opcionais para cortar pausas e erros. |
 | [`motion-designer`](skills/motion-designer) | Direção para criar motion design no Remotion: motions explicativos que mostram um processo ou uma relação sincronizados com a fala, e peças inteiras só de objetos animados em 2D ou 3D (comerciais conceituais, vinhetas, vídeos de produto). Inclui um kit opcional de código e uma síntese opcional de trilha e efeitos sonoros. |
+| [`creative-lab`](skills/creative-lab) | Direção para editar anúncios em vídeo com foco em retenção: gancho com promessa visível, ritmo apertado, resultado e mecanismo único em destaque, uso da página de vendas como direção e teste de criativos. Inclui um script que junta vários ganchos a um mesmo corpo de anúncio, com emenda por sobreposição e no mesmo volume. |
+| [`raio-x-criativos`](skills/raio-x-criativos) | Faz o raio-x de um criativo de anúncio em vídeo: por que ele chama atenção (gancho), por que retém (corpo) e por que leva à página (CTA e oferta), e se ele é coerente com a página de vendas. Entrega hipóteses com a evidência por segundo, sem prometer veredito sem os dados de desempenho. Inclui um script que mede cortes, ritmo e folhas de contato. |
 
 Instalar a transcrição:
 
@@ -56,6 +58,18 @@ Instalar o motion design:
 
 ```
 npx skills add olucasevangelista/Skills-Edit.AI --skill motion-designer -g
+```
+
+Instalar a edição de anúncios:
+
+```
+npx skills add olucasevangelista/Skills-Edit.AI --skill creative-lab -g
+```
+
+Instalar o raio-x de criativos:
+
+```
+npx skills add olucasevangelista/Skills-Edit.AI --skill raio-x-criativos -g
 ```
 
 ## Segurança
