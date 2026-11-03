@@ -1,8 +1,7 @@
 import React from "react";
-import { Img, staticFile, useCurrentFrame, useVideoConfig } from "remotion";
+import { Img, staticFile, useVideoConfig } from "remotion";
 import { Video } from "@remotion/media";
-import type { CameraProps, Take } from "../tipos";
-import { escalaCamera } from "./Camera";
+import type { Take } from "../tipos";
 import { Takes } from "./Takes";
 
 const EH_IMAGEM = /\.(png|jpe?g|webp|gif|avif|svg)$/i;
@@ -31,8 +30,6 @@ type Props = {
   sombra?: string;
   /** cor de fundo atrás da mídia (útil com fit "contain") */
   fundo?: string;
-  /** avanço lento e punch-ins sobre a mídia (some ao zoom de `escala`) */
-  camera?: CameraProps;
 };
 
 /** Uma janela retangular (com cantos arredondados) que mostra um vídeo, uma imagem ou uma sequência de takes. */
@@ -54,11 +51,8 @@ export const JanelaVideo: React.FC<Props> = ({
   filtro,
   sombra,
   fundo,
-  camera,
 }) => {
-  const { fps, durationInFrames } = useVideoConfig();
-  const frame = useCurrentFrame();
-  const zoomCamera = escalaCamera(frame, fps, durationInFrames, camera);
+  const { fps } = useVideoConfig();
   const estilo: React.CSSProperties = {
     width: "100%",
     height: "100%",
@@ -67,7 +61,7 @@ export const JanelaVideo: React.FC<Props> = ({
   };
   return (
     <div style={{ position: "absolute", left: x, top: y, width: w, height: h, borderRadius: raio, overflow: "hidden", boxShadow: sombra, background: fundo }}>
-      <div style={{ position: "absolute", inset: 0, transform: `scale(${escala * zoomCamera})`, transformOrigin: origem, filter: filtro }}>
+      <div style={{ position: "absolute", inset: 0, transform: `scale(${escala})`, transformOrigin: origem, filter: filtro }}>
         {takes ? (
           <Takes takes={takes} fps={fps} sobreposicaoS={sobreposicaoS} objectFit={fit} volume={muted ? 0 : volume} origem={origem} />
         ) : src && EH_IMAGEM.test(src) ? (

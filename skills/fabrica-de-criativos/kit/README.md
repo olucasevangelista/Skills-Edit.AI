@@ -5,15 +5,15 @@ Oito composições prontas e parametrizadas por props, para o agente **trocar os
 | Composição | Formato | Props específicas (além das comuns) |
 |---|---|---|
 | `TelaDividida` | 01 | `conteudoSuperior` (lista `{ src, tipo, deS, ateS }`), `proporcao`, `zoomPessoa`, `origemPessoa` |
-| `PostSocial` | 03 | `marca`, `texto`, `midia` (1 ou 2), `fundoCartao`, `alturaCartao`, `yLegenda` |
+| `PostSocial` | 03 | `marca`, `texto`, `midia` (1 ou 2), `fundoCartao`, `alturaCartao` |
 | `Noticia` | 04 | `marca`, `posicaoMarca`, `manchetes` (`{ texto, deS, ateS }`), `baseY`, `caixaS`, `textoAtrasoS`, `textoDurS`, `corCaixa`, `corTexto`, `tamanho`, `escurecer` |
 | `Depoimento` | 07 | `identificacao`, `inserts` (`{ src, deS, ateS, legenda }`), `zooms` (`{ deS, ateS, escala }`), `zoomBase` |
 | `React` | 08 | `conteudo`, `pausas`, `ampliacoes` (intervalos `{ deS, ateS }`), `rotuloOrigem`, `volumeConteudo` |
-| `Chat` | 13 | `contato`, `mensagens` (`{ de, texto, imagem, tempoS, digitandoS }`), `avisoDramatizacao`, `narracao`, `tema` (não tem `titulo`) |
+| `Chat` | 13 | `contato`, `mensagens` (`{ de, texto, imagem, tempoS, digitandoS }`), `avisoDramatizacao`, `narracao`, `tema` (a faixa do contato tem a largura da conversa e cantos arredondados; sem `titulo`) |
 | `AntesDepois` | 14 | `antes`, `depois`, `modo` (`deslize`, `lado-a-lado`, `sequencia`), `revelarEmS`, `duracaoRevelacaoS`, `rotulos` |
-| `Cinema` | 15 | `janela`, `tratamento`, `musica`, `volumeMusica`, `legendaAbaixo` |
+| `Cinema` | 15 | `janela` (padrão quadrada, 984 x 984), `tratamento`, `musica`, `volumeMusica` |
 
-**Props comuns** (`tipos.ts`, `PropsBase`): `video` (arquivo em `public/`), `takes` e `sobreposicaoS` (emendas com sobreposição), `legendas` (formato `Caption`, o mesmo do `legendas.remotion.json` da transcrição), `titulo`, `cores`, `fonte`, `duracaoS`, `destaques`.
+**Props comuns** (`tipos.ts`, `PropsBase`): `video` (arquivo em `public/`), `takes` e `sobreposicaoS` (emendas com sobreposição), `titulo`, `cores`, `fonte`, `duracaoS` e `children` (uma camada por cima, veja abaixo).
 
 ## Como usar
 
@@ -35,13 +35,20 @@ Os dois formatos trazem o layout e a animação prontos, e a **marca é um prop*
 
 ## Peças comuns (`componentes/`)
 
-`Marca` (avatar e logotipo), `Legenda` (palavra a palavra, com realce), `Takes` (emenda com sobreposição de imagem e áudio), `JanelaVideo` (vídeo em janela, com recorte, zoom e cantos), `Titulo`, `Tarja` e `Movimento` (curvas de animação; tudo é função do quadro, sem timers nem CSS animation).
+`Marca` (avatar e logotipo), com realce), `Takes` (emenda com sobreposição de imagem e áudio), `JanelaVideo` (vídeo em janela, com recorte, zoom e cantos), `Titulo`, `Tarja` e `Movimento` (curvas de animação; tudo é função do quadro, sem timers nem CSS animation).
 
-## Acabamento padrão
+## Legenda e outras camadas: ficam por sua conta
 
-- **Fontes** (OFL, em `assets/fontes`): Montserrat para texto e legenda; Barlow Condensed para a manchete da Notícia.
-- **Legenda:** até 3 palavras por página, palavra dita em cor de destaque com um pulso curto, contorno fino e sombra suave, entrada e saída em fade.
-- **Câmera:** o vídeo da pessoa avança devagar (5%) e dá um punch-in nas palavras de `destaques` (com intervalo mínimo de 2,4 s). Ajuste com o prop `camera: { push, punches }` (`push: 0` desliga). O Cinema só avança (4%) e o Depoimento usa os `zooms` dele.
+O kit **não traz legenda, estilo de legenda nem movimento de câmera**: a skill do Remotion já tem tudo isso, e o estilo certo muda de anúncio para anúncio. Cada composição aceita `children`, que é desenhado **por cima de tudo**; crie uma composição sua que embrulha a do kit e põe a legenda (os componentes de legenda do Remotion, com o `legendas.remotion.json` da transcrição):
+
+```tsx
+import { Noticia } from "./fabrica/formatos/noticia/Noticia";
+export const MinhaNoticia: React.FC<PropsNoticia> = (props) => (
+  <Noticia {...props}>{/* sua legenda aqui, no y indicado no arquivo do formato */}</Noticia>
+);
+```
+
+As posições seguras da legenda de cada formato estão no arquivo dele em `references/formatos/` (tabela de composição). Em `assets/fontes` vêm só as duas fontes dos layouts (Montserrat no texto, Barlow Condensed na manchete da Notícia).
 
 ## Margens
 
@@ -49,6 +56,6 @@ Os dois formatos trazem o layout e a animação prontos, e a **marca é um prop*
 
 ## O que foi verificado
 
-Versão testada: Remotion 4.0.535, Windows. `tests/verificar_kit.py <projeto>` copia o kit para o projeto, gera entradas sintéticas e confere: `tsc` e `eslint`; um quadro de cada composição (áreas, cores, janela do Cinema, cartão do Post e a entrada da manchete: caixa primeiro, texto cerca de 0,5 s depois); legenda no instante certo; pausa e retomada do React; deslize do Antes e Depois; balões do Chat; zoom do Depoimento; margens do texto; formatos distintos entre si; determinismo; a emenda com sobreposição (imagem e áudio entram juntos antes do fim da voz anterior); e o fade final da trilha do Cinema.
+Versão testada: Remotion 4.0.535, Windows. `tests/verificar_kit.py <projeto>` copia o kit para o projeto, gera entradas sintéticas e confere: `tsc` e `eslint`; um quadro de cada composição (áreas, cores, janela quadrada do Cinema, cartão do Post, faixa do contato do Chat na largura da conversa e a entrada da manchete: caixa primeiro, texto cerca de 0,5 s depois); pausa e retomada do React; deslize do Antes e Depois; balões do Chat; zoom do Depoimento; margens do texto; formatos distintos entre si; determinismo; a emenda com sobreposição (imagem e áudio entram juntos antes do fim da voz anterior); e o fade final da trilha do Cinema.
 
 Isso prova que a mecânica funciona com mídia sintética. **Não** prova que o resultado é bonito nem que performa como anúncio: confira os quadros com o material real.

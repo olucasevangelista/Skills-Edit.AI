@@ -7,7 +7,7 @@
 - **Contraste alto** sobre qualquer fundo: contorno, sombra ou pílula de fundo. Tamanho que se lê de relance (a partir de ~60 px de corpo num quadro de 1080 de largura).
 - **Não cubra** a boca, os olhos nem a mão que gesticula. A legenda **nunca** vai para a base da tela.
 - **Nunca coloque na legenda uma palavra que não foi dita.** Corrigir a **escrita** de uma palavra é permitido; inventar, não.
-- Se você tem o `legendas.remotion.json` (lista `{text, startMs, endMs, timestampMs, confidence}` por palavra), o componente `Legenda` do kit o lê direto.
+- Se você tem o `legendas.remotion.json` (lista `{text, startMs, endMs, timestampMs, confidence}` por palavra), a skill do Remotion (componentes de legenda) o lê direto; o kit da fábrica não traz legenda, e cada composição aceita `children` para você pôr a sua por cima.
 - Fonte livre (Google Fonts ou licença aberta), carregada no projeto e **aguardada antes de renderizar**. Cores e fontes da identidade da pessoa, do começo ao fim e em todas as variações de um mesmo teste.
 
 ## Texto de ênfase (fora da legenda)

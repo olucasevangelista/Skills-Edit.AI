@@ -2,7 +2,7 @@
  * Props de exemplo de cada composição. Servem de MODELO: troque os arquivos (em public/), os textos, as cores e os tempos.
  * Os nomes de arquivo abaixo são os que o verificador do kit gera para testar.
  */
-import { CORES_PADRAO, FONTE_PADRAO, type Caption } from "../tipos";
+import { CORES_PADRAO, FONTE_PADRAO } from "../tipos";
 import { MARCA_CHOQUEI, MARCA_NOTICIA } from "../marcas";
 import type { PropsAntesDepois } from "../formatos/antes-depois/AntesDepois";
 import type { PropsChat } from "../formatos/chat/Chat";
@@ -13,12 +13,7 @@ import type { PropsPostSocial } from "../formatos/post-social/PostSocial";
 import type { PropsReact } from "../formatos/react/React";
 import type { PropsTelaDividida } from "../formatos/tela-dividida/TelaDividida";
 
-/** Legenda de teste: uma palavra a cada `msPorPalavra`. Em um trabalho real, use o `legendas.remotion.json` da transcrição. */
-export const palavras = (texto: string, iniMs = 300, msPorPalavra = 380): Caption[] =>
-  texto.split(/\s+/).map((w, i) => ({ text: ` ${w}`, startMs: iniMs + i * msPorPalavra, endMs: iniMs + (i + 1) * msPorPalavra - 20, timestampMs: iniMs + i * msPorPalavra, confidence: 1 }));
-
-const LEGENDAS = palavras("Veja como isso muda o seu dia a dia em poucos minutos e sem complicação nenhuma agora mesmo");
-const BASE = { legendas: LEGENDAS, cores: CORES_PADRAO, fonte: FONTE_PADRAO, duracaoS: 8 };
+const BASE = { cores: CORES_PADRAO, fonte: FONTE_PADRAO, duracaoS: 8 };
 
 export const propsTelaDividida: PropsTelaDividida = {
   ...BASE,
@@ -37,7 +32,6 @@ export const propsCinema: PropsCinema = {
   video: "pessoa.mp4",
   titulo: "Nem tudo se resolve\nde um dia para o outro",
   musica: "musica.wav",
-  legendaAbaixo: true,
 };
 
 export const propsReact: PropsReact = {
@@ -81,7 +75,6 @@ export const propsDepoimento: PropsDepoimento = {
   identificacao: { nome: "Nome autorizado", descricao: "cliente" },
   inserts: [{ src: "prova.png", deS: 3, ateS: 5, legenda: "resultado real, autorizado" }],
   zooms: [{ deS: 1.5, ateS: 2.6, escala: 1.16 }],
-  destaques: ["minutos", "complicação"],
 };
 
 /** A marca é a Choquei pronta do kit; troque por um perfil seu quando quiser. O texto deve ser uma frase que o vídeo sustenta. */
@@ -95,7 +88,6 @@ export const propsPostSocial: PropsPostSocial = {
 /** A marca é o veículo fictício "Cidade Hoje"; as manchetes devem ser fatos verdadeiros que o anúncio sustenta. */
 export const propsNoticia: PropsNoticia = {
   ...BASE,
-  legendas: [],
   video: "pessoa.mp4",
   marca: MARCA_NOTICIA,
   manchetes: [

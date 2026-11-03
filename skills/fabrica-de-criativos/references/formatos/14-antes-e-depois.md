@@ -77,7 +77,7 @@ Modos (escolha um por vídeo):
 
 ## Kit
 
-Composição **`AntesDepois`** (`kit/formatos/antes-depois`). Props: `legendas`, `titulo`, `cores`, `fonte`, `duracaoS`, mais `antes` e `depois` (imagem ou vídeo em `public/`), `modo` (`"deslize" | "lado-a-lado" | "sequencia"`), `rotulos` (`{ antes, depois }`), `revelarEmS`, `duracaoRevelacaoS` e `narracao` (áudio opcional).
+Composição **`AntesDepois`** (`kit/formatos/antes-depois`). Props: `titulo`, `cores`, `fonte`, `duracaoS`, mais `antes` e `depois` (imagem ou vídeo em `public/`), `modo` (`"deslize" | "lado-a-lado" | "sequencia"`), `rotulos` (`{ antes, depois }`), `revelarEmS`, `duracaoRevelacaoS` e `narracao` (áudio opcional).
 
 ## Apoio
 

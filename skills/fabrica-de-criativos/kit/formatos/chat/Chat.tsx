@@ -25,9 +25,11 @@ export type PropsChat = {
   avisoDramatizacao?: string;
   narracao?: string;
   tema?: "claro" | "escuro";
+  /** camadas por cima (por exemplo, a legenda) */
+  children?: React.ReactNode;
 };
 
-const AREA = { y: 430, h: 810 };
+const AREA = { y: 454, h: 786 };
 const BALAO = { larguraMax: 690, padX: 30, padY: 22, corpo: 46, folga: 16 };
 
 const estimaAltura = (m: Mensagem): number => {
@@ -46,7 +48,7 @@ const Digitando: React.FC<{ frame: number; fundo: string }> = ({ frame, fundo })
 );
 
 /** 13. Conversa de Chat: balões que surgem em sequência, "digitando...", rolagem e destaque. Interface genérica e dramatização identificada. */
-export const Chat: React.FC<PropsChat> = ({ cores, fonte, contato, mensagens, avisoDramatizacao = "Dramatização", narracao, tema = "escuro" }) => {
+export const Chat: React.FC<PropsChat> = ({ cores, fonte, contato, mensagens, avisoDramatizacao = "Dramatização", narracao, tema = "escuro", children }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   const t = frame / fps;
@@ -64,7 +66,7 @@ export const Chat: React.FC<PropsChat> = ({ cores, fonte, contato, mensagens, av
   return (
     <AbsoluteFill style={{ background: fundo, fontFamily: fonte }}>
       {/* cabeçalho genérico */}
-      <div style={{ position: "absolute", left: 0, top: 270, width: L, height: 132, background: cabecalho, display: "flex", alignItems: "center", padding: "0 40px", gap: 24, boxShadow: "0 2px 12px rgba(0,0,0,0.25)" }}>
+      <div style={{ position: "absolute", left: SEGURA.lado, top: 270, width: L - SEGURA.lado - SEGURA.ladoDireito, height: 132, background: cabecalho, borderRadius: 32, display: "flex", alignItems: "center", padding: "0 36px", gap: 24, boxShadow: "0 6px 20px rgba(0,0,0,0.25)" }}>
         <div style={{ width: 84, height: 84, borderRadius: 42, background: cores.destaque, color: "#06210F", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 800, fontSize: 40 }}>{contato.nome.slice(0, 1).toUpperCase()}</div>
         <div>
           <div style={{ color: corTexto, fontWeight: 700, fontSize: 44 }}>{contato.nome}</div>
@@ -111,6 +113,7 @@ export const Chat: React.FC<PropsChat> = ({ cores, fonte, contato, mensagens, av
       </div>
       <div style={{ position: "absolute", left: SEGURA.lado, right: SEGURA.ladoDireito, top: 408, textAlign: "center", color: escuro ? "#8FA0B3" : "#5B6470", fontSize: 28, fontWeight: 600, letterSpacing: 1 }}>{avisoDramatizacao}</div>
       {narracao ? <Audio src={staticFile(narracao)} /> : null}
+      {children}
     </AbsoluteFill>
   );
 };

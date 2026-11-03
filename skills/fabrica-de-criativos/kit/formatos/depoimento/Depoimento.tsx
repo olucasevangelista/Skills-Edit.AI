@@ -2,7 +2,6 @@ import React from "react";
 import { AbsoluteFill, Sequence, useCurrentFrame, useVideoConfig } from "remotion";
 import { A, L, type PropsBase } from "../../tipos";
 import { JanelaVideo } from "../../componentes/JanelaVideo";
-import { Legenda } from "../../componentes/Legenda";
 import { EASE, pop, prog } from "../../componentes/Movimento";
 import { Tarja } from "../../componentes/Tarja";
 import { Titulo } from "../../componentes/Titulo";
@@ -37,12 +36,10 @@ export const Depoimento: React.FC<PropsDepoimento> = ({
   video,
   takes,
   sobreposicaoS,
-  legendas,
+  children,
   titulo,
   cores,
   fonte,
-  destaques,
-  camera,
   identificacao,
   inserts = [],
   zooms = [],
@@ -59,7 +56,7 @@ export const Depoimento: React.FC<PropsDepoimento> = ({
   }, zoomBase);
   return (
     <AbsoluteFill style={{ background: cores.fundo }}>
-      <JanelaVideo src={video} takes={takes} sobreposicaoS={sobreposicaoS} x={0} y={0} w={L} h={A} escala={zoom} origem="50% 33%" camera={{ push: camera?.push ?? 0.03, punches: camera?.punches ?? [] }} />
+      <JanelaVideo src={video} takes={takes} sobreposicaoS={sobreposicaoS} x={0} y={0} w={L} h={A} escala={zoom} origem="50% 33%" />
       {identificacao ? (
         <Tarja texto={identificacao.descricao ? `${identificacao.nome}, ${identificacao.descricao}` : identificacao.nome} fonte={fonte} fundo="rgba(0,0,0,0.62)" cor={cores.texto} y={290} altura={84} tamanho={38} deS={0.5} ateS={4} />
       ) : null}
@@ -69,7 +66,7 @@ export const Depoimento: React.FC<PropsDepoimento> = ({
           <Insert src={c.src} legenda={c.legenda} fonte={fonte} texto={cores.texto} />
         </Sequence>
       ))}
-      <Legenda legendas={legendas} cores={cores} fonte={fonte} y={1090} destaques={destaques} />
+      {children}
     </AbsoluteFill>
   );
 };

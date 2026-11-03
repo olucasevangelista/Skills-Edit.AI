@@ -70,7 +70,7 @@ Uma pessoa **falando direto para a câmera**, em **plano fechado**, com **legend
 
 ## Kit
 
-Composição **`Depoimento`** (`kit/formatos/depoimento`). Props: `video`, `legendas`, `titulo`, `cores`, `fonte`, `duracaoS`, mais `identificacao` (`{ nome, descricao }`, opcional), `inserts` (lista de `{ src, deS, ateS, legenda? }`), `zooms` (lista de `{ deS, ateS, escala }`) e `destaques` (palavras a realçar na legenda).
+Composição **`Depoimento`** (`kit/formatos/depoimento`). Props: `video`, `titulo`, `cores`, `fonte`, `duracaoS`, mais `identificacao` (`{ nome, descricao }`, opcional), `inserts` (lista de `{ src, deS, ateS, legenda? }`), `zooms` (lista de `{ deS, ateS, escala }`) e `destaques` (palavras a realçar na legenda).
 
 ## Apoio
 

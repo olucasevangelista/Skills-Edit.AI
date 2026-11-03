@@ -23,12 +23,12 @@ Canvas **vertical preto**, o vídeo numa **janela horizontal (ou quase quadrada)
 | Elemento | Posição e tamanho |
 |---|---|
 | **Fundo** | preto (`#000000` ou um quase-preto) em toda a tela |
-| **Janela do vídeo** | ~984 x 554 (16:9) ou ~984 x 738 (4:3), centralizada; **bordas a ~48 px das laterais**; **raio de 24 a 36 px**; borda inferior da janela acima de ~1250 (zona de interface) |
+| **Janela do vídeo** | **quadrada (1:1), ~984 x 984**, centralizada, com o topo em y ≈ 500 (abaixo do título); **bordas a ~48 px das laterais**; **raio de 24 a 36 px**. A janela maior dá mais espaço para o vídeo e para o rosto: **mantenha o rosto acima de y ≈ 1250** (a parte de baixo da janela pode passar da zona de interface, é só imagem). Alternativas: 4:5 (~984 x 1230) para vídeo vertical, ou 16:9 (~984 x 554) só se a pessoa pedir uma janela baixa |
 | **Margens** | amplas em cima e embaixo; o vazio é parte do formato |
 | **Título** | na parte de cima, **centralizado**, em branco, 2 ou 3 linhas curtas (até ~8 palavras), corpo de 64 a 84 px, **tipografia editorial** (serifada ou grotesca fina), y ≥ 300 |
-| **Legenda** (se houver) | logo abaixo da janela, discreta, corpo menor (48 a 56 px). **A janela sobe ~110 px** para a legenda ficar acima de y ≈ 1250 (a zona de interface da base) |
+| **Legenda** (se houver) | discreta, corpo de 48 a 56 px, sobre a parte de baixo da janela, **acima de y ≈ 1250**; é uma camada por cima (`children`) |
 
-- Se o vídeo é vertical, use a janela **quase quadrada** e o enquadramento mais fechado no rosto; não estique.
+- Se o vídeo é vertical, a janela quadrada (ou 4:5) com o enquadramento mais fechado no rosto funciona melhor; não estique.
 
 ## Elementos e animações
 
@@ -61,7 +61,7 @@ Canvas **vertical preto**, o vídeo numa **janela horizontal (ou quase quadrada)
 
 ## Variações dentro do formato
 
-- Proporção da janela (16:9, 4:3, quase quadrada); raio dos cantos.
+- Proporção da janela (quadrada, 4:5 ou, se pedirem, 16:9); raio dos cantos.
 - Tipografia do título e a cor (branco, marfim); com ou sem legenda.
 - Trilha (clima) e o tratamento de cor.
 
@@ -76,7 +76,7 @@ Canvas **vertical preto**, o vídeo numa **janela horizontal (ou quase quadrada)
 
 ## Kit
 
-Composição **`Cinema`** (`kit/formatos/cinema`). Props: `video`, `legendas` (opcional), `titulo`, `cores`, `fonte`, `duracaoS`, mais `janela` (`{ largura, altura, raio }`), `tratamento` (`{ saturacao, contraste, granulacao }`), `musica` (arquivo em `public/`) e `volumeMusica`.
+Composição **`Cinema`** (`kit/formatos/cinema`). Props: `video`, `titulo`, `cores`, `fonte`, `duracaoS`, mais `janela` (`{ largura, altura, raio, y }`; padrão **quadrada**, 984 x 984, raio 28), `tratamento` (`{ saturacao, contraste, granulacao }`), `musica` (arquivo em `public/`) e `volumeMusica`. A legenda, se houver, é uma camada por cima (`children`, veja `kit/README.md`).
 
 ## Apoio
 

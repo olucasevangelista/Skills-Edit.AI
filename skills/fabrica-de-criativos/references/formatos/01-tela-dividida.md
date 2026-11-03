@@ -76,7 +76,7 @@ Duas áreas empilhadas com uma **divisória nítida**: a **pessoa falando embaix
 
 ## Kit
 
-Composição **`TelaDividida`** (`kit/formatos/tela-dividida`). Props: `video`, `legendas`, `titulo`, `cores`, `fonte`, `duracaoS`, mais `conteudoSuperior` (lista de `{ src, tipo: "imagem" | "video", deS, ateS }`), `proporcao` (padrão 0.5) e `zoomPessoa` (padrão 1.12).
+Composição **`TelaDividida`** (`kit/formatos/tela-dividida`). Props: `video`, `titulo`, `cores`, `fonte`, `duracaoS`, mais `conteudoSuperior` (lista de `{ src, tipo: "imagem" | "video", deS, ateS }`), `proporcao` (padrão 0.5) e `zoomPessoa` (padrão 1.12).
 
 ## Apoio
 

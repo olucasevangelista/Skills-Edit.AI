@@ -1,9 +1,7 @@
 import React from "react";
 import { AbsoluteFill } from "remotion";
 import { A, L, SEGURA, type PropsBase } from "../../tipos";
-import { cameraDe } from "../../componentes/Camera";
 import { JanelaVideo } from "../../componentes/JanelaVideo";
-import { Legenda } from "../../componentes/Legenda";
 import { Avatar, type Marca } from "../../componentes/Marca";
 
 export type Midia = {
@@ -27,8 +25,6 @@ export type PropsPostSocial = Omit<PropsBase, "video" | "takes" | "sobreposicaoS
   fundoCartao?: "claro" | "escuro";
   /** altura do cartão em px; se omitida, é calculada pelo tamanho do texto */
   alturaCartao?: number;
-  /** y da legenda (padrão 1020, dentro da zona segura) */
-  yLegenda?: number;
 };
 
 const CORPO = 46;
@@ -44,8 +40,7 @@ export const alturaDoCartao = (texto: string): number => {
 };
 
 /** 03. Post de Rede Social: cartão do perfil com a frase de impacto em cima; a mídia (um vídeo, dois vídeos ou vídeo e imagem) embaixo. */
-export const PostSocial: React.FC<PropsPostSocial> = ({ marca, texto, midia, fundoCartao = "claro", alturaCartao, legendas, cores, fonte, destaques, camera, yLegenda = 1020 }) => {
-  const cam = cameraDe(legendas, destaques, camera);
+export const PostSocial: React.FC<PropsPostSocial> = ({ marca, texto, midia, fundoCartao = "claro", alturaCartao, fonte, children }) => {
   const claro = fundoCartao === "claro";
   const altura = alturaCartao ?? alturaDoCartao(texto);
   const itens = midia.slice(0, 2);
@@ -54,7 +49,7 @@ export const PostSocial: React.FC<PropsPostSocial> = ({ marca, texto, midia, fun
   return (
     <AbsoluteFill style={{ background: "#000000", fontFamily: fonte }}>
       {itens.map((m, i) => (
-        <JanelaVideo key={i} src={m.src} x={i * (largura + 6)} y={altura} w={largura} h={A - altura} origem={m.origem ?? "50% 40%"} escala={m.escala} fit={m.fit} muted={i !== comAudio} camera={cam} />
+        <JanelaVideo key={i} src={m.src} x={i * (largura + 6)} y={altura} w={largura} h={A - altura} origem={m.origem ?? "50% 40%"} escala={m.escala} fit={m.fit} muted={i !== comAudio} />
       ))}
       <div
         style={{
@@ -86,9 +81,7 @@ export const PostSocial: React.FC<PropsPostSocial> = ({ marca, texto, midia, fun
           {texto}
         </div>
       </div>
-      <div style={{ position: "absolute", left: 0, top: yLegenda, width: L }}>
-        <Legenda legendas={legendas} cores={cores} fonte={fonte} y={0} destaques={destaques} />
-      </div>
+      {children}
     </AbsoluteFill>
   );
 };

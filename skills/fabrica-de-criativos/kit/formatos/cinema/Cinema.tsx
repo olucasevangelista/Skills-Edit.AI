@@ -1,22 +1,19 @@
 import React from "react";
 import { AbsoluteFill, staticFile, useCurrentFrame, useVideoConfig } from "remotion";
 import { Audio } from "@remotion/media";
-import { A, L, LIMITE_BASE, type PropsBase } from "../../tipos";
+import { A, L, type PropsBase } from "../../tipos";
 import { JanelaVideo } from "../../componentes/JanelaVideo";
-import { Legenda } from "../../componentes/Legenda";
 import { EASE, prog } from "../../componentes/Movimento";
 import { Titulo } from "../../componentes/Titulo";
 
 export type PropsCinema = PropsBase & {
-  /** a janela do vídeo (padrão 984 x 554, raio 28) */
-  janela?: { largura: number; altura: number; raio: number };
+  /** a janela do vídeo (padrão quadrada, 984 x 984, raio 28; `y` opcional fixa o topo) */
+  janela?: { largura: number; altura: number; raio: number; y?: number };
   /** tratamento de cor, igual em todo o vídeo */
   tratamento?: { saturacao: number; contraste: number; granulacao?: boolean };
   /** trilha (arquivo em public/) e o volume dela */
   musica?: string;
   volumeMusica?: number;
-  /** mostra a legenda (discreta) abaixo da janela */
-  legendaAbaixo?: boolean;
 };
 
 const GRANULACAO = `url("data:image/svg+xml;utf8,${encodeURIComponent(
@@ -28,24 +25,20 @@ export const Cinema: React.FC<PropsCinema> = ({
   video,
   takes,
   sobreposicaoS,
-  legendas,
+  children,
   titulo,
   cores,
   fonte,
   duracaoS,
-  destaques,
-  camera,
-  janela = { largura: 984, altura: 554, raio: 28 },
+  janela = { largura: 984, altura: 984, raio: 28 },
   tratamento = { saturacao: 0.9, contraste: 1.08, granulacao: false },
   musica,
   volumeMusica = 0.22,
-  legendaAbaixo = false,
 }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   const x = (L - janela.largura) / 2;
-  const reservaLegenda = legendaAbaixo ? 110 : 0; // a janela sobe para a legenda ficar acima da zona de interface da base
-  const y = Math.max(360, Math.min((A - janela.altura) / 2, LIMITE_BASE - janela.altura - reservaLegenda));
+  const y = janela.y ?? Math.max(500, (A - janela.altura) / 2); // o título fica em cima; a janela quadrada desce até onde precisa (só o fundo da janela passa da zona de interface)
   const total = duracaoS * fps;
   const escala = 1 + 0.06 * prog(frame, 0, total, EASE.soft); // zoom muito suave ao longo do vídeo
   const aparece = prog(frame, 0, 18, EASE.soft);
@@ -63,7 +56,6 @@ export const Cinema: React.FC<PropsCinema> = ({
           h={janela.altura}
           raio={janela.raio}
           escala={escala}
-          camera={{ push: camera?.push ?? 0.04, punches: camera?.punches ?? [] }}
           filtro={`saturate(${tratamento.saturacao}) contrast(${tratamento.contraste})`}
           sombra="0 30px 80px rgba(0,0,0,0.6)"
         />
@@ -85,7 +77,6 @@ export const Cinema: React.FC<PropsCinema> = ({
           />
         ) : null}
       </div>
-      {legendaAbaixo ? <Legenda legendas={legendas} cores={cores} fonte={fonte} y={y + janela.altura + 44} tamanho={52} destaques={destaques} discreta larguraMax={880} /> : null}
       {musica ? (
         <Audio
           src={staticFile(musica)}
@@ -96,6 +87,7 @@ export const Cinema: React.FC<PropsCinema> = ({
           }}
         />
       ) : null}
+      {children}
     </AbsoluteFill>
   );
 };

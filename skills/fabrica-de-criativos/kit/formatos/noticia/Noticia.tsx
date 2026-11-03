@@ -1,9 +1,7 @@
 import React from "react";
 import { AbsoluteFill, Easing, useCurrentFrame, useVideoConfig } from "remotion";
 import { A, FONTE_MANCHETE, L, SEGURA, type PropsBase } from "../../tipos";
-import { cameraDe } from "../../componentes/Camera";
 import { JanelaVideo } from "../../componentes/JanelaVideo";
-import { Legenda } from "../../componentes/Legenda";
 import { Logotipo, type Marca } from "../../componentes/Marca";
 import { EASE, prog } from "../../componentes/Movimento";
 
@@ -28,8 +26,6 @@ export type PropsNoticia = Omit<PropsBase, "titulo"> & {
   escurecer?: number;
   /** fonte da manchete (padrão: Barlow Condensed, condensada e pesada) */
   fonteManchete?: string;
-  /** y da legenda, se houver (padrão 780, acima da manchete) */
-  yLegenda?: number;
 };
 
 type PropsFaixa = { texto: string; fonte: string; deS: number; ateS: number; baseY: number; caixaS: number; textoAtrasoS: number; textoDurS: number; corCaixa: string; corTexto: string; tamanho: number };
@@ -76,11 +72,8 @@ export const Noticia: React.FC<PropsNoticia> = ({
   video,
   takes,
   sobreposicaoS,
-  legendas,
-  cores,
+  children,
   fonte,
-  destaques,
-  camera,
   marca,
   posicaoMarca = "centro",
   manchetes,
@@ -92,21 +85,17 @@ export const Noticia: React.FC<PropsNoticia> = ({
   corTexto = "#0B0B0B",
   tamanho = 92,
   fonteManchete = FONTE_MANCHETE,
-  escurecer = 0.3,
-  yLegenda = 780,
+  escurecer = 0,
 }) => {
-  const cam = cameraDe(legendas, destaques, camera);
   return (
   <AbsoluteFill style={{ background: "#000000" }}>
-    <JanelaVideo src={video} takes={takes} sobreposicaoS={sobreposicaoS} x={0} y={0} w={L} h={A} origem="50% 40%" camera={cam} />
+    <JanelaVideo src={video} takes={takes} sobreposicaoS={sobreposicaoS} x={0} y={0} w={L} h={A} origem="50% 40%" />
     <div style={{ position: "absolute", left: 0, top: 0, width: L, height: 620, background: `linear-gradient(rgba(0,0,0,${escurecer}), rgba(0,0,0,0))` }} />
     <Logotipo marca={marca} fonte={fonte} y={SEGURA.topo + 20} posicao={posicaoMarca} />
     {manchetes.map((m, i) => (
       <Faixa key={i} texto={m.texto} fonte={fonteManchete} deS={m.deS} ateS={m.ateS} baseY={baseY} caixaS={caixaS} textoAtrasoS={textoAtrasoS} textoDurS={textoDurS} corCaixa={corCaixa} corTexto={corTexto} tamanho={tamanho} />
     ))}
-    <div style={{ position: "absolute", left: 0, top: yLegenda, width: L }}>
-      <Legenda legendas={legendas} cores={cores} fonte={fonte} y={0} destaques={destaques} />
-    </div>
+    {children}
   </AbsoluteFill>
   );
 };

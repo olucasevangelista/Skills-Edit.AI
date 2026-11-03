@@ -1,9 +1,7 @@
 import React from "react";
 import { AbsoluteFill, Sequence, useCurrentFrame, useVideoConfig } from "remotion";
 import { A, L, type PropsBase } from "../../tipos";
-import { cameraDe } from "../../componentes/Camera";
 import { JanelaVideo } from "../../componentes/JanelaVideo";
-import { Legenda } from "../../componentes/Legenda";
 import { EASE, prog } from "../../componentes/Movimento";
 import { Titulo } from "../../componentes/Titulo";
 
@@ -31,19 +29,16 @@ export const TelaDividida: React.FC<PropsTelaDividida> = ({
   video,
   takes,
   sobreposicaoS,
-  legendas,
+  children,
   titulo,
   cores,
   fonte,
-  destaques,
-  camera,
   conteudoSuperior,
   proporcao = 0.5,
   zoomPessoa = 1.12,
   origemPessoa = "50% 28%",
 }) => {
   const { fps } = useVideoConfig();
-  const cam = cameraDe(legendas, destaques, camera);
   const topo = Math.round(A * proporcao);
   return (
     <AbsoluteFill style={{ background: cores.fundo }}>
@@ -59,11 +54,11 @@ export const TelaDividida: React.FC<PropsTelaDividida> = ({
         ))}
       </div>
       {/* área de baixo: a pessoa */}
-      <JanelaVideo src={video} takes={takes} sobreposicaoS={sobreposicaoS} x={0} y={topo} w={L} h={A - topo} escala={zoomPessoa} origem={origemPessoa} camera={cam} />
+      <JanelaVideo src={video} takes={takes} sobreposicaoS={sobreposicaoS} x={0} y={topo} w={L} h={A - topo} escala={zoomPessoa} origem={origemPessoa} />
       {/* divisória */}
       <div style={{ position: "absolute", left: 0, top: topo - 4, width: L, height: 8, background: cores.destaque, boxShadow: "0 0 24px rgba(0,0,0,0.5)" }} />
       {titulo ? <Titulo texto={titulo.split("\n")} fonte={fonte} cor={cores.texto} y={300} tamanho={76} deS={0.15} ateS={2.8} caixaAlta /> : null}
-      <Legenda legendas={legendas} cores={cores} fonte={fonte} y={topo - 70} destaques={destaques} />
+      {children}
     </AbsoluteFill>
   );
 };

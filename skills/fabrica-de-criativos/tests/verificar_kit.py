@@ -7,7 +7,7 @@ O projeto precisa ter instalado: remotion, @remotion/cli, @remotion/media, react
 O script copia o kit para src/_fabrica_teste/, gera entradas sinteticas em public/_fabrica_teste/, confere e APAGA as duas pastas.
 
 Confere: tipos e lint; render de quadros de cada formato; determinismo; zona segura do texto; layout de cada formato
-(areas, cores, janela do cinema); legenda no instante certo; pausa e retomada do React; deslize do Antes e Depois; balões do
+(areas, cores, janela do cinema); pausa e retomada do React; deslize do Antes e Depois; balões do
 Chat; zoom do Depoimento; formatos distintos entre si; e a emenda com sobreposicao (imagem e audio entram juntos).
 """
 from __future__ import annotations
@@ -198,29 +198,27 @@ def verificar_formatos(p: Projeto) -> dict[str, Path]:
     ficha: dict[str, Path] = {}
 
     # 01 Tela Dividida
-    t1, t2, t3 = p.quadro("TelaDividida", 40), p.quadro("TelaDividida", 130), p.quadro("TelaDividida", 3)
+    t1, t2 = p.quadro("TelaDividida", 40), p.quadro("TelaDividida", 130)
     ficha["TelaDividida"] = t2
     ok(proximo(cor_media(t1, 100, 120, 880, 600), hex_rgb("ED8936")) and proximo(cor_media(t2, 100, 120, 880, 600), hex_rgb("319795")),
        "Tela Dividida: a area de cima troca de conteudo (laranja em 1,3 s, azul-petroleo em 4,3 s)")
     ok(proximo(cor_media(t2, 40, 1500, 160, 300), hex_rgb("2B6CB0"), 40), "Tela Dividida: a pessoa fica na area de baixo")
     ok(proximo(cor_media(t2, 0, 954, 60, 12), destaque, 40), "Tela Dividida: a divisoria (cor de destaque) esta em y = 960")
-    rgb20 = reduzido(p.quadro("TelaDividida", 20))
-    ok(brancos(reduzido(t3), 880, 1010) == 0 and brancos(rgb20, 880, 1010) > 20, "Tela Dividida: a legenda aparece no instante da primeira palavra (nada antes, texto depois), no encontro das areas")
 
     # 15 Cinema
     c = p.quadro("Cinema", 60)
     ficha["Cinema"] = c
     rgb = reduzido(c)
-    jan = caixa(rgb, 520, 1200, lambda r, g, b: max(r, g, b) > 24 and max(r, g, b) - min(r, g, b) > 30)  # so a janela (colorida); a legenda e branca
-    ok(jan and abs((jan[2] - jan[0]) - 984) <= 12 and abs((jan[3] - jan[1]) - 554) <= 12, f"Cinema: a janela tem ~984 x 554 (medi {jan and (jan[2] - jan[0], jan[3] - jan[1])})")
-    ok(jan and abs(jan[0] - 48) <= 12 and jan[3] <= 1250, "Cinema: a janela esta centrada, com ~48 px de margem, e termina acima da zona de interface da base")
-    ok(proximo(cor_media(c, 0, 520, 36, 400), (0, 0, 0), 10) and proximo(cor_media(c, 0, 1500, 1080, 400), (0, 0, 0), 10), "Cinema: o fundo e preto (laterais e base)")
+    jan = caixa(rgb, 470, 1800, lambda r, g, b: max(r, g, b) > 24 and max(r, g, b) - min(r, g, b) > 30)  # so a janela (colorida); o titulo e branco
+    ok(jan and abs((jan[2] - jan[0]) - 984) <= 12 and abs((jan[3] - jan[1]) - 984) <= 12, f"Cinema: a janela e quadrada, ~984 x 984 (medi {jan and (jan[2] - jan[0], jan[3] - jan[1])})")
+    ok(jan and abs(jan[0] - 48) <= 12 and jan[1] >= 480, "Cinema: a janela esta centrada, com ~48 px de margem, e comeca abaixo do titulo")
+    ok(proximo(cor_media(c, 0, 520, 36, 400), (0, 0, 0), 10) and proximo(cor_media(c, 0, 1560, 1080, 340), (0, 0, 0), 10), "Cinema: o fundo e preto (laterais e base)")
     ok(brancos(rgb, 270, 520) > 150, "Cinema: o titulo esta no topo, em branco")
 
     # 08 React: pausa, retomada e ampliacao
     r62, r100, r105, r40, r55 = (p.quadro("React", n) for n in (62, 100, 105, 40, 55))
     ficha["React"] = p.quadro("React", 75)
-    topo = lambda png: regiao_cinza(png, 0, 580, 760, 260)  # noqa: E731  (abaixo da tarja e do titulo, acima da legenda)
+    topo = lambda png: regiao_cinza(png, 0, 580, 760, 260)  # noqa: E731  (abaixo da tarja e do titulo)
     ok(dif(topo(r62), topo(r100)) < 1.0, "React: o conteudo fica PARADO durante a pausa (quadros 62 e 100 iguais)")
     ok(dif(topo(r40), topo(r55)) > 2.0, "React: o conteudo se mexe antes da pausa")
     ok(dif(topo(r105), topo(r62)) < 1.5, "React: depois da pausa o conteudo RETOMA do mesmo ponto (quadro 105 igual ao quadro parado)")
@@ -245,6 +243,12 @@ def verificar_formatos(p: Projeto) -> dict[str, Path]:
     ok(n(h0) == 0 and n(h90) > 100 and n(h210) > n(h90), f"Chat: os baloes surgem em sequencia (balao enviado: 0 -> {n(h90)} -> {n(h210)} pixels)")
     ok(contagem_cor(reduzido(h0), hex_rgb("222B37"), 470, 1240, 6) == 0, "Chat: antes da primeira mensagem a conversa esta vazia")
 
+    # 13 Chat: a faixa do contato tem a largura da conversa (x de 90 a 960) e cantos arredondados
+    cab = hex_rgb("161D27")
+    ok(proximo(cor_media(h90, 600, 300, 100, 20), cab, 3) and proximo(cor_media(h90, 880, 300, 60, 20), cab, 3), "Chat: a faixa do contato aparece no topo da conversa")
+    ok(not proximo(cor_media(h90, 20, 300, 50, 20), cab, 3) and not proximo(cor_media(h90, 975, 300, 50, 20), cab, 3), "Chat: a faixa do contato tem a mesma largura da conversa, sem encostar nas bordas da tela")
+    ok(not proximo(cor_media(h90, 90, 270, 6, 6), cab, 3), "Chat: os cantos da faixa do contato sao arredondados")
+
     # 07 Depoimento: zoom e insert de prova
     d40, d60, d120 = p.quadro("Depoimento", 40), p.quadro("Depoimento", 60), p.quadro("Depoimento", 120)
     ficha["Depoimento"] = d40
@@ -260,7 +264,7 @@ def verificar_formatos(p: Projeto) -> dict[str, Path]:
     ficha["PostSocial"] = ps
     rgb_ps = reduzido(ps)
     branco = lambda r, g, b: min(r, g, b) >= 245  # noqa: E731
-    cartao = caixa(rgb_ps, 0, 900, branco)  # a legenda (branca) fica mais abaixo
+    cartao = caixa(rgb_ps, 0, 900, branco)  # o cartao fica acima de y = 900
     ok(cartao and cartao[0] == 0 and cartao[1] == 0 and 540 <= cartao[3] <= 760, f"Post de Rede Social: o cartao branco comeca no topo e termina em y ~ 560 a 760 (medi {cartao and cartao[3]})")
     ok(proximo(cor_media(ps, 20, 800, 60, 100), hex_rgb("2B6CB0"), 40) and proximo(cor_media(ps, 1000, 800, 60, 100), hex_rgb("6B46C1"), 40) and max(cor_media(ps, 537, 800, 6, 100)) < 40,
        "Post de Rede Social: as duas midias ficam lado a lado, separadas por uma linha preta")
@@ -331,7 +335,7 @@ def verificar_determinismo(p: Projeto) -> None:
 def verificar_emenda(p: Projeto) -> None:
     props = p.tmp / "props_takes.json"
     props.write_text(json.dumps({
-        "video": None, "legendas": [], "duracaoS": 4, "titulo": None, "identificacao": None, "inserts": [], "zooms": [], "zoomBase": 1,
+        "video": None, "duracaoS": 4, "titulo": None, "identificacao": None, "inserts": [], "zooms": [], "zoomBase": 1,
         "sobreposicaoS": 0.22,
         "takes": [{"src": f"{PREFIXO}/takeA.mp4", "deS": 0, "ateS": 2.1}, {"src": f"{PREFIXO}/takeB.mp4", "deS": 0.17, "ateS": 2.3}],
     }), encoding="utf-8")

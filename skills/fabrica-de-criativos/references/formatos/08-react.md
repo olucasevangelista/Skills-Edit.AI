@@ -73,7 +73,7 @@
 
 ## Kit
 
-Composição **`React`** (`kit/formatos/react`). Props: `video` (a reação da pessoa), `legendas`, `titulo`, `cores`, `fonte`, `duracaoS`, mais `conteudo` (o vídeo comentado em `public/`), `pausas` (lista de `{ deS, ateS }`), `ampliacoes` (lista de `{ deS, ateS }`), `rotuloOrigem` e `volumeConteudo` (padrão 0,45). No kit, o conteúdo **para e fica mudo** durante cada pausa e depois retoma do mesmo ponto; o áudio da pessoa é sempre o da gravação dela.
+Composição **`React`** (`kit/formatos/react`). Props: `video` (a reação da pessoa), `titulo`, `cores`, `fonte`, `duracaoS`, mais `conteudo` (o vídeo comentado em `public/`), `pausas` (lista de `{ deS, ateS }`), `ampliacoes` (lista de `{ deS, ateS }`), `rotuloOrigem` e `volumeConteudo` (padrão 0,45). No kit, o conteúdo **para e fica mudo** durante cada pausa e depois retoma do mesmo ponto; o áudio da pessoa é sempre o da gravação dela.
 
 ## Apoio
 

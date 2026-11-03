@@ -2,9 +2,7 @@ import React from "react";
 import { AbsoluteFill, Freeze, Sequence, staticFile, useCurrentFrame, useVideoConfig } from "remotion";
 import { Video } from "@remotion/media";
 import { A, L, SEGURA, type PropsBase } from "../../tipos";
-import { cameraDe } from "../../componentes/Camera";
 import { JanelaVideo } from "../../componentes/JanelaVideo";
-import { Legenda } from "../../componentes/Legenda";
 import { EASE, prog } from "../../componentes/Movimento";
 import { Tarja } from "../../componentes/Tarja";
 import { Titulo } from "../../componentes/Titulo";
@@ -70,13 +68,11 @@ export const React_: React.FC<PropsReact> = ({
   video,
   takes,
   sobreposicaoS,
-  legendas,
+  children,
   titulo,
   cores,
   fonte,
   duracaoS,
-  destaques,
-  camera,
   conteudo,
   pausas = [],
   ampliacoes = [],
@@ -99,13 +95,11 @@ export const React_: React.FC<PropsReact> = ({
       <div style={{ position: "absolute", left: 0, top: 0, width: L, height: topo, overflow: "hidden", background: "#000" }}>
         <Conteudo src={conteudo} pausas={pausas} volume={volumeConteudo} w={L} h={Math.round(maisGrande)} total={total} />
       </div>
-      <JanelaVideo src={video} takes={takes} sobreposicaoS={sobreposicaoS} x={0} y={topo} w={L} h={A - topo} escala={1.1} origem="50% 28%" camera={cameraDe(legendas, destaques, camera)} />
+      <JanelaVideo src={video} takes={takes} sobreposicaoS={sobreposicaoS} x={0} y={topo} w={L} h={A - topo} escala={1.1} origem="50% 28%" />
       <div style={{ position: "absolute", left: 0, top: topo - 4, width: L, height: 8, background: cores.destaque, boxShadow: "0 0 24px rgba(0,0,0,0.5)" }} />
       {rotuloOrigem ? <Tarja texto={rotuloOrigem} fonte={fonte} fundo="rgba(0,0,0,0.65)" cor={cores.texto} y={290} altura={64} tamanho={34} x={SEGURA.lado} largura={460} deS={0.2} /> : null}
       {titulo ? <Titulo texto={titulo.split("\n")} fonte={fonte} cor={cores.texto} y={380} tamanho={64} deS={0.2} ateS={2.6} caixaAlta /> : null}
-      <div style={{ position: "absolute", left: 0, top: topo - 70, width: L }}>
-        <Legenda legendas={legendas} cores={cores} fonte={fonte} y={0} destaques={destaques} />
-      </div>
+      {children}
     </AbsoluteFill>
   );
 };

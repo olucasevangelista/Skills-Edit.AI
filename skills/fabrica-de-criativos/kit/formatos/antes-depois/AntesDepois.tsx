@@ -3,7 +3,6 @@ import { AbsoluteFill, staticFile, useCurrentFrame, useVideoConfig } from "remot
 import { Audio } from "@remotion/media";
 import { L, type PropsBase } from "../../tipos";
 import { JanelaVideo } from "../../componentes/JanelaVideo";
-import { Legenda } from "../../componentes/Legenda";
 import { EASE, prog } from "../../componentes/Movimento";
 import { Titulo } from "../../componentes/Titulo";
 
@@ -46,11 +45,10 @@ const Rotulo: React.FC<{ texto: string; lado: "esq" | "dir"; cores: PropsBase["c
 
 /** 14. Antes e Depois: duas situações reais no mesmo enquadramento, com divisória que desliza e rótulos nítidos. */
 export const AntesDepois: React.FC<PropsAntesDepois> = ({
-  legendas,
+  children,
   titulo,
   cores,
   fonte,
-  destaques,
   antes,
   depois,
   modo = "deslize",
@@ -91,8 +89,8 @@ export const AntesDepois: React.FC<PropsAntesDepois> = ({
         </>
       )}
       {titulo ? <Titulo texto={titulo.split("\n")} fonte={fonte} cor={cores.texto} y={285} tamanho={60} deS={0.1} caixaAlta /> : null}
-      <Legenda legendas={legendas} cores={cores} fonte={fonte} y={1090} destaques={destaques} />
       {narracao ? <Audio src={staticFile(narracao)} /> : null}
+      {children}
     </AbsoluteFill>
   );
 };

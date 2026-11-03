@@ -1,13 +1,5 @@
+import type { ReactNode } from "react";
 /** Tipos e constantes compartilhados pelas composições do kit. */
-
-/** Uma palavra da legenda, no formato do `legendas.remotion.json` gerado pela transcrição (mesmo formato `Caption` do Remotion). */
-export type Caption = {
-  text: string;
-  startMs: number;
-  endMs: number;
-  timestampMs: number | null;
-  confidence: number | null;
-};
 
 export type Cores = {
   fundo: string;
@@ -19,17 +11,6 @@ export type Cores = {
 /** Um trecho de um vídeo-fonte, em segundos. Vários trechos viram uma sequência com emenda por sobreposição. */
 export type Take = { src: string; deS: number; ateS: number };
 
-/** Zoom rápido de ênfase (punch-in): entra em ~5 quadros e volta ao normal. */
-export type Punch = { deS: number; ateS: number; escala: number };
-
-/** Movimento de câmera sobre o vídeo da pessoa: um avanço lento e punch-ins nas palavras de destaque. */
-export type CameraProps = {
-  /** quanto o vídeo cresce ao longo do trecho (0,05 = 5%); padrão 0,05; 0 desliga */
-  push?: number;
-  /** punch-ins; se omitido, saem automaticamente nas palavras de `destaques` */
-  punches?: Punch[];
-};
-
 /** Props que todas as composições aceitam. */
 export type PropsBase = {
   /** vídeo principal (nome do arquivo em public/) */
@@ -38,16 +19,13 @@ export type PropsBase = {
   takes?: Take[];
   /** sobreposição das emendas, em segundos (0,1 a 0,25) */
   sobreposicaoS?: number;
-  legendas: Caption[];
   titulo?: string;
   cores: Cores;
   /** família de fonte já carregada no projeto */
   fonte: string;
   duracaoS: number;
-  /** palavras que recebem o realce na legenda (minúsculas, sem pontuação) */
-  destaques?: string[];
-  /** movimento de câmera sobre o vídeo da pessoa (padrão: avanço lento e punch-ins nos destaques) */
-  camera?: CameraProps;
+  /** a legenda (e qualquer camada por cima) entra aqui; veja kit/README.md */
+  children?: ReactNode;
 };
 
 export const L = 1080;

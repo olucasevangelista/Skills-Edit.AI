@@ -23,8 +23,8 @@ Uma **interface de aplicativo de mensagens genérica** em que **balões surgem e
 | Elemento | Posição e tamanho |
 |---|---|
 | **Fundo** | cor de fundo de aplicativo de mensagens (clara ou escura), sem textura de marca |
-| **Cabeçalho** | y de 270 a ~400: avatar circular (inicial ou ícone), **nome do contato** inventado ou do anunciante, status ("online") |
-| **Área da conversa** | y de ~420 a ~1240, dentro da zona segura; margem lateral de ~48 px |
+| **Cabeçalho** | uma **faixa do contato** em y de 270 a ~400, **na mesma largura da conversa** (x de 90 a 960) e com os **cantos arredondados** (~32 px), sem encostar nas bordas da tela: avatar circular (inicial ou ícone), **nome do contato** inventado ou do anunciante, status ("online") |
+| **Área da conversa** | y de ~450 a ~1240, dentro da zona segura; margem lateral de 90 px à esquerda e 120 px à direita |
 | **Balões** | enviados à direita (cor de destaque), recebidos à esquerda (cor neutra); raio ~28 px; largura máxima ~70% da área; corpo do texto de **44 a 52 px**; horário pequeno em cada balão |
 | **Indicador "digitando"** | três pontos animados num balão recebido, por 0,6 a 1,2 s antes de cada resposta |
 | **Parte de baixo** | o espaço de y ≈ 1250 até a borda **fica livre de propósito**: é a zona em que a interface do app cobre a tela. Não ponha mensagem ali |
@@ -76,7 +76,7 @@ Uma **interface de aplicativo de mensagens genérica** em que **balões surgem e
 
 ## Kit
 
-Composição **`Chat`** (`kit/formatos/chat`). Props: `cores`, `fonte`, `duracaoS`, mais `contato` (`{ nome, status }`), `mensagens` (lista de `{ de: "eu" | "outro", texto, tempoS, imagem?, digitandoS? }`), `avisoDramatizacao` e `narracao` (áudio opcional).
+Composição **`Chat`** (`kit/formatos/chat`). Props: `cores`, `fonte`, `duracaoS`, mais `contato` (`{ nome, status }`), `mensagens` (lista de `{ de: "eu" | "outro", texto, tempoS, imagem?, digitandoS? }`), `avisoDramatizacao`, `narracao` (áudio opcional) e `tema`.
 
 ## Apoio
 
