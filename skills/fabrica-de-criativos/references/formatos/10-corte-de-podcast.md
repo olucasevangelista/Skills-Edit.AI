@@ -4,7 +4,7 @@
 
 ## Assinatura visual
 
-Um **trecho de podcast ou entrevista** transformado em **anúncio vertical**: **recorte vertical** de uma gravação horizontal, com a **alternância de enquadramento entre os participantes**, **zooms e cortes sincronizados com as falas**, **legenda dinâmica** e **destaque das frases importantes**. A assinatura é a **dinâmica da conversa**: o vídeo "vai" até quem fala.
+Um **trecho de podcast ou entrevista** em formato vertical, **sempre com o rosto de quem está falando em foco**. É um formato mais de **gravação** do que de **edição**: o trabalho principal é escolher o trecho, **enquadrar** e **legendar**. Dependendo do momento, a tela mostra **todos os participantes juntos** (dois, três ou quatro) ou o **participante que está falando**, e o corte acompanha isso.
 
 ## Ideal quando
 
@@ -18,21 +18,22 @@ Um **trecho de podcast ou entrevista** transformado em **anúncio vertical**: **
 - A gravação tem **um só ângulo e baixa qualidade** (rosto pequeno, som ruim): o recorte vertical piora.
 - O **conteúdo é de terceiros** (um convidado ou outro programa) sem autorização para anúncio.
 
-## Composição (1080x1920)
+## Composição (pontos de partida, 1080x1920)
 
-Dois modos (um por vídeo):
+**Regra do formato: o rosto de quem fala está sempre na tela.** As estruturas:
 
-**A. Tela cheia em quem fala** (padrão): o recorte vertical 9:16 do **rosto de quem fala**, com **troca** de pessoa a cada fala.
+- **A. Tela cheia em quem fala:** o recorte vertical 9:16 do **rosto do falante**, com troca de pessoa a cada fala. Olhos no terço superior, cabeça inteira, centro do rosto em y ≈ 700 a 950.
+- **B. Todos juntos:** a tela mostra os participantes (dois, três ou quatro) em quadros empilhados ou em grade, com destaque em quem fala. Bom para trechos com troca rápida.
+- **C. Mistura dos dois:** começa nos participantes juntos e vai até quem fala, e volta.
 
-| Elemento | Posição e tamanho |
+| Elemento | Como pensar |
 |---|---|
-| **Recorte** | 1080x1920 centrado no rosto do falante; **olhos no terço superior**, cabeça inteira, centro do rosto em y ≈ 700 a 950 |
-| **Legenda** | y ≈ 1080 a 1220, palavra a palavra, nunca na base |
+| **Legenda** | é o principal acabamento do formato: palavra a palavra, abaixo do meio da tela, nunca na base |
 | **Tarja de nome** (opcional) | y ≈ 330 a 420, **só com nomes autorizados** |
 
-**B. Dois quadros empilhados** (50/50), ambos visíveis, com destaque em quem fala, para trechos com muita troca rápida.
-
 **Reenquadramento é manual.** O Remotion não detecta rosto. Para cada pessoa, tire um quadro (`ffmpeg -ss <t> -i podcast.mp4 -frames:v 1 q.png`), meça o centro do rosto e a altura da cabeça, e aplique como `objectPosition` e escala (ou `crop`) no recorte.
+
+**Depois de enquadrado e legendado, pode misturar** com outros modos e formatos: ilustrações ou motion, uma tela inteira coberta por um desenho que explica o que o participante diz (a linha do formato Professor), tela dividida, inserts.
 
 ## Elementos e animações
 
@@ -76,9 +77,9 @@ Dois modos (um por vídeo):
 - [ ] **Autorização** de todos os participantes.
 - [ ] A legenda está certa nos nomes e termos.
 
-## Kit
+## Estruturas e exemplos
 
-Sem kit de formato nesta versão. Use `kit/componentes/Takes.tsx` (emenda com sobreposição), `JanelaVideo` e `Legenda`.
+Sem quadro de exemplo (o autor disse que não é preciso: o formato é de gravação). Resumo: o rosto de quem fala sempre aparece; ora todos os participantes, ora só quem fala; o acabamento principal é a legenda; depois pode misturar motion, ilustração em tela cheia (como no formato Professor), tela dividida e inserts.
 
 ## Apoio
 

@@ -71,9 +71,9 @@
 - [ ] A legenda não cobre o conteúdo nem a boca.
 - [ ] O sentido do conteúdo original **não foi alterado** pelos cortes.
 
-## Kit
+## Estruturas e exemplos
 
-Composição **`React`** (`kit/formatos/react`). Props: `video` (a reação da pessoa), `titulo`, `cores`, `fonte`, `duracaoS`, mais `conteudo` (o vídeo comentado em `public/`), `pausas` (lista de `{ deS, ateS }`), `ampliacoes` (lista de `{ deS, ateS }`), `rotuloOrigem` e `volumeConteudo` (padrão 0,45). No kit, o conteúdo **para e fica mudo** durante cada pausa e depois retoma do mesmo ponto; o áudio da pessoa é sempre o da gravação dela.
+Sem quadro de exemplo ainda. Estrutura por descrição: o conteúdo comentado ocupa uma parte da tela e **para** (e cala) quando a pessoa comenta, retomando do mesmo ponto; a pessoa reage na outra parte; o conteúdo pode **crescer** quando precisa ser visto de perto. Se a pessoa mandar uma referência, adicione um quadro em `references/exemplos/`.
 
 ## Apoio
 

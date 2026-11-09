@@ -7,8 +7,16 @@
 - **Contraste alto** sobre qualquer fundo: contorno, sombra ou pílula de fundo. Tamanho que se lê de relance (a partir de ~60 px de corpo num quadro de 1080 de largura).
 - **Não cubra** a boca, os olhos nem a mão que gesticula. A legenda **nunca** vai para a base da tela.
 - **Nunca coloque na legenda uma palavra que não foi dita.** Corrigir a **escrita** de uma palavra é permitido; inventar, não.
-- Se você tem o `legendas.remotion.json` (lista `{text, startMs, endMs, timestampMs, confidence}` por palavra), a skill do Remotion (componentes de legenda) o lê direto; o kit da fábrica não traz legenda, e cada composição aceita `children` para você pôr a sua por cima.
+- Se você tem o `legendas.remotion.json` (lista `{text, startMs, endMs, timestampMs, confidence}` por palavra), a skill do Remotion (componentes de legenda) o lê direto. **O estilo da legenda é da pessoa**: esta skill não traz um estilo pronto.
 - Fonte livre (Google Fonts ou licença aberta), carregada no projeto e **aguardada antes de renderizar**. Cores e fontes da identidade da pessoa, do começo ao fim e em todas as variações de um mesmo teste.
+
+### Direção observada nos exemplos (não é um molde)
+
+- O **grupo de palavras aparece de uma vez**, **parado no mesmo lugar** (centralizado, sem subir nem mudar de posição), no máximo **2 linhas**.
+- **Só a palavra falada no momento** ganha destaque (uma pílula de cor atrás dela, acompanhando a fala); as outras ficam neutras, com sombra suave.
+- Posição: **abaixo do meio da tela** (nos exemplos, centro em torno de y 1320 de 1920), **acima da zona de interface da base**, longe das bordas (~840 px de largura).
+- Com o rosto em **tela cheia**, a legenda **desce para o queixo** para não cobrir a boca; com a pessoa embaixo ou pequena, ela fica sobre o conteúdo mais livre.
+- Uma legenda simples e **constante** vale mais que uma legenda cheia de efeito. Formatos como a notícia e o telejornal podem dispensá-la ou mudá-la.
 
 ## Texto de ênfase (fora da legenda)
 

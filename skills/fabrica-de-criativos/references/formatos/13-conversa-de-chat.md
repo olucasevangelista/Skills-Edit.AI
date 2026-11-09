@@ -74,9 +74,9 @@ Uma **interface de aplicativo de mensagens genérica** em que **balões surgem e
 - [ ] A rolagem não esconde a mensagem-chave.
 - [ ] Não há logotipo ou selo de aplicativo real.
 
-## Kit
+## Estruturas e exemplos
 
-Composição **`Chat`** (`kit/formatos/chat`). Props: `cores`, `fonte`, `duracaoS`, mais `contato` (`{ nome, status }`), `mensagens` (lista de `{ de: "eu" | "outro", texto, tempoS, imagem?, digitandoS? }`), `avisoDramatizacao`, `narracao` (áudio opcional) e `tema`.
+Estrutura do exemplo do autor: **só motion e som**, sem a voz da pessoa: balões que chegam um a um, "digitando…", rolagem e som de mensagem (um "pop" e um "tick", com uma trilha baixa). **A barra do contato tem a largura da conversa e cantos arredondados.** Interface genérica, sem logo de aplicativo real; emojis nas mensagens. Vale a regra da dramatização quando a conversa é encenada. Quadro: `references/exemplos/13-conversa-de-chat.jpg`.
 
 ## Apoio
 

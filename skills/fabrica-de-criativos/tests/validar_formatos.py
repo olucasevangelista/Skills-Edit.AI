@@ -13,8 +13,7 @@ from pathlib import Path
 RAIZ = Path(__file__).resolve().parents[1]
 FORMATOS = RAIZ / "references" / "formatos"
 BLOCOS = ["Assinatura visual", "Ideal quando", "Evite quando", "Composição", "Elementos e animações", "Cortes e ritmo", "Texto e legenda",
-          "Som", "Materiais", "Variações dentro do formato", "Armadilhas e checklist", "Kit", "Apoio"]
-KIT = {"01": "TelaDividida", "03": "PostSocial", "04": "Noticia", "07": "Depoimento", "08": "React", "13": "Chat", "14": "AntesDepois", "15": "Cinema"}
+          "Som", "Materiais", "Variações dentro do formato", "Armadilhas e checklist", "Estruturas e exemplos", "Apoio"]
 # marcas reais que nao podem ser NOME de formato (titulo, arquivo, linha do indice); os apelidos ficam so na descricao do SKILL.md
 MARCAS = ["choquei", "jornal nacional", "google meet", "whatsapp", "zoom", "instagram", "tiktok", "globo", "cnn", "nubank"]
 # frases que revelariam ao usuario a ausencia de uma skill
@@ -41,8 +40,8 @@ class Estrutura(unittest.TestCase):
         cls.skill = ler(RAIZ / "SKILL.md")
         cls.arquivos = sorted(FORMATOS.glob("*.md"))
 
-    def test_sao_15_formatos_numerados_de_01_a_15(self):
-        self.assertEqual([f.name[:2] for f in self.arquivos], [f"{i:02d}" for i in range(1, 16)])
+    def test_sao_16_formatos_numerados_de_01_a_16(self):
+        self.assertEqual([f.name[:2] for f in self.arquivos], [f"{i:02d}" for i in range(1, 17)])
 
     def test_cada_formato_tem_todos_os_blocos_na_ordem(self):
         for f in self.arquivos:
@@ -82,34 +81,28 @@ class Estrutura(unittest.TestCase):
 
     def test_o_indice_do_skill_md_bate_com_os_arquivos(self):
         linhas = re.findall(r"^\| (\d\d) \| (.+?) \| .*\| `(\d\d-[\w-]+\.md)` \|$", self.skill, re.M)
-        self.assertEqual([n for n, _, _ in linhas], [f"{i:02d}" for i in range(1, 16)])
+        self.assertEqual([n for n, _, _ in linhas], [f"{i:02d}" for i in range(1, 17)])
         for num, _, nome in linhas:
             self.assertTrue((FORMATOS / nome).exists(), f"indice aponta para {nome}, que nao existe")
             self.assertTrue(nome.startswith(num))
         self.assertEqual(sorted(n for _, _, n in linhas), [f.name for f in self.arquivos], "ha arquivo sem linha no indice ou linha sem arquivo")
 
-    def test_o_kit_do_indice_bate_com_o_bloco_kit_de_cada_formato(self):
-        for f in self.arquivos:
-            num = f.name[:2]
-            kit = re.search(r"## Kit\n(.*?)(?=\n## )", ler(f), re.S).group(1)
-            if num in KIT:
-                self.assertIn(f"`{KIT[num]}`", kit, f"{f.name}: deveria documentar a composicao {KIT[num]}")
-                self.assertRegex(self.skill, rf"\| {num} \| \*\*[^|]*\(kit\)")
-            else:
-                self.assertIn("Sem kit", kit, f.name)
-                self.assertNotRegex(self.skill, rf"\| {num} \| \*\*[^|]*\(kit\)")
+    def test_os_quadros_de_exemplo_citados_existem(self):
+        for f in [RAIZ / "SKILL.md", *RAIZ.glob("references/**/*.md")]:
+            for nome in re.findall(r"`(?:references/exemplos/)?([\w-]+\.jpg)`", ler(f)):
+                self.assertTrue((RAIZ / "references" / "exemplos" / nome).exists(), f"{f.name} cita o quadro {nome}, que nao existe")
 
-    def test_as_composicoes_documentadas_existem_no_kit(self):
-        root = ler(RAIZ / "kit" / "Root.tsx")
-        for comp in KIT.values():
-            self.assertRegex(root, rf'id="{comp}"', f"{comp} nao esta registrada em kit/Root.tsx")
+    def test_nao_ha_kit_nem_template_que_edite_pelo_agente(self):
+        self.assertFalse((RAIZ / "kit").exists(), "a skill e so guia: nao deve haver kit")
+        for f in [RAIZ / "SKILL.md", *RAIZ.glob("references/**/*.md")]:
+            self.assertNotRegex(ler(f), r"kit/(componentes|formatos)|instalar_kit|props da composi", f"{f.name} ainda fala do kit")
 
     def test_frontmatter_do_skill_md(self):
         fm = frontmatter(self.skill)
         self.assertEqual(fm["name"], "fabrica-de-criativos")
         self.assertLessEqual(len(fm["description"]), 1024)
         self.assertNotIn(": ", fm["description"], "': ' sem aspas na descricao quebra o YAML")
-        for gatilho in ("tela dividida", "fundo verde", "react", "depoimento", "chat", "antes e depois", "cinema", "podcast", "tutorial", "telejornal"):
+        for gatilho in ("tela dividida", "fundo verde", "react", "depoimento", "chat", "antes e depois", "cinema", "podcast", "tutorial", "telejornal", "caixinha"):
             self.assertIn(gatilho, fm["description"].lower(), f"a descricao deveria ter o gatilho '{gatilho}'")
 
     def test_nenhuma_marca_real_e_nome_de_formato(self):
@@ -133,7 +126,7 @@ class Estrutura(unittest.TestCase):
 
     def test_caminhos_citados_existem(self):
         for f in [RAIZ / "SKILL.md", *RAIZ.glob("references/**/*.md")]:
-            for caminho in re.findall(r"`((?:references|kit|scripts|tests)/[\w./-]+\.\w+)`", ler(f)):
+            for caminho in re.findall(r"`((?:references|assets|scripts|tests)/[\w./-]+\.\w+)`", ler(f)):
                 self.assertTrue((RAIZ / caminho).exists(), f"{f.name} cita `{caminho}`, que nao existe")
 
     def test_sem_segredos_nem_termos_proibidos(self):

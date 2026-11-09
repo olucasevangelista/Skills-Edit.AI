@@ -34,7 +34,7 @@ Não é o padrão: o áudio cortando seco (mesmo com a imagem entrando antes), n
 - Cada take é uma `<Sequence>` com o seu `<Video>` (`trimBefore` no início da voz).
 - A sequência seguinte começa `sobreposicao` quadros **antes** do fim da anterior (`from = fimAnterior - sobreposicao`).
 - O áudio do take anterior leva um `volume` em rampa descendente nesse intervalo; o novo entra com uma rampa curta.
-- O kit tem o componente que faz isso (`kit/componentes/Movimento.ts` traz as curvas).
+- Há uma peça para reaproveitar: `assets/componentes/TakesSobrepostos.tsx` (a sobreposição em `Sequence`s, a rampa de volume do take anterior e o fade curto do novo, mais `duracaoDosTakes`). Copie e ajuste; o enquadramento e o resto da composição são seus. Testado: imagem e áudio do take novo entram juntos, antes de a voz anterior acabar.
 
 ## Pausas e ritmo
 

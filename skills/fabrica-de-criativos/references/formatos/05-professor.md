@@ -69,9 +69,9 @@ A **pessoa em primeiro plano explicando**, enquanto **gráficos, diagramas, text
 - [ ] A pessoa não é coberta pelos elementos.
 - [ ] Nunca mais de ~4 elementos ao mesmo tempo.
 
-## Kit
+## Estruturas e exemplos
 
-Sem kit nesta versão. Monte com `kit/componentes` (`Legenda`, `Titulo`, `Movimento`, `JanelaVideo`); os diagramas são SVG e formas dentro da composição.
+Estruturas possíveis: **lousa ou diagrama em cima e a pessoa embaixo** (um primo da tela dividida, com elementos que explicam o que está sendo dito); os elementos **se constroem na palavra** (um nó aparece quando é citado, uma linha se desenha ligando ao próximo); a legenda fica entre o diagrama e a pessoa. Ilustração **qualitativa**, sem números inventados. Também funciona com a pessoa pequena num canto e os cartões ocupando a tela (modo "miniatura"). Quadros: `references/exemplos/05-professor.jpg` e `mistura-13-caixinha-de-pergunta.jpg` (miniatura e cartões).
 
 ## Apoio
 

@@ -74,9 +74,9 @@ Duas áreas empilhadas com uma **divisória nítida**: a **pessoa falando embaix
 - [ ] A legenda não cobre a boca nem vai para a base.
 - [ ] O conteúdo mostrado é real.
 
-## Kit
+## Estruturas e exemplos
 
-Composição **`TelaDividida`** (`kit/formatos/tela-dividida`). Props: `video`, `titulo`, `cores`, `fonte`, `duracaoS`, mais `conteudoSuperior` (lista de `{ src, tipo: "imagem" | "video", deS, ateS }`), `proporcao` (padrão 0.5) e `zoomPessoa` (padrão 1.12).
+Estruturas possíveis (nenhuma é obrigatória): **conteúdo em cima e pessoa embaixo** (a proporção é livre, de 40/60 a 50/50); **pessoa em cima e conteúdo embaixo**; ou **colunas**. Um bom critério é para onde a pessoa **aponta**: nos exemplos ela aponta para cima, então os gráficos ficam em cima. O que ocupa o espaço do conteúdo também varia: gráfico que se constrói na palavra, print, trecho de vídeo, interface ilustrada. Use a divisão **só nos trechos em que há algo para mostrar** e volte à tela cheia nas frases de conexão. Quadros: `references/exemplos/mistura-14-mesmo-video-varios-formatos.jpg` e `mistura-15-tres-gravacoes.jpg` (modo "split").
 
 ## Apoio
 

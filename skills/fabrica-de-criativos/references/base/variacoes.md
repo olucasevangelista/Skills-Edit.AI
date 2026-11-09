@@ -23,7 +23,7 @@ A pessoa manda **um material** e pede, por exemplo, "faz em 4 formatos".
 2. **Mantenha a fala e o corte-base iguais** entre as versões; só o formato muda.
 3. **Mesmo volume** em todas (referência −14 LUFS), mesma legenda de conteúdo.
 4. **Renderize em lote** trocando só os props: uma composição, vários arquivos de props.
-   `npx remotion render src/index.ts TelaDividida out/anuncio__tela-dividida.mp4 --props=props_tela.json`
+   `npx remotion render src/index.ts TelaDividida out/anuncio__tela-dividida.mp4 --props=props_tela.json` (troque `TelaDividida` pela composição que você criou)
    (um comando por versão; o mesmo para as outras composições).
 
 ## Modo 2: um corpo e vários ganchos

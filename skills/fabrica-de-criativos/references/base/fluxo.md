@@ -27,7 +27,7 @@ Você precisa da **fala com o tempo de cada palavra** para legenda, cortes e ins
 ## 4. Montar o projeto
 
 - Crie ou use o projeto Remotion da pessoa (a skill do Remotion explica como). Materiais em `public/`.
-- **Se a pessoa quiser usar o kit** (`kit/`), copie `componentes/` e a composição do formato escolhido para `src/`, troque os **props** (`video`, `legendas`, `titulo`, cores, fonte, duração e os específicos do formato) e ajuste. Se preferir, monte do zero seguindo o arquivo do formato.
+- **Você monta tudo no Remotion**, seguindo o arquivo do formato e a skill do Remotion. Esta skill **não traz template, kit nem script que edite por você**: ela é o guia (o que o formato é, que estruturas existem, o que importa) e entrega os arquivos de apoio de que você precisa (`assets/`). Escolha a estrutura pela oferta, pela narrativa e pela marca; os formatos podem ser **misturados** (`mistura-de-formatos.md`).
 - Tudo configurável fica num `config.ts` (formato, tempos, textos, cores). As cenas só leem dele, e a pessoa ajusta depois sem refazer.
 - **Cortes e emendas:** `cortes.md`.
 - **Legenda, texto e zonas seguras:** `legenda-e-zonas.md`.
@@ -35,7 +35,7 @@ Você precisa da **fala com o tempo de cada palavra** para legenda, cortes e ins
 
 ## 5. Prévia e render
 
-- Mostre uma **prévia** (quadros nos instantes-chave ou o Studio) antes do render final, e só exporte o arquivo final quando a pessoa pedir ou quando o pedido já for "faz tudo".
+- Mostre uma **prévia** (quadros nos instantes-chave ou o Studio) antes do render final; para vídeo de prévia use baixa resolução (`--scale=0.5 --crf=28 --concurrency=1`), que pesa pouco na máquina da pessoa. Se o formato ou a mistura é novo para ela, **peça a validação** da prévia antes de seguir; e só exporte o arquivo final quando a pessoa pedir ou quando o pedido já for "faz tudo".
 - Padrão de exportação: **1080x1920, 30 fps, H.264, yuv420p, áudio AAC**. Exemplo de comando:
   `npx remotion render src/index.ts <Composicao> out/criativo.mp4 --props=props.json --codec=h264 --crf=18 --pixel-format=yuv420p --image-format=png --concurrency=2`
   (`--image-format=png` preserva o texto nítido; `--props` troca os props sem editar o código, o que facilita as variações.)

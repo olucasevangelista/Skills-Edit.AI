@@ -68,9 +68,9 @@ Uma pessoa **falando direto para a câmera**, em **plano fechado**, com **legend
 - [ ] O rosto está inteiro e acima da zona de interface; a legenda não cobre a boca.
 - [ ] Não há garantia de resultado escrita na tela.
 
-## Kit
+## Estruturas e exemplos
 
-Composição **`Depoimento`** (`kit/formatos/depoimento`). Props: `video`, `titulo`, `cores`, `fonte`, `duracaoS`, mais `identificacao` (`{ nome, descricao }`, opcional), `inserts` (lista de `{ src, deS, ateS, legenda? }`), `zooms` (lista de `{ deS, ateS, escala }`) e `destaques` (palavras a realçar na legenda).
+Sem quadro de exemplo ainda. Estrutura por descrição: a pessoa direto para a câmera em tela cheia, legenda com destaque, zooms pontuais nas frases-chave (que voltam ao neutro), uma etiqueta com o nome e o que a pessoa autorizou, e **provas reais** (prints, resultados autorizados) entrando na palavra que ilustram. Se a pessoa mandar uma referência, adicione um quadro em `references/exemplos/`.
 
 ## Apoio
 

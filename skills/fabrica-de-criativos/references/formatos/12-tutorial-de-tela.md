@@ -80,9 +80,9 @@ O Remotion **não detecta o cursor**: **você** posiciona os zooms.
 - [ ] A aceleração das esperas está indicada.
 - [ ] O resultado final está **visível** pelo tempo de ser lido.
 
-## Kit
+## Estruturas e exemplos
 
-Sem kit nesta versão. Use `kit/componentes` (`Legenda`, `Movimento` para a curva `track`, `JanelaVideo`).
+Estrutura do exemplo do autor: a **gravação de tela real numa janela**, com **zoom que acompanha a ação** (você define o foco, em pixels da gravação, e o zoom em cada instante, e o deslocamento dura até a chave seguinte), **retângulos de destaque** onde o olhar deve ir, **passos numerados** em etiquetas e a voz. A **espera longa** (por exemplo, o minuto entre o pedido e o resultado) é **cortada e isso aparece na tela**. Mostre só a área de trabalho, sem a barra de abas. Quadro: `references/exemplos/12-tutorial-de-tela.jpg`.
 
 ## Apoio
 

@@ -75,9 +75,9 @@ Modos (escolha um por vídeo):
 - [ ] Os números têm base real e aparecem no instante em que a fala os diz.
 - [ ] O deslize não esconde o detalhe que importa.
 
-## Kit
+## Estruturas e exemplos
 
-Composição **`AntesDepois`** (`kit/formatos/antes-depois`). Props: `titulo`, `cores`, `fonte`, `duracaoS`, mais `antes` e `depois` (imagem ou vídeo em `public/`), `modo` (`"deslize" | "lado-a-lado" | "sequencia"`), `rotulos` (`{ antes, depois }`), `revelarEmS`, `duracaoRevelacaoS` e `narracao` (áudio opcional).
+Estrutura do exemplo do autor: **duas colunas** de cartões verticais, com etiquetas "antes" e "depois" **acima** e uma legenda curta embaixo de cada um; **um lado toca por vez** (o áudio de cada um é ouvido uma vez só) e o outro fica **parado e apagado, mas visível** para a comparação; borda luminosa no lado que está tocando. Pode ser feito de formas variadas: lado a lado, com divisória que desliza, em sequência. As duas situações são **reais**. Quadro: `references/exemplos/14-antes-e-depois.jpg`.
 
 ## Apoio
 

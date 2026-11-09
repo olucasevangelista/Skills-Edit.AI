@@ -70,9 +70,9 @@ A conversa dentro de uma **interface de videochamada genérica**: **participante
 - [ ] O indicador acompanha a fala.
 - [ ] Os volumes das falas estão equilibrados.
 
-## Kit
+## Estruturas e exemplos
 
-Sem kit nesta versão. Monte com `kit/componentes` (`JanelaVideo`, `Legenda`, `Tarja`, `Movimento`).
+Sem quadro de exemplo ainda. Estrutura por descrição: janelas de videochamada genéricas (sem identidade de aplicativo real), a gravação verdadeira da conversa, nomes só com autorização. Se a pessoa mandar uma referência, adicione um quadro em `references/exemplos/`.
 
 ## Apoio
 

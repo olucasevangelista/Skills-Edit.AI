@@ -74,9 +74,9 @@ Canvas **vertical preto**, o vídeo numa **janela horizontal (ou quase quadrada)
 - [ ] O tratamento de cor é o mesmo do começo ao fim e não "lava" o rosto.
 - [ ] A música tem **licença confirmada** para anúncio (`MATERIAIS.md`).
 
-## Kit
+## Estruturas e exemplos
 
-Composição **`Cinema`** (`kit/formatos/cinema`). Props: `video`, `titulo`, `cores`, `fonte`, `duracaoS`, mais `janela` (`{ largura, altura, raio, y }`; padrão **quadrada**, 984 x 984, raio 28), `tratamento` (`{ saturacao, contraste, granulacao }`), `musica` (arquivo em `public/`) e `volumeMusica`. A legenda, se houver, é uma camada por cima (`children`, veja `kit/README.md`).
+Estrutura do exemplo do autor: **fundo preto**; **título em duas linhas** em tipografia editorial (a segunda linha começa apagada e é revelada); **janela de cantos arredondados** (**quadrada ou quase quadrada** dá mais espaço ao vídeo do que uma janela baixa e retangular); **legenda discreta abaixo** da janela, com uma pílula de destaque; trilha própria; **pausas mantidas**. Quadro: `references/exemplos/15-cinema.jpg`.
 
 ## Apoio
 

@@ -41,7 +41,7 @@ Teste **num trecho curto** antes de fazer o vídeo inteiro, e olhe a borda **amp
 1. **A pessoa foi gravada em fundo uniforme** (verde, azul ou uma cor lisa): `chromakey` do FFmpeg, com `despill`, exportando **WebM VP9 com transparência** (leve; o `<Video>` do Remotion lê direto).
    `ffmpeg -i entrada.mp4 -vf "chromakey=0x00FF00:0.15:0.05,despill=type=green,format=yuva420p" -c:v libvpx-vp9 -auto-alt-ref 0 -b:v 3M -c:a libopus pessoa.webm`
    (para outra cor lisa: `colorkey=0xRRGGBB:0.2:0.1`; ajuste a semelhança e a suavização olhando a borda.) Num fundo verde sintético, esse comando tirou o fundo e manteve a pele e a roupa; uma faixa verde clara colada na roupa só ficou atenuada. **Não use ProRes** (`.mov`): o `<Video>` do `@remotion/media` não o decodifica sem registro extra; se precisar de ProRes, use `<OffthreadVideo transparent>`.
-2. **Fundo qualquer:** `scripts/recortar_pessoa.py` (`python recortar_pessoa.py entrada.mp4 pessoa.webm --de 20 --ate 28`). Usa um modelo de segmentação de pessoa (`rembg`, instalado uma vez com `pip install rembg onnxruntime pillow`; o modelo de ~176 MB baixa na primeira execução) e salva o mesmo WebM com transparência e o áudio original. Em CPU leva cerca de 0,8 s por quadro (8 s de vídeo levam alguns minutos): **recorte só o trecho que vai usar**. Num trecho real de 3 s (câmera parada, fundo de ambiente), a máscara ficou estável entre os quadros e o corpo saiu limpo; a **cadeira atrás saiu com contorno difuso e há um halo suave na borda** sobre fundo claro. Isso não é fundo verde de estúdio: confira sempre a borda ampliada.
+2. **Fundo qualquer:** `scripts/recortar_pessoa.py` (`python recortar_pessoa.py entrada.mp4 pessoa.webm --de 20 --ate 28`). Usa o **Robust Video Matting (RVM)**, que mantém o estado entre os quadros e por isso é **estável no tempo**, e salva um WebM com transparência e o áudio original. Também grava `pessoa_cabeca.json` com o **topo da cabeça e o centro** ao longo do tempo (suavizados, uma amostra a cada 0,2 s), para você ancorar a posição da pessoa quando o fundo muda. Precisa de `pip install torch numpy`; o modelo (~100 MB) baixa na primeira vez pelo `torch.hub`. Num teste de 3 s de vídeo real (um fundo de estante e cadeira), saiu um recorte **limpo, sem sobra de cadeira nem de fundo**, a ~5 quadros por segundo com GPU (em CPU é bem mais lento). Confira sempre a borda ampliada sobre fundo claro e escuro.
 3. Se a ferramenta de recorte do **HyperFrames** (`remove-background`) estiver disponível, ela também produz um vídeo transparente (não foi testada aqui).
 
 Seja honesto sobre o resultado: se a borda ficou ruim em algum trecho, **diga** e ofereça outro formato (por exemplo, Tela Dividida), em vez de entregar um recorte com cara de erro.
@@ -80,9 +80,9 @@ Seja honesto sobre o resultado: se a borda ficou ruim em algum trecho, **diga** 
 - [ ] O fundo não é conteúdo de terceiros sem direito.
 - [ ] A pessoa e a legenda ficam dentro da zona segura.
 
-## Kit
+## Estruturas e exemplos
 
-Sem kit nesta versão. Monte com os componentes de `kit/componentes` (`Legenda`, `Titulo`, `Movimento`); o vídeo recortado entra como `<Video>` com transparência sobre o fundo.
+Estruturas possíveis: a pessoa recortada **grande, na parte de baixo**, com **fundos de conteúdo** que mudam a cada assunto (um título, um número grande, cartões, passos, um editor ilustrado); a pessoa pode **mudar de lado e de tamanho** por evento; selos pequenos no topo; legenda sobre o corpo. Para o corpo não balançar quando o fundo muda, **rastreie a cabeça** (o topo da cabeça e o centro, suavizados com mediana) e ancore a posição nele. **Recorte:** use `scripts/recortar_pessoa.py` (RVM, com o rastreio da cabeça), como descrito acima. Quadros: `references/exemplos/02-fundo-verde.jpg` e `mistura-14-mesmo-video-varios-formatos.jpg`.
 
 ## Apoio
 

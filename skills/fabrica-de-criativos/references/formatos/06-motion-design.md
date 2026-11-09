@@ -67,9 +67,9 @@ O anúncio **sem pessoa falando**: construído com **textos animados, ícones, f
 - [ ] O arquivo exportado mostra o mesmo da prévia (sem tela vazia).
 - [ ] Os números têm base real.
 
-## Kit
+## Estruturas e exemplos
 
-Sem kit de formato nesta versão. O `kit/componentes/Movimento.ts` traz as curvas (`prog`, `pop`, `track`, `drift`, `squash`).
+Exemplo completo: `references/exemplos/motion-10-sem-pessoa.jpg` (a pessoa nunca aparece). Observe: **cada cena nasce de uma frase da narração**; um ambiente de edição ilustrativo (sem pretender ser a interface real do produto), versões em paralelo lado a lado, diagrama de causa e efeito com um pacote percorrendo os nós, mosaico "uma gravação, várias versões", preço grande sem desconto nem urgência inventados, CTA com botão. Legenda sempre embaixo, no mesmo lugar. Cores, fontes e estilo dos elementos são do autor do exemplo, não do formato.
 
 ## Apoio
 

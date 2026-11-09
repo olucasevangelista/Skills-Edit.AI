@@ -4,7 +4,7 @@
 
 ## Assinatura visual
 
-Estética de **telejornal tradicional, mais formal e estruturada que a Notícia (formato 04)**: um **cenário inspirado em estúdio jornalístico**, o **apresentador enquadrado como âncora**, uma **vinheta de abertura**, **tarjas** com manchetes e **painéis** com imagens de apoio. O ritmo é de apresentação, não de rede social.
+Estética de **telejornal**, mais formal e estruturada que a Notícia (formato 04): um **estúdio ilustrado** (degradê com **globos de linhas** translúcidos e feixes de luz), um **título de bancada** ("notícia" em letras cromadas e "urgente" numa placa) com o aviso de **publicidade**, uma **faixa do meio** que mostra, em imagens e gráficos, o que está sendo dito, e o **apresentador grande embaixo**. O ritmo é de apresentação, não de rede social.
 
 ## Ideal quando
 
@@ -18,22 +18,27 @@ Estética de **telejornal tradicional, mais formal e estruturada que a Notícia 
 - A "matéria" seria uma notícia **inventada**.
 - A plataforma ou a lei exige a identificação do anúncio e a pessoa não vai colocá-la.
 
-## Composição (1080x1920)
+## Composição (pontos de partida, 1080x1920)
 
-| Elemento | Posição e tamanho |
+Medidas do exemplo do autor; ajuste ao seu criativo.
+
+| Elemento | Como pensar |
 |---|---|
-| **Cenário** | estúdio **genérico** gerado por código: fundo escuro com painéis de luz e uma tela ao fundo (sem a estética identificável de um canal real) |
-| **Apresentador** | enquadrado na altura do peito, **cabeça inteira em y ≈ 600 a 900**, centralizado ou levemente deslocado |
-| **Vinheta de abertura** | 2 a 3 s, **com nome de programa próprio ou do anunciante**, em movimento de câmera e luz |
-| **Tarja de manchete** | y ≈ 1000 a 1160, com o título e uma linha de apoio, **acima da base** |
-| **Painel de apoio** | uma janela ao lado ou atrás da pessoa (imagens, vídeo, gráfico), y ≈ 330 a ~800 |
-| **Legenda** | y ≈ 1170 a 1240, discreta |
+| **Cenário** | **gerado por código** e genérico: um degradê (a cor é da marca ou do tema), **dois globos de linhas grandes e translúcidos** girando devagar (um no alto à direita, outro embaixo à esquerda, de modo que o apresentador fique na frente) e **feixes de luz diagonais** que oscilam um pouco |
+| **Título** | no topo, centralizado (y ≈ 280 a 500): "NOTÍCIA" em letras cromadas e itálicas (~76 px) e "URGENTE" (~120 px) numa **placa vermelha** com borda clara; entra com um pop curto (~0,5 s) e **fica o vídeo todo** |
+| **Aviso** | "PUBLICIDADE", pequeno e com borda, à direita do título |
+| **Faixa do meio** | y ≈ 545 a 1015 (~470 px): fundo escurecido com **linhas finas em cima e embaixo**; no canto superior esquerdo um **rótulo da seção** (uma pílula, por exemplo "GESTORES DE TRÁFEGO"); dentro, **o que a fala descreve**: cartões ou miniaturas que surgem em sequência, um diagrama que se constrói, pontos de interrogação. Troca a cada cena (~2 a 6 s) |
+| **Apresentador** | **grande, na metade de baixo**: cabeça em y ≈ 1010 a 1350. No exemplo ele é **recortado do fundo** e fica sobre o cenário; sem recorte, uma janela larga embaixo também serve |
+| **Legenda** | abaixo da faixa, sobre o apresentador, **acima da zona de interface da base** (confira: nos quadros do exemplo ela ficou mais baixa) |
+| **Vinheta de abertura** | **opcional**: o exemplo não tem; o título de bancada já faz esse papel |
 
 ## Elementos e animações
 
-- **Vinheta própria** (curta); **tarjas** que entram com deslize e saem com o assunto; **painéis** que trocam na palavra.
-- **Relógio, nome da "edição" ou ticker** são opcionais e **inventados ou do anunciante**.
-- **Transições** de apresentação (corte, deslize, fusão) sem efeitos de rede social.
+- **Cenário vivo, mas discreto:** os globos giram devagar (meridianos que se estreitam e alargam com o giro) e os feixes de luz oscilam. Tudo é função do tempo.
+- **Título** com pop curto; **cartões** da faixa do meio entram com escala e fade, um de cada vez, **na palavra** que os cita; um **diagrama** pode se desenhar (um nó, linhas saindo dele, caixas com texto).
+- **Rótulo da seção** muda a cada cena.
+- **Sem efeitos sonoros**: só a voz do apresentador. Transições de apresentação (corte, fusão), sem efeitos de rede social.
+- **Relógio, ticker ou nome da edição** são opcionais e **inventados ou do anunciante**.
 
 ## Cortes e ritmo
 
@@ -67,12 +72,14 @@ Estética de **telejornal tradicional, mais formal e estruturada que a Notícia 
 - [ ] A identidade é **própria**; nada de nome, logotipo ou vinheta de veículo real.
 - [ ] A "matéria" é **verdadeira** e o anúncio a sustenta.
 - [ ] Há um aviso de publicidade quando necessário, e a pessoa conferiu as **políticas atuais**.
-- [ ] A tarja fica acima da base e o rosto está inteiro.
+- [ ] O título e a faixa do meio ficam acima da base; o rosto está inteiro.
 - [ ] O ritmo é formal sem lacunas.
 
-## Kit
+## Estruturas e exemplos
 
-Sem kit nesta versão. Monte com `kit/componentes` (`Tarja`, `Titulo`, `JanelaVideo`, `Legenda`, `Movimento`).
+**Código para reaproveitar:** `assets/componentes/EstudioTelejornal.tsx` traz o **cenário** (degradê, feixes de luz e dois globos de linhas girando) e o **título de bancada** (linha cromada sobre uma placa) como componentes do Remotion. **Copie e ajuste**: são peças, não um editor; o apresentador, a faixa do meio, os cartões, a legenda e a composição são seus. As cores padrão (azul e vermelho) são as do exemplo do autor e **trocam por props**; os globos e os feixes podem sair. Testado: compila, o degradê aparece, o cenário se mexe e o título renderiza.
+
+Quadro de demonstração: `references/exemplos/11-telejornal.jpg`. É a estrutura descrita acima (estúdio ilustrado com globos, título "notícia urgente" com aviso de publicidade, faixa do meio com imagens e um diagrama que se constrói, apresentador grande embaixo, legenda). **As cores (o azul), o globo e o desenho dos cartões são escolhas do autor**: adapte ao tema e à marca. A "matéria" diz só o que a fala diz, sem número, pesquisa ou fonte inventados, e a identidade é própria. Combina bem com a **pessoa recortada** (formato 02) para ficar na frente do cenário.
 
 ## Apoio
 
