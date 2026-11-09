@@ -34,7 +34,6 @@ Também funciona pedir ao próprio agente: *"instale a skill rodando este comand
 | [`editar-aula`](skills/editar-aula) | Direção para editar aulas gravadas (câmera, tela com rosto, slides ou só áudio): o que limpar, como dividir em seções com capítulos e onde colocar títulos, destaques e motions sem cobrir o que o aluno precisa ver. Inclui scripts opcionais para cortar pausas e erros. |
 | [`motion-designer`](skills/motion-designer) | Direção para criar motion design no Remotion: motions explicativos que mostram um processo ou uma relação sincronizados com a fala, e peças inteiras só de objetos animados em 2D ou 3D (comerciais conceituais, vinhetas, vídeos de produto). Inclui um kit opcional de código e uma síntese opcional de trilha e efeitos sonoros. |
 | [`creative-lab`](skills/creative-lab) | Direção para editar anúncios em vídeo com foco em retenção: gancho com promessa visível, ritmo apertado, resultado e mecanismo único em destaque, uso da página de vendas como direção e teste de criativos. Inclui um script que junta vários ganchos a um mesmo corpo de anúncio, com emenda por sobreposição e no mesmo volume. |
-| [`raio-x-criativos`](skills/raio-x-criativos) | Faz o raio-x de um criativo de anúncio em vídeo: por que ele chama atenção (gancho), por que retém (corpo) e por que leva à página (CTA e oferta), e se ele é coerente com a página de vendas. Entrega hipóteses com a evidência por segundo, sem prometer veredito sem os dados de desempenho. Inclui um script que mede cortes, ritmo e folhas de contato. |
 | [`fabrica-de-criativos`](skills/fabrica-de-criativos) | Guia para o agente editar criativos de anúncio em vídeo no Remotion em 16 formatos (tela dividida, fundo verde, post de rede social, notícia, professor, motion design, depoimento, react, videochamada, corte de podcast, telejornal, tutorial de tela, conversa de chat, antes e depois, cinema e caixinha de pergunta), misturando formatos e adaptando à marca de quem anuncia. Traz direção, estruturas possíveis e exemplos reais de cada formato, algumas peças de código para reaproveitar no Remotion (caixinha de pergunta, manchete de notícia, cenário de telejornal e emenda com sobreposição) e scripts de apoio para recortar a pessoa e medir o arquivo final. Não traz template que edite por você. |
 
 Instalar a transcrição:
@@ -65,12 +64,6 @@ Instalar a edição de anúncios:
 
 ```
 npx skills add olucasevangelista/Skills-Edit.AI --skill creative-lab -g
-```
-
-Instalar o raio-x de criativos:
-
-```
-npx skills add olucasevangelista/Skills-Edit.AI --skill raio-x-criativos -g
 ```
 
 Instalar a fábrica de criativos:
