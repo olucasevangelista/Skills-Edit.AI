@@ -64,7 +64,7 @@ Em cada junção:
 6. **Ajuste ao material:** se a última palavra termina seca, use o mínimo (~0,1 s); se tem decaimento longo, pode chegar a ~0,25 s. As vozes devem soar encadeadas, não embaralhadas.
 7. **Vale também onde as pausas dentro de um mesmo take são encurtadas** e na **junção do gancho com o corpo** (o script `variar_ganchos.py` faz essa junção assim).
 
-Não é o padrão: o áudio cortando seco (mesmo com a imagem entrando antes), nem o próximo take começando com respiro e pausa.
+Não é o padrão: o áudio cortando seco (mesmo com a imagem entrando antes), nem o próximo take começando com respiro e pausa. **Para limpar uma gravação bruta (erros, repetições, silêncios) com essa emenda, use os scripts de `limpeza-da-fala.md`; não refaça à mão com `silenceremove`, que corta seco e deixa pausa. Um silêncio de 0,5 a 1 s que sobrou é defeito.**
 
 ## 6. Texto, som e fechamento
 

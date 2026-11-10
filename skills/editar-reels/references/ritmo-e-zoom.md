@@ -58,3 +58,16 @@ Como fazer, em cada junção:
 7. **Vale para todo corte do vídeo**, inclusive onde as pausas dentro de um mesmo take são encurtadas.
 
 Os valores são pontos de partida: ajuste ao ritmo da fala e à referência do usuário. Não é o padrão: o áudio cortando seco (mesmo com a imagem entrando antes), nem o próximo take começando com respiro e pausa.
+
+## Silêncios e takes repetidos
+
+O padrão do Reels é **no máximo ~0,1 s de pausa** entre uma frase e a seguinte. Um silêncio de **meio segundo a um segundo que sobrou** quebra o ritmo e o espectador sente: é defeito, não "respiro natural". Tirar os silêncios e entregar assim não termina o trabalho.
+
+**Ordem:** primeiro escolha o que fica (takes repetidos), depois encurte as pausas e emende; só então legende e coloque os inserts, com os tempos do vídeo já limpo.
+
+1. **Takes repetidos.** Quem grava erra e repete a frase várias vezes. Leia a transcrição com tempo por palavra e ache as tentativas que **começam igual**. Fique com a **última completa e sem tropeço** (o final dela não pode estar cortado e ela tem de encaixar na frase anterior). Em dúvida, **mostre as tentativas com os tempos e pergunte** qual é a certa. Você não ouve a entonação: se a escolha dependia disso, diga. O Whisper às vezes junta ou omite repetições: se o texto parece curto para o tempo, transcreva o trecho mantido sozinho e leia.
+2. **Pausas.** Meça no **áudio**, não pela transcrição (os tempos dela escorregam 0,2 a 0,5 s). Com FFmpeg: `ffmpeg -i video.mp4 -af silencedetect=noise=-40dB:d=0.06 -f null -`. **O limiar tem de ficar acima do ruído da sala e abaixo da voz.** Se a sala tem ruído de fundo, o ruído passa de -40 dB e o detector não acha pausa nenhuma: confira com as pausas que a transcrição mostra entre palavras (mais de 0,25 s) e **suba o limiar** (-35, -30 dB) até o detector achá-las. Pausa acima de ~0,25 s fica com ~0,1 s, emendada com a sobreposição acima. Onde a pausa é o efeito (frase de impacto, piada), mantenha.
+3. **Não use `silenceremove` do FFmpeg para isso:** ele corta seco, sem a sobreposição, e come o começo das palavras.
+4. **Confira o resultado medindo:** rode o mesmo `silencedetect` no vídeo cortado. Nenhuma pausa acima de ~0,35 s pode sobrar (fora as de efeito), e nenhuma palavra pode ter sido cortada: transcreva o vídeo limpo e leia em sequência.
+
+A régua: pausa curta, melhor tentativa, emenda com sobreposição, tudo medido.

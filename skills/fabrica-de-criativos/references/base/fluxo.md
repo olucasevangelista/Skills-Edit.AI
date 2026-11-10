@@ -9,7 +9,9 @@ O mesmo caminho vale para os 15 formatos. O que muda de um formato para outro es
 - Vídeo de celular em pé gravado deitado, taxa de quadros variável e vídeo HDR aparecem nas propriedades: avise se isso afeta o resultado.
 - O **original nunca é alterado**. Trabalhe em uma pasta do projeto (`public/` do Remotion) com cópias ou caminhos.
 
-## 2. Transcrever (se há fala)
+## 2. Limpar a fala e transcrever (se há fala)
+
+**Primeiro limpe a fala** (`limpar-a-fala.md`): escolher a melhor tentativa entre as repetições, tirar erros e silêncios e emendar com sobreposição, o que gera o `limpo.mp4`. Só então transcreva **o `limpo.mp4`**, para que legendas e inserts nasçam com o tempo certo. (Para decidir o que sai, você transcreve o bruto antes, só para ler.)
 
 Você precisa da **fala com o tempo de cada palavra** para legenda, cortes e inserts.
 
@@ -29,7 +31,7 @@ Você precisa da **fala com o tempo de cada palavra** para legenda, cortes e ins
 - Crie ou use o projeto Remotion da pessoa (a skill do Remotion explica como). Materiais em `public/`.
 - **Você monta tudo no Remotion**, seguindo o arquivo do formato e a skill do Remotion. Esta skill **não traz template, kit nem script que edite por você**: ela é o guia (o que o formato é, que estruturas existem, o que importa) e entrega os arquivos de apoio de que você precisa (`assets/`). Escolha a estrutura pela oferta, pela narrativa e pela marca; os formatos podem ser **misturados** (`mistura-de-formatos.md`).
 - Tudo configurável fica num `config.ts` (formato, tempos, textos, cores). As cenas só leem dele, e a pessoa ajusta depois sem refazer.
-- **Cortes e emendas:** `cortes.md`.
+- **Cortes e emendas:** `cortes.md` (a regra) e `limpar-a-fala.md` (a limpeza do bruto). O `limpo.mp4` é a fala do vídeo.
 - **Legenda, texto e zonas seguras:** `legenda-e-zonas.md`.
 - **Materiais que faltam:** `materiais.md`.
 

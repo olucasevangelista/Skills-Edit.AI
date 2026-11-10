@@ -295,6 +295,14 @@ def main() -> int:
         faixas = _fala.faixas_de_fala(env, thr)
         if not faixas:
             raise ValueError(f'Nao encontrei fala em {f["video"].name} (volume abaixo do limiar). Tente --limiar -50.')
+        piso, fala = _fala.niveis(env)
+        cobertura = sum(b - a_ for a_, b in faixas) / max(1e-9, info['duracao'])
+        if info['duracao'] > 15 and cobertura > 0.97:
+            print(f'AVISO: {f["video"].name}: o arquivo inteiro foi tratado como fala continua (nenhuma pausa achada). Quase sempre e '
+                  'ruido de fundo alto: tente --limiar com um valor mais alto (ex.: -30).', flush=True)
+        elif fala - piso < 12.0:
+            print(f'AVISO: {f["video"].name}: muito ruido de fundo (piso {piso:.0f} dB, fala {fala:.0f} dB): a deteccao de pausas fica '
+                  'menos precisa. Confira o resultado de ouvido e, se preciso, ajuste --limiar.', flush=True)
         ctx[fid] = contexto_fonte(_fala.carregar_palavras(f['transcricao']), faixas, info['duracao'])
         limiares[fid] = round(thr, 1)
     fonte_padrao = next(iter(fontes))

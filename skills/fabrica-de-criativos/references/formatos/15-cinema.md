@@ -39,7 +39,7 @@ Canvas **vertical preto**, o vídeo numa **janela horizontal (ou quase quadrada)
 
 ## Cortes e ritmo
 
-- **Cortes intencionais**, que respeitam as **pausas e o peso das falas**: aqui **a pausa mantém**, não se encurta. Emenda com sobreposição só quando a pausa não é parte do impacto.
+- **Cortes intencionais**, que respeitam as **pausas e o peso das falas**: aqui **a pausa mantém**, não se encurta. Emenda com sobreposição só quando a pausa não é parte do impacto. Na limpeza da fala (`limpar-a-fala.md`) use `--estilo suave` e, se preciso, `--pausa-minima` maior que a pausa de impacto.
 - Menos eventos: o formato **dispensa a regra de um evento visual a cada ~2 s**; o evento é a frase, a música e a respiração. Ainda assim, evite mais de ~6 s sem nada mudar (um zoom lento conta como vida, não como evento).
 - Final **sem cauda longa**: a música desce com a última frase.
 

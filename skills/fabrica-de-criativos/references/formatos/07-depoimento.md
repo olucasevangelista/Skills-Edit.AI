@@ -36,7 +36,7 @@ Uma pessoa **falando direto para a câmera**, em **plano fechado**, com **legend
 ## Cortes e ritmo
 
 - **Remova pausas e trechos desnecessários** ("é...", repetições, reinícios), mas **preserve a naturalidade**: não deixe a voz robótica.
-- **Emenda com sobreposição** em todos os cortes (`cortes.md`); a **pausa emocional** (uma risada, um silêncio antes de uma frase importante) **se mantém**.
+- **Emenda com sobreposição** em todos os cortes (`cortes.md`); a **pausa emocional** (uma risada, um silêncio antes de uma frase importante) **se mantém**. Na limpeza da fala (`limpar-a-fala.md`) use `--estilo aula` ou `suave`: o `curto` deixa a voz apressada.
 - Evento novo (insert, zoom, texto) a cada ~2 a 3 s; o formato é **mais calmo** que os de resposta direta.
 
 ## Texto e legenda

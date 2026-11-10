@@ -19,7 +19,8 @@ Precisam de **Python 3.10+** (só biblioteca padrão) e **FFmpeg** com `ffprobe`
 | Script | Para quê |
 |---|---|
 | `diagnosticar.py` | formato, volume, fala e avisos do arquivo bruto |
-| `planejar_cortes.py` | acha as pausas pelo volume, remove os erros indicados e calcula as emendas |
+| `achar_repeticoes.py` | aponta takes repetidos na transcrição e sugere o `--remover` |
+| `planejar_cortes.py` | acha as pausas pelo volume (o limiar acompanha o ruído de sala), remove os erros indicados e calcula as emendas |
 | `montar.py` | aplica os cortes e normaliza o volume em -16 LUFS |
 | `verificar.py` | mede duração, sincronia, volume, pausas que sobraram e estalos |
 | `clips.mjs` | renderiza só as janelas com motion de uma composição Remotion transparente (precisa de Node.js e de um projeto Remotion) |

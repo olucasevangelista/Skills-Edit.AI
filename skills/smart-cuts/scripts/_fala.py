@@ -34,11 +34,24 @@ def tokens(texto: str) -> list[str]:
     return [EQUIV.get(t, t) for t in re.findall(r'[a-zà-ú0-9]+', texto.lower())]
 
 
+def percentil(valores: list[float], p: float) -> float:
+    s = sorted(valores)
+    return s[min(len(s) - 1, max(0, int(round(p / 100 * (len(s) - 1)))))]
+
+
+def niveis(env: list[float]) -> tuple[float, float]:
+    """(piso de ruido, nivel da fala) em dB: percentis 10 e 90 do volume medido a cada 10 ms."""
+    return percentil(env, 10), percentil(env, 90)
+
+
 def limiar_auto(env: list[float]) -> float:
-    """Piso de ruido + 12 dB, limitado entre -46 e -38 dB."""
-    s = sorted(env)
-    piso = s[min(len(s) - 1, max(0, int(round(0.10 * (len(s) - 1)))))]
-    return max(-46.0, min(-38.0, piso + 12.0))
+    """Limiar de silencio em dB, entre o piso de ruido e o nivel da fala.
+
+    Piso + 12 dB (ou +40% da distancia ate a fala, em audio ruidoso), nunca abaixo de -46 dB e nunca acima de (fala - 10 dB).
+    O teto NAO e fixo: numa sala com ruido de fundo alto, um teto fixo baixo trata o ruido como fala e nenhuma pausa e cortada."""
+    piso, fala = niveis(env)
+    margem = min(12.0, 0.4 * max(0.0, fala - piso))
+    return min(max(-46.0, piso + margem), fala - 10.0)
 
 
 def faixas_de_fala(env: list[float], limiar: float, fecha: float = 0.06, ilha: float = 0.04) -> list[tuple[float, float]]:

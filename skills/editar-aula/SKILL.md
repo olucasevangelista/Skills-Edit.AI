@@ -44,6 +44,7 @@ Direção para editar uma aula gravada sem improviso: o que limpar, como estrutu
 Cortes e áudio (os dois últimos, a exportação dos motions). Use `python` (Windows) ou `python3` (macOS); precisam de FFmpeg. A saída vai sempre para outra pasta e o original não é alterado.
 
 - `python <skill>/scripts/diagnosticar.py aula.mp4` mostra formato, volume e avisos.
+- `python <skill>/scripts/achar_repeticoes.py transcricao.json` aponta takes repetidos e sugere o que remover (confirme lendo; ele não ouve o áudio).
 - `python <skill>/scripts/planejar_cortes.py aula.mp4 --saida trabalho --remover "62-71.5,120-131"` planeja os cortes (os tempos podem vir da transcrição: o script os alinha ao som real).
 - `python <skill>/scripts/montar.py trabalho/cortes.json --saida trabalho` gera `aula_limpa.mp4`.
 - `python <skill>/scripts/verificar.py trabalho/aula_limpa.mp4 --timeline trabalho/timeline.json` mede duração, volume, pausas e estalos.

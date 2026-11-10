@@ -49,7 +49,7 @@ Também aceita uma **pasta** com os ganchos (`--ganchos pasta_dos_ganchos`).
 **Limites a conhecer:**
 
 - O corpo e os ganchos precisam ter **imagem e áudio**. Gancho sem voz detectada usa o arquivo inteiro e o script avisa.
-- O corpo deve **começar com a fala** (o script corta o silêncio antes dela).
+- O corpo deve **começar com a fala** (o script corta o silêncio antes dela). Se o corpo ainda tem erros, repetições ou pausas, **limpe-o antes** (`limpeza-da-fala.md`): o `variar_ganchos.py` só junta.
 - Gancho de **outra proporção** entra inteiro, com barras, e o script avisa. Prefira criar o gancho no formato do corpo.
 - O script só **junta**. Criar o gancho é com você (Remotion ou o editor da pessoa).
 - Confira cada variante antes de entregar (`verificador.md`): a emenda e o volume são medidos pelo script, mas o sentido da ponte é seu.

@@ -45,7 +45,7 @@ Um **trecho de podcast ou entrevista** em formato vertical, **sempre com o rosto
 ## Cortes e ritmo
 
 - **Preserve o contexto:** inclua a pergunta que dá sentido à resposta; não corte uma fala no meio de uma ideia nem mude o sentido.
-- **Remova** pausas longas, reinícios e "é..." isolados; **mantenha** a pausa que dá peso a uma frase.
+- **Remova** pausas longas, reinícios e "é..." isolados; **mantenha** a pausa que dá peso a uma frase. Quem limpa é o `limpar-a-fala.md` (estilo `curto` ou `aula`).
 - Evento novo (troca, zoom, insert, texto) a cada **~2 a 2,5 s**; marco grande a cada ~6 a 8 s.
 
 ## Texto e legenda

@@ -33,9 +33,27 @@ class FaixasDeFala(unittest.TestCase):
         self.assertAlmostEqual(f[0][0], 1.0, places=2)
         self.assertAlmostEqual(f[0][1], 4.0, places=2)
 
-    def test_limiar_automatico_fica_entre_menos46_e_menos38(self):
+    def test_limiar_automatico_de_audio_limpo_e_menos46(self):
         self.assertEqual(pc.limiar_auto(env_de([(1, 2)], 5)), -46.0)         # piso muito baixo -> padrao
-        self.assertEqual(pc.limiar_auto([-30.0] * 1000), -38.0)               # piso alto -> teto
+
+    def test_limiar_automatico_acompanha_o_ruido_de_sala(self):
+        # sala ruidosa: o "silencio" esta em -34 dB e a fala em -19 dB. Um teto fixo de -38 dB (o limiar antigo)
+        # deixava o ruido acima do limiar: o arquivo inteiro virava "fala continua" e nenhuma pausa era cortada.
+        env = [-19.0] * 300 + [-34.0] * 300 + [-19.0] * 300 + [-34.0] * 300
+        thr = pc.limiar_auto(env)
+        self.assertGreater(thr, -34.0 + 3)
+        self.assertLess(thr, -19.0 - 8)
+        self.assertEqual(len(pc.faixas_de_fala(env, thr)), 2)
+        self.assertEqual(len(pc.faixas_de_fala(env, max(-46.0, min(-38.0, -34.0 + 12.0)))), 1)   # o limiar antigo achava 1
+
+
+class PalavraSolta(unittest.TestCase):
+    def test_palavra_solta_entre_pausas_corta_com_emenda_curta(self):
+        # uma palavra de 0,08 s entre duas pausas de 0,8 s: antes o corte era desfeito e a pausa ficava inteira
+        plano = pc.planejar(8.0, [(0.5, 3.0), (3.8, 3.88), (4.68, 7.0)], pc.ESTILOS['curto'])
+        self.assertEqual(len(plano['segmentos']), 3, plano['avisos'])
+        self.assertTrue(any('sobreposicao reduzida' in a for a in plano['avisos']))
+        self.assertLess(plano['duracao_final'], 8.0 - 1.0)
 
 
 class Pausas(unittest.TestCase):

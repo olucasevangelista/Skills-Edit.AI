@@ -92,12 +92,13 @@ def verificar_corte(c: dict, pasta: Path, transcricoes: Path | None, a: argparse
         problemas.append(f'{c["id"]}: pico de {pico:.1f} dBFS (risco de distorcer).')
 
     env = _ff.envelope_db(video)
+    pausa_max = a.pausa_max if a.pausa_max is not None else (round(c['pausa_min'] + 0.15, 2) if c.get('pausa_min') else 0.8)
     faixas = _fala.faixas_de_fala(env, _fala.limiar_auto(env), fecha=0.12, ilha=0.05)
     pausas = [faixas[i + 1][0] - faixas[i][1] for i in range(len(faixas) - 1)]
-    longas = [(faixas[i][1], p) for i, p in enumerate(pausas) if p > a.pausa_max]
-    linhas.append(f'- Maior pausa: {max(pausas) if pausas else 0:.2f} s | acima de {a.pausa_max:g} s: {len(longas)}')
+    longas = [(faixas[i][1], p) for i, p in enumerate(pausas) if p > pausa_max]
+    linhas.append(f'- Maior pausa: {max(pausas) if pausas else 0:.2f} s | acima de {pausa_max:g} s: {len(longas)}')
     if longas:
-        problemas.append(f'{c["id"]}: {len(longas)} pausa(s) acima de {a.pausa_max:g} s (primeira em {_ff.mmss(longas[0][0])}).')
+        problemas.append(f'{c["id"]}: {len(longas)} pausa(s) acima de {pausa_max:g} s (primeira em {_ff.mmss(longas[0][0])}).')
 
     ruins = [(e['t'], s) for e in c['emendas'] if (s := estalo_na_emenda(video, e['t'])) > a.limite_estalo]
     linhas.append(f'- Emendas: {len(c["emendas"])} | com estalo provavel: {len(ruins)}')
@@ -131,7 +132,8 @@ def main() -> int:
     ap.add_argument('--transcricoes', type=Path, help='pasta com <id>/transcricao.json de cada corte final')
     ap.add_argument('--so', default='', help='verificar so estes ids (separados por virgula)')
     ap.add_argument('--sem-fala', action='store_true', help='nao confere a fala (so medidas); o corte NAO esta liberado')
-    ap.add_argument('--pausa-max', type=float, default=0.8, help='pausas acima disso sao sobras (padrao 0.8 s)')
+    ap.add_argument('--pausa-max', type=float, help='pausas acima disso sao sobras (padrao: a pausa minima do estilo + 0.15 s, '
+                    'ex.: 0.37 s no estilo curto; 0.8 s se o plano nao trouxer o estilo)')
     ap.add_argument('--lufs', type=float, default=-16.0)
     ap.add_argument('--limite-estalo', type=float, default=0.35, help='salto de amostra (fundo de escala) que conta como estalo')
     a = ap.parse_args()

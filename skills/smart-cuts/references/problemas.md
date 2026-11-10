@@ -8,8 +8,8 @@
 | Transcrição inventou texto (mesma palavra repetida, "1. 1. 1.", texto que ninguém falou, geralmente em música ou silêncio longo) | Ouça o trecho e transcreva só ele de novo, isolado |
 | Transcrição omitiu uma frase repetida | O Whisper engole repetição. Transcreva o trecho isolado antes de decidir o corte |
 | Grafia errada de marca, sigla ou gíria | Confira no checkpoint. Para o corte, só importa no texto esperado de `verificar.py`; para a legenda, corrija a escrita no Remotion |
-| `Nao encontrei fala ... (volume abaixo do limiar)` | Áudio baixo: `--limiar -50`. Ruído de fundo alto: `--limiar -42` |
-| Pausas ainda grandes no corte | Ruído de fundo subiu o piso: `--limiar -42` ou limpe o áudio antes |
+| `Nao encontrei fala ... (volume abaixo do limiar)` | Áudio baixo: `--limiar -50` |
+| Pausas ainda grandes no corte | Ruído de fundo alto: o limiar automático acompanha o ruído, mas se o planejador avisar *muito ruído* ou *fala contínua*, repita com `--limiar` **mais alto** (menos negativo, por exemplo `-30`: o ruído tem de ficar abaixo do limiar) ou limpe o áudio antes |
 | Corte comendo o começo de uma palavra | Fala muito suave: `--limiar -50` |
 | Corte tem estalo na emenda | Aviso do `verificar.py`; monte de novo e, se persistir, mexa em `emendas` para uma pausa mais limpa |
 | Volume fora do alvo | `montar.py` normaliza; rode de novo (`--lufs`) |

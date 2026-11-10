@@ -133,6 +133,7 @@ def montar_corte(corte: dict, fontes: dict, infos: dict, a: argparse.Namespace, 
     emendas = [dict(t=s['final_ini'], tipo=ant['tipo'], sobreposicao=ant['d'])
                for s, ant in zip(segs[1:], segs)]
     return dict(id=cid, estilo=corte['estilo'], gancho=corte['gancho'], porque=corte.get('porque', ''), arquivo=saida.name,
+                pausa_min=(corte.get('parametros') or {}).get('pausa_min'),
                 duracao=round(total, 3), fps=fps, largura=w, altura=h, texto=corte['texto'],
                 palavras=corte['palavras'], palavras_origem='estimadas a partir do tempo da transcricao do bruto: '
                 'para a legenda, transcreva o corte final e use esses tempos', emendas=emendas, **corte.get('extras', {}))

@@ -79,7 +79,7 @@ Estética de **notícia rápida de rede social**: o **vídeo da pessoa em tela c
 
 ## Estruturas e exemplos
 
-**Código para reaproveitar:** `assets/componentes/MancheteNoticia.tsx` é a manchete (caixa branca, texto em caixa alta, etiqueta opcional) como componente do Remotion, com as duas entradas (revelação da esquerda para a direita e deslize) e a caixa como um retângulo único encostado na borda esquerda, como no exemplo (a prop `x` a recua para as margens; `forma: "linhas"` dá uma caixa por linha). **Copie e ajuste**; é uma peça, não um editor: o vídeo, as etiquetas do topo, a legenda e o resto continuam sendo seus. Testado: compila e a caixa entra antes do texto, que termina ~0,5 s depois.
+**Código para reaproveitar:** `assets/componentes/MancheteNoticia.tsx` é a manchete (caixa branca, texto em caixa alta, etiqueta opcional) como componente do Remotion, com as duas entradas (revelação da esquerda para a direita e deslize) e a caixa como um retângulo único **dentro das margens de segurança** (a prop `x` a leva até a borda, só se pedirem; `forma: "linhas"` dá uma caixa por linha). **Copie e ajuste**; é uma peça, não um editor: o vídeo, as etiquetas do topo, a legenda e o resto continuam sendo seus. Testado: compila e a caixa entra antes do texto, que termina ~0,5 s depois.
 
 Quadro de demonstração: `references/exemplos/04-noticia.jpg` (manchete em caixa branca, etiquetas no topo, sem legenda). Mistura bem com tela cheia: use a manchete como gancho e passe para outro modo, ou deixe a faixa voltar nos pontos de virada.
 

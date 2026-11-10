@@ -14,7 +14,7 @@ Depois, no chat do agente, chame `/creative-lab` e diga o que quer ("edita esse 
 
 ## O que precisa
 
-Só o script precisa de **Python 3.10+** (só biblioteca padrão) e **FFmpeg** com `ffprobe` (`winget install Gyan.FFmpeg` no Windows, `brew install ffmpeg` no macOS). O resto é direção em texto.
+Só os scripts precisam de **Python 3.10+** (só biblioteca padrão) e **FFmpeg** com `ffprobe` (`winget install Gyan.FFmpeg` no Windows, `brew install ffmpeg` no macOS). O resto é direção em texto.
 
 ## Conteúdo
 
@@ -28,7 +28,10 @@ Só o script precisa de **Python 3.10+** (só biblioteca padrão) e **FFmpeg** c
 | `references/inserts-texto-e-zonas.md` | inserts, legendas, zonas seguras, logos |
 | `references/conformidade.md` | prova honesta, antes e depois, promessas sensíveis |
 | `references/verificador.md` | auditoria do anúncio |
+| `references/limpeza-da-fala.md` | da gravação bruta ao `limpo.mp4`: melhor take, erros, silêncios, emendas, verificação |
 | `scripts/variar_ganchos.py` | junta cada gancho ao corpo, com emenda por sobreposição, no mesmo volume, e gera `matriz.csv` |
+| `scripts/planejar_cortes.py`, `montar.py`, `verificar_cortes.py` | limpam a fala do bruto (pausas encurtadas, takes removidos, emenda por sobreposição) e medem o resultado |
+| `scripts/achar_repeticoes.py` | aponta tentativas repetidas na transcrição e sugere o que remover |
 
 ## O script
 
@@ -42,7 +45,8 @@ Gera `anuncio__g1.mp4`, `anuncio__g2.mp4` e `matriz.csv`. O corpo é codificado 
 
 | Item | Situação |
 |---|---|
-| Testes automáticos do script (11) | Passando no Windows 11, com mídia sintética (cada trecho com um tom e uma cor) |
+| Limpeza da fala (`tests/test_cortes.py`, 17 testes) | Passando, com áudio sintético em duas condições de ruído e controles negativos (o verificador reprova um arquivo que ficou com pausas; o detector não agrupa takes diferentes). O limiar automático antigo tratava o ruído de sala como fala e não cortava nenhuma pausa: corrigido (também no `variar_ganchos.py`). **Não testado em gravação humana com ruído real**; o detector de repetições não foi validado em transcrições reais com retakes |
+| Testes automáticos do `variar_ganchos.py` (11) | Passando no Windows 11, com mídia sintética (cada trecho com um tom e uma cor) |
 | Sobreposição | Medida: a imagem e o áudio do corpo entram com ~0,03 s de diferença e ~0,09 s antes de a fala do gancho acabar. Um controle com sobreposição mínima reprova no mesmo teste |
 | Volume | As variantes sintéticas ficaram em −13,7 a −13,8 LUFS (alvo −14), com menos de 0,2 dB de diferença entre elas |
 | Corpo | O mesmo quadro do corpo é idêntico em todas as variantes; gancho de outra proporção sai no tamanho do corpo; nomes e `matriz.csv` conferidos |

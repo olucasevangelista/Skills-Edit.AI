@@ -30,11 +30,20 @@ ESTILOS = {
 }
 
 
+def niveis(env: list[float]) -> tuple[float, float]:
+    """(piso de ruido, nivel da fala) em dB: percentis 10 e 90 do volume medido a cada 10 ms."""
+    return _ff.percentil(env, 10), _ff.percentil(env, 90)
+
+
 def limiar_auto(env: list[float]) -> float:
-    """Piso de ruido + 12 dB, limitado entre -46 e -38 dB. (Um limiar relativo ao piso sozinho fica sensivel
-    demais em audio muito limpo; -46 dB funcionou bem nos testes.)"""
-    piso = _ff.percentil(env, 10)
-    return max(-46.0, min(-38.0, piso + 12.0))
+    """Limiar de silencio em dB, entre o piso de ruido e o nivel da fala.
+
+    Parte do piso + 12 dB (ou +40% da distancia ate a fala, se o audio for ruidoso), nunca abaixo de -46 dB (audio muito
+    limpo) e nunca acima de (fala - 10 dB). O limite de cima NAO e fixo: numa sala com ruido de fundo alto, um limiar
+    fixo baixo demais enxerga o ruido como fala e nenhuma pausa e cortada."""
+    piso, fala = niveis(env)
+    margem = min(12.0, 0.4 * max(0.0, fala - piso))
+    return min(max(-46.0, piso + margem), fala - 10.0)
 
 
 def faixas_de_fala(env: list[float], limiar: float, fecha: float = 0.12, ilha: float = 0.05) -> list[tuple[float, float]]:
@@ -126,7 +135,7 @@ def planejar(duracao: float, faixas, params: dict, remocoes=None, alinhar: bool 
         cauda = max(0.0, G + d - FOLGA)      # quanto do silencio/decaimento do trecho anterior fica
         if tipo == 'pausa' and cauda + FOLGA >= gap:
             continue                         # nada a remover
-        cortes.append(dict(a=a, b=b, tipo=tipo, cauda=cauda, d=d))
+        cortes.append(dict(a=a, b=b, tipo=tipo, cauda=cauda, d=d, G=G, gap=gap))
 
     def montar_segmentos(cortes_):
         cut_after = {c['a']: c for c in cortes_}
@@ -144,20 +153,39 @@ def planejar(duracao: float, faixas, params: dict, remocoes=None, alinhar: bool 
         return segs
 
     segs = montar_segmentos(cortes)
-    # trechos curtos demais nao comportam sobreposicao dos dois lados: junta com o vizinho (desfaz o corte)
-    mudou = True
-    while mudou and len(segs) > 1:
-        mudou = False
+    # Trecho curto (uma palavra solta entre duas pausas) nao comporta a sobreposicao dos dois lados. Antes de desfazer
+    # o corte (o que deixa a pausa original inteira, perceptivel), REDUZ a sobreposicao ate o minimo (D_MIN). So junta
+    # com o vizinho se nem assim couber.
+    D_MIN, reduzidos, unidos = 0.04, set(), []
+    for _ in range(400):
+        ajustou = False
         for i, s in enumerate(segs):
-            d_ant = segs[i - 1]['d'] if i else 0.0
-            minimo = 2 * max(s['d'], d_ant) + 0.06
-            if s['fim'] - s['ini'] < minimo:
-                alvo = s['_cut'] if s['_cut'] else segs[i - 1]['_cut']
+            c_dep, c_ant = s['_cut'], (segs[i - 1]['_cut'] if i else None)
+            d_max = max(c_dep['d'] if c_dep else 0.0, c_ant['d'] if c_ant else 0.0)
+            permitido = (s['fim'] - s['ini'] - 0.06) / 2
+            if permitido >= d_max or (c_dep is None and c_ant is None):
+                continue
+            if permitido >= D_MIN:
+                for c in (c_dep, c_ant):
+                    if c and c['d'] > permitido:
+                        c['d'] = permitido
+                        c['cauda'] = max(0.0, c['G'] + permitido - FOLGA)
+                        reduzidos.add(id(c))
+            else:
+                alvo = c_dep or c_ant
                 cortes = [c for c in cortes if c is not alvo]
-                segs = montar_segmentos(cortes)
-                avisos.append('Um trecho muito curto foi unido ao vizinho (sem corte ali).')
-                mudou = True
-                break
+                unidos.append((faixas[alvo['a']][1], alvo['gap']))
+            segs = montar_segmentos(cortes)
+            ajustou = True
+            break
+        if not ajustou:
+            break
+    if reduzidos:
+        avisos.append(f'{len(reduzidos)} corte(s) com sobreposicao reduzida em trecho curto (palavra solta entre pausas): a pausa foi cortada '
+                      'mesmo assim, com emenda mais curta.')
+    for t, g in unidos:
+        avisos.append(f'Trecho curtissimo em {_ff.mmss(t)}: nao coube corte ali e a pausa de {g:.2f} s ficou como no original. '
+                      'Confira de ouvido; se incomodar, remova esse trecho com --remover.')
 
     for s in segs:
         s.pop('_cut', None)
@@ -241,10 +269,19 @@ def main() -> int:
         if val is not None:
             params[chave] = val
     faixas = faixas_de_fala(env, thr)
+    piso, fala = niveis(env)
     plano = planejar(info['duracao'], faixas, params, parse_remocoes(a.remover), alinhar=not a.sem_alinhar)
 
+    cobertura = sum(f1 - f0 for f0, f1 in faixas) / max(1e-9, info['duracao'])
+    if info['duracao'] > 15 and cobertura > 0.97:
+        plano['avisos'].insert(0, 'O arquivo inteiro foi tratado como fala continua (nenhuma pausa achada): quase sempre e ruido de '
+                                  'fundo alto. Tente --limiar com um valor mais alto (ex.: -30) ou confira o audio.')
+    if fala - piso < 12.0:
+        plano['avisos'].insert(0, f'Audio com muito ruido de fundo (piso {piso:.0f} dB, fala {fala:.0f} dB): a deteccao de pausas fica menos '
+                                  'precisa. Confira o resultado de ouvido e, se preciso, ajuste com --limiar.')
     a.saida.mkdir(parents=True, exist_ok=True)
     out = dict(video=str(a.video.resolve()), duracao_bruta=info['duracao'], estilo=a.estilo, limiar_db=round(thr, 1),
+               piso_db=round(piso, 1), fala_db=round(fala, 1),
                parametros=params, **plano)
     (a.saida / 'cortes.json').write_text(json.dumps(out, ensure_ascii=False, indent=1), encoding='utf-8')
     (a.saida / 'plano_cortes.md').write_text(relatorio_md(str(a.video), info['duracao'], thr, a.estilo, params, plano), encoding='utf-8')

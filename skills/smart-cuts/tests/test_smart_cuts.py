@@ -97,6 +97,17 @@ def tempos_de_entrada_e_saida(mp4: Path):
 
 
 class Puro(unittest.TestCase):
+    def test_limiar_acompanha_o_ruido_de_sala(self):
+        # sala ruidosa: o "silencio" esta em -34 dB e a fala em -19 dB. Com o teto fixo antigo (-38 dB) o ruido ficava
+        # acima do limiar, o arquivo inteiro virava "fala continua" e nenhuma pausa era achada.
+        env = [-19.0] * 300 + [-34.0] * 300 + [-19.0] * 300 + [-34.0] * 300
+        thr = _fala.limiar_auto(env)
+        self.assertGreater(thr, -34.0 + 3)
+        self.assertLess(thr, -19.0 - 8)
+        self.assertEqual(len(_fala.faixas_de_fala(env, thr)), 2)
+        self.assertEqual(len(_fala.faixas_de_fala(env, max(-46.0, min(-38.0, -34.0 + 12.0)))), 1)   # o antigo achava 1
+        self.assertEqual(_fala.limiar_auto([-62.0] * 300 + [-19.0] * 300 + [-62.0] * 300 + [-19.0] * 300), -46.0)   # limpo
+
     def test_faixas_de_fala_separam_pausa_de_60ms(self):
         env = [-80.0] * 300
         for i in range(50, 100):

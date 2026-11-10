@@ -2,7 +2,7 @@
 """Verifica o video limpo medindo (nao confiando): duracao, volume, pausas que sobraram, estalos nas emendas e quadros.
 
 Uso:
-  python verificar.py pasta/aula_limpa.mp4 --timeline pasta/timeline.json [--pausa-max 0.8]
+  python verificar.py pasta/aula_limpa.mp4 --timeline pasta/timeline.json [--pausa-max 0.37]
 Gera relatorio_verificacao.md ao lado do video e sai com codigo 0 (tudo certo) ou 1 (ha problemas).
 """
 from __future__ import annotations
@@ -46,12 +46,15 @@ def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument('video', type=Path)
     ap.add_argument('--timeline', type=Path, required=True)
-    ap.add_argument('--pausa-max', type=float, default=0.8, help='pausas acima disso sao consideradas sobras (padrao 0.8 s)')
+    ap.add_argument('--pausa-max', type=float, help='pausas acima disso sao sobras (padrao: a pausa minima do estilo + 0.15 s, '
+                    'ex.: 0.37 s no estilo curto; 0.8 s se o timeline nao trouxer o estilo)')
     ap.add_argument('--lufs', type=float, default=-16.0)
     ap.add_argument('--limite-estalo', type=float, default=0.35, help='salto de amostra (fundo de escala) a partir do qual conta como estalo')
     a = ap.parse_args()
 
     tl = json.loads(a.timeline.read_text(encoding='utf-8'))
+    if a.pausa_max is None:
+        a.pausa_max = round(tl['pausa_min'] + 0.15, 2) if tl.get('pausa_min') else 0.8
     problemas: list[str] = []
     linhas = [f'# Verificacao: {a.video.name}', '']
 

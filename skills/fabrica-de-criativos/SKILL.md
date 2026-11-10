@@ -1,6 +1,6 @@
 ---
 name: fabrica-de-criativos
-description: Fábrica de Criativos - guia de edição de criativos de anúncio em vídeo em 16 formatos (tela dividida, fundo verde, post de rede social, notícia, professor, motion design, depoimento, react, videochamada, corte de podcast, telejornal, tutorial de tela, conversa de chat, antes e depois, cinema e caixinha de pergunta). Dá direção, estruturas possíveis e exemplos para você editar no Remotion, misturando formatos e adaptando à oferta, à narrativa e à marca. Use sempre que pedirem para editar um criativo ou anúncio em um desses formatos, fazer versões ou variações, ou o mesmo vídeo em vários formatos, ou citarem estilo choquei, jornal nacional, meet, whatsapp ou react. Os scripts usam FFmpeg e Python.
+description: Fábrica de Criativos - guia de edição de criativos de anúncio em vídeo em 16 formatos (tela dividida, fundo verde, post de rede social, notícia, professor, motion design, depoimento, react, videochamada, corte de podcast, telejornal, tutorial de tela, conversa de chat, antes e depois, cinema e caixinha de pergunta). Dá direção, estruturas possíveis e exemplos para você editar no Remotion, misturando formatos e adaptando à oferta, à narrativa e à marca. Use sempre que pedirem para editar um criativo ou anúncio em um desses formatos, fazer versões ou variações, ou o mesmo vídeo em vários formatos, ou citarem estilo choquei, jornal nacional, meet, whatsapp ou react. Também limpa a gravação falada antes da montagem - tira silêncios, erros e takes repetidos escolhendo o melhor, com emenda por sobreposição - e serve para pedidos como tirar os silêncios. Os scripts usam FFmpeg e Python.
 ---
 
 # Fábrica de Criativos
@@ -21,6 +21,7 @@ Um **guia** para editar criativos de anúncio em vídeo, em vários formatos, co
 ## Receita rápida
 
 - **Formato primeiro** (ou mistura): abra o arquivo dele em `references/formatos/`. Os arquivos de `references/base/` valem para todos.
+- **Limpe a fala primeiro** (`references/base/limpar-a-fala.md`): escolha a melhor tentativa entre as repetições e tire erros e silêncios com os scripts, que medem o áudio. Entre uma frase e outra sobra no máximo ~0,1 s: **silêncio de 0,5 a 1 s que sobrou é defeito**. Depois transcreva o `limpo.mp4` e monte o formato em cima.
 - **Cortes:** emenda com sobreposição, sem respiro e sem áudio cortado seco: o próximo take entra colado na voz, **imagem e áudio juntos**, antes de a fala anterior acabar (~0,1 a 0,25 s).
 - **Ritmo:** evento visual novo nos primeiros 5 s a cada ~1 a 1,5 s; depois, no máximo a cada ~2,5 s (cada formato diz as exceções).
 - **Legenda** simples e constante, fora da base; texto e rosto dentro das zonas seguras (topo ~270 px, base ~670 px, laterais ~90 px; confirme na plataforma).
@@ -92,7 +93,7 @@ Se estiverem disponíveis, use-as; se não estiverem, **siga o procedimento embu
 | Tarefa | Skill, se disponível |
 |---|---|
 | Transcrever com tempo por palavra | `transcrever-groq` |
-| Escolher trechos, tirar loops e emendar | `smart-cuts` |
+| Escolher os melhores momentos de um vídeo longo e transformá-los em cortes | `smart-cuts` |
 | Motion e animações explicativas | `motion-designer` |
 | Regras de gancho, retenção, resultado, mecanismo e conformidade de anúncio | `creative-lab` |
 | Medir uma referência de estilo | `copystyle` |
@@ -118,7 +119,8 @@ O mesmo material em vários formatos, ou o mesmo corpo com vários ganchos: **um
 - `references/exemplos/README.md`: quadros de criativos reais (misturas completas e um por formato), para ver estrutura e ritmo.
 - `references/base/mistura-de-formatos.md`: como misturar formatos e alternar modos.
 - `references/base/fluxo.md`: do material ao arquivo final.
-- `references/base/cortes.md`: emenda com sobreposição, pausas e ritmo.
+- `references/base/limpar-a-fala.md`: da gravação bruta ao `limpo.mp4` (melhor take, erros, silêncios, emendas, verificação).
+- `references/base/cortes.md`: a regra da emenda com sobreposição, pausas e ritmo.
 - `references/base/legenda-e-zonas.md`: legenda, texto, inserts, zonas seguras.
 - `references/base/materiais.md`: o que pedir e o que buscar, e como registrar.
 - `references/base/honestidade.md`: prova real, dramatização, formatos que imitam uma linguagem.
@@ -126,6 +128,6 @@ O mesmo material em vários formatos, ou o mesmo corpo com vários ganchos: **um
 - `references/base/revisao.md`: revisão e checklist de saída.
 - `assets/marcas/choquei.png`: o logo da Choquei, para o formato 03 (uso por conta de quem anuncia; veja o arquivo do formato).
 - `assets/componentes/`: peças de código do Remotion para reaproveitar (copie e adapte): `CaixaPergunta.tsx` (formato 16), `MancheteNoticia.tsx` (formato 04), `EstudioTelejornal.tsx` (formato 11) e `TakesSobrepostos.tsx` (a emenda com sobreposição, de `base/cortes.md`).
-- `scripts/verificar_saida.py`: mede o arquivo final. `scripts/recortar_pessoa.py`: recorta a pessoa de qualquer fundo com RVM e grava onde está a cabeça (formatos 02 e 05), como material de apoio.
+- `scripts/planejar_cortes.py`, `montar.py`, `verificar_cortes.py` e `achar_repeticoes.py`: limpam a fala do bruto e verificam o resultado (`limpar-a-fala.md`). `scripts/verificar_saida.py`: mede o arquivo final. `scripts/recortar_pessoa.py`: recorta a pessoa de qualquer fundo com RVM e grava onde está a cabeça (formatos 02 e 05), como material de apoio.
 
 Os números (zonas, ritmo, medidas de composição) são **pontos de partida**: se a referência da pessoa pede outro, siga a referência. **Nenhuma recomendação aqui foi medida em desempenho de anúncio.**

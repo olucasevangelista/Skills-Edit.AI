@@ -157,7 +157,9 @@ def main() -> int:
         saida = a.saida / 'aula_limpa.m4a'
         _ff.rodar([ff, '-v', 'error', '-y', '-i', str(tmp / 'final.wav'), '-c:a', 'aac', '-b:a', '192k', str(saida)])
 
-    mapa = dict(video_bruto=str(video), arquivo=str(saida), fps=fps, largura=w if tem_video else 0, altura=h if tem_video else 0, duracao_final=round(total, 3),
+    par = plano.get('parametros', {})
+    mapa = dict(estilo=plano.get('estilo'), pausa_min=par.get('pausa_min'), pausa_final=par.get('pausa_final'),
+                video_bruto=str(video), arquivo=str(saida), fps=fps, largura=w if tem_video else 0, altura=h if tem_video else 0, duracao_final=round(total, 3),
                 trechos=[dict(bruto_ini=s['ini'], bruto_fim=s['fim'], final_ini=round(T[i], 4), sobreposicao_depois=s['d'],
                               tipo_corte_depois=s['tipo']) for i, s in enumerate(segs)])
     (a.saida / 'timeline.json').write_text(json.dumps(mapa, ensure_ascii=False, indent=1), encoding='utf-8')

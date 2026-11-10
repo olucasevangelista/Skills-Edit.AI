@@ -16,6 +16,8 @@ Não remova hesitação natural curta, respiração entre ideias nem pausas de �
 
 Se o erro está no **meio de uma fala contínua**, sem pausa nas bordas, o script avisa que não conseguiu alinhar. Ajuste os tempos olhando o volume, ou use `--sem-alinhar` (corta exatamente onde você disse).
 
+**Para achar takes repetidos** (a pessoa errou e repetiu a frase várias vezes), rode `python <skill>/scripts/achar_repeticoes.py transcricao.json`: ele lista tentativas que começam igual e recomeços no meio da frase, sugere ficar com a **última completa** e imprime o `--remover`. É uma pista, não uma decisão: ele não ouve o áudio. Leia as tentativas, confirme (em dúvida, pergunte qual é a certa) e só então use o `--remover`.
+
 Se a transcrição desconfiar de falta (poucas palavras para o tempo), transcreva o trecho isolado antes de decidir: o Whisper às vezes **engole uma frase repetida** e o plano ficaria errado.
 
 ## Estilos de corte
@@ -46,7 +48,7 @@ Todo corte segue o mesmo desenho: o trecho novo entra **colado no começo da fal
 | Sintoma | O que fazer |
 |---|---|
 | Cores lavadas | Vídeo HDR; o diagnóstico avisa. Se possível, regrave em SDR |
-| Pausas ainda grandes | Ruído de fundo alto subiu o piso: use `--limiar -42` ou limpe o áudio antes |
+| Pausas ainda grandes | Ruído de fundo alto: o limiar automático já acompanha o ruído, mas se o plano avisar *muito ruído* ou *fala contínua*, repita com `--limiar` **mais alto** (menos negativo, por exemplo `-30`: o ruído tem de ficar abaixo do limiar) ou limpe o áudio antes |
 | Corte comendo o começo de uma palavra | Fala muito suave: use `--limiar -50` |
 | "Nao encontrei fala" | Volume baixo demais: `--limiar -55` |
 | Volume final fora de -16 LUFS | `verificar.py` mostra; rode `montar.py` de novo (ele normaliza) |
@@ -54,4 +56,4 @@ Todo corte segue o mesmo desenho: o trecho novo entra **colado no começo da fal
 
 ## Verificação
 
-`verificar.py` **mede** o resultado: duração contra o plano, sincronia entre vídeo e áudio, volume (alvo -16 LUFS), pausas que sobraram e estalos nas emendas. Depois disso, o melhor teste de conteúdo é **transcrever o vídeo já limpo**: se uma frase importante sumiu ou apareceu duplicada, a transcrição mostra, e os tempos finais exatos já servem para posicionar os motions.
+`verificar.py` **mede** o resultado: duração contra o plano, sincronia entre vídeo e áudio, volume (alvo -16 LUFS), pausas que sobraram (acima da pausa mínima do estilo + 0,15 s: 0,37 s no `curto`, 0,70 s no `aula`) e estalos nas emendas. Silêncio de meio segundo que sobrou quebra o ritmo: se o verificador acusar, corrija e rode de novo. Depois disso, o melhor teste de conteúdo é **transcrever o vídeo já limpo**: se uma frase importante sumiu ou apareceu duplicada, a transcrição mostra, e os tempos finais exatos já servem para posicionar os motions.
