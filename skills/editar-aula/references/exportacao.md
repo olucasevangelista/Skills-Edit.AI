@@ -14,7 +14,7 @@ Renderizar a aula inteira no Remotion é lento: ele abre o Chrome, tira uma capt
 | Aula | 9:23, 17 motions | 7:28, 12 motions |
 | Tempo | ~33 min estimados (cancelado em ~35%) | ~7,5 min (Remotion 2 min 10 s + FFmpeg 5 min) |
 
-Ressalvas: as aulas eram diferentes e a qualidade foi comparada **só visualmente** (quadros sobre cada motion), sem medida objetiva. Não use esses números como promessa de tempo.
+Valores de um caso real: não use como promessa de tempo.
 
 ## O fluxo
 

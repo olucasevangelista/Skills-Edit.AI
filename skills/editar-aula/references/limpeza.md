@@ -25,18 +25,17 @@ Se a transcrição desconfiar de falta (poucas palavras para o tempo), transcrev
 | Estilo | Pausa a partir de | Fica com | Para quê |
 |---|---|---|---|
 | `aula` (padrão) | 0,55 s | 0,30 s | fala natural, didática |
-| `curto` | 0,22 s | 0,08 s | ritmo rápido, vídeos curtos |
+| `curto` | 0,22 s | some (a fala seguinte entra sobre a anterior) | ritmo rápido, vídeos curtos |
 | `suave` | 0,90 s | 0,55 s | entrevista, tom mais calmo |
 
-Ajustes finos: `--pausa-minima`, `--pausa-final`, `--sobreposicao-emenda`, `--emenda-gap`, `--limiar` (silêncio, em dB).
+Ajustes finos: `--pausa-minima`, `--pausa-final` (negativo = a pausa some e as vozes se sobrepõem), `--sobreposicao-emenda`, `--emenda-gap` (negativo = as vozes se sobrepõem, em s: 0,10 s são 3 quadros), `--limiar` (silêncio, em dB).
 
 ## Emenda por sobreposição
 
-Todo corte segue o mesmo desenho: o trecho novo entra **colado no começo da fala** (sem respiro nem silêncio antes) e **começa ainda durante o finalzinho do anterior**, com a imagem trocando junto com o áudio novo. A frase anterior termina inteira e a próxima já está falando.
+Todo corte segue a regra de `emenda.md`: imagem e áudio do trecho novo entram **juntos**, antes de o anterior acabar. No script:
 
-- **Em remoção de erro** (emenda), as vozes se sobrepõem de propósito por ~0,1 s e o clipe novo entra 0,22 s antes do fim do anterior.
-- **Em pausa encurtada,** a sobreposição acontece sobre o silêncio (0,12 s): é só uma emenda sem estalo.
-- No áudio, o trecho anterior desce suavemente durante a sobreposição e o novo entra com um fade de 30 ms, só para evitar estalo.
+- **Em remoção de erro** (emenda): a voz do trecho novo se sobrepõe à anterior por 0,12 s no estilo `aula` (3 a 4 quadros). Com `--estilo curto` são 0,15 s.
+- **Em pausa encurtada** no estilo `aula`, a pausa que fica (0,30 s) é emendada sobre o silêncio (0,12 s): só uma emenda sem estalo. No estilo `curto` a pausa some e a emenda tem voz sobreposta.
 - Os instantes vêm do **volume do áudio**, não da transcrição.
 
 ## Qualidade

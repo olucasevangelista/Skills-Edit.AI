@@ -46,7 +46,8 @@ Direção para tirar cortes de um vídeo longo com critério: escolher o que val
 ## Referências (abra só o que precisar)
 
 - `references/escolha-de-cortes.md`: o que faz um bom corte, loops e devaneios, compilação de vários trechos, ganchos.
-- `references/emenda.md`: o estilo de emenda por sobreposição e o ritmo das pausas.
+- `references/emenda.md`: a regra da emenda por sobreposição (o desenho, os valores, onde cai).
+- `references/ajustar-emendas.md`: estilos de pausa, opções do planejador e emenda escolhida à mão.
 - `references/regras-de-oficio.md`: fala, voz e áudio, imagem, conteúdo e verdade, checklist de QA.
 - `references/enquadramento.md`: regras do 9:16, como tirar um quadro e medir o rosto, para o Remotion aplicar.
 - `references/plano.md`: formato do `cortes.json` (o que você escreve) e do `plano.json` (o que a skill entrega).

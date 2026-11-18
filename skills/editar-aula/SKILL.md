@@ -50,11 +50,12 @@ Cortes e áudio (os dois últimos, a exportação dos motions). Use `python` (Wi
 - `python <skill>/scripts/verificar.py trabalho/aula_limpa.mp4 --timeline trabalho/timeline.json` mede duração, volume, pausas e estalos.
 - Exportação rápida dos motions: `clips.mjs` e `colar.py` (`references/exportacao.md`).
 
-Os cortes usam emenda por sobreposição: o trecho novo entra colado no começo da fala, sem respiro, e começa ainda no finalzinho do anterior. Detalhes em `references/limpeza.md`.
+Os cortes usam emenda por sobreposição: imagem e áudio do trecho novo entram juntos, colados no começo da fala, antes de o anterior acabar. A regra está em `references/emenda.md` e o uso nos scripts, em `references/limpeza.md`.
 
 ## Referências (abra só o que precisar)
 
 - `references/formatos.md`: o que fazer em cada formato de aula e como não atrapalhar a tela.
+- `references/emenda.md`: a regra da emenda por sobreposição (o desenho, os valores, onde cai).
 - `references/limpeza.md`: o que remover, estilos de corte e problemas comuns.
 - `references/motions.md`: tipos de motion, orçamento e como escolher o que destacar.
 - `references/exportacao.md`: exportação rápida dos motions (só as janelas com motion) e quando não usar.

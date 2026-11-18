@@ -25,13 +25,16 @@ import _fala  # noqa: E402
 
 FOLGA = 0.025        # s antes do primeiro som do trecho novo (para nao comer a consoante)
 FOLGA_INICIO = 0.04  # idem, no comeco do corte
+D_AVISO = 0.20        # s: reduzir a sobreposicao abaixo disso gera aviso
 
 # pausa_min: pausas maiores que isso sao encurtadas | pausa_final: pausa que sobra | sobrep_pausa: sobreposicao ao encurtar
+# Voz do trecho novo sobre a do anterior: de 3 a 6 quadros (0,10 a 0,20 s a 30 fps). pausa_final NEGATIVA = a pausa some e a fala
+# seguinte entra sobre o fim da anterior, com voz na sobreposicao.
 # emenda_gap (negativo = as vozes se sobrepoem) | sobrep_emenda: sobreposicao ao remover trecho | cauda_final: o corte acaba junto da fala
 ESTILOS = {
-    'curto': dict(pausa_min=0.22, pausa_final=0.08, sobrep_pausa=0.12, emenda_gap=-0.10, sobrep_emenda=0.22, cauda_final=0.12),
-    'aula':  dict(pausa_min=0.55, pausa_final=0.30, sobrep_pausa=0.12, emenda_gap=-0.10, sobrep_emenda=0.22, cauda_final=0.15),
-    'suave': dict(pausa_min=0.90, pausa_final=0.55, sobrep_pausa=0.15, emenda_gap=-0.05, sobrep_emenda=0.20, cauda_final=0.20),
+    'curto': dict(pausa_min=0.22, pausa_final=-0.15, sobrep_pausa=0.275, emenda_gap=-0.15, sobrep_emenda=0.275, cauda_final=0.12),
+    'aula':  dict(pausa_min=0.55, pausa_final=0.30, sobrep_pausa=0.12, emenda_gap=-0.12, sobrep_emenda=0.245, cauda_final=0.15),
+    'suave': dict(pausa_min=0.90, pausa_final=0.55, sobrep_pausa=0.15, emenda_gap=-0.10, sobrep_emenda=0.225, cauda_final=0.20),
 }
 
 
@@ -181,7 +184,8 @@ def planejar_corte(corte: dict, ctx: dict[str, SimpleNamespace], params: dict, f
         dmax = min(segs[i]['fim'] - segs[i]['ini'], segs[i + 1]['fim'] - segs[i + 1]['ini']) / 2 - 0.03
         if segs[i]['d'] > dmax:
             segs[i]['d'] = max(0.02, dmax)
-            avisos.append(f'emenda {i}: trecho muito curto, sobreposicao reduzida para {segs[i]["d"]:.2f} s')
+            if segs[i]['d'] < D_AVISO:   # abaixo disso a voz sobreposta fica com menos de 3 quadros
+                avisos.append(f'emenda {i}: trecho muito curto, sobreposicao reduzida para {segs[i]["d"]:.2f} s')
     for s in segs:
         s['ini'], s['fim'], s['d'] = round(s['ini'], 4), round(s['fim'], 4), round(s['d'], 4)
     T, total = calcular_tempos(segs)
@@ -231,7 +235,9 @@ def relatorio_md(plano: dict) -> str:
         pr = c['parametros']
         L += [f'## {c["id"]} [{c["estilo"]}] {c["duracao_final"]:.1f} s', '',
               f'Gancho: {c["gancho"] or "(a definir)"}', '',
-              f'Pausa: estilo {c["estilo_pausa"]} (pausas maiores que {pr["pausa_min"]:.2f} s ficam com {pr["pausa_final"]:.2f} s) | '
+              f'Pausa: estilo {c["estilo_pausa"]} (' + (f'pausas maiores que {pr["pausa_min"]:.2f} s somem, com a voz seguinte sobreposta por {-pr["pausa_final"]:.2f} s'
+                                                      if pr['pausa_final'] < 0 else
+                                                      f'pausas maiores que {pr["pausa_min"]:.2f} s ficam com {pr["pausa_final"]:.2f} s') + ') | '
               f'emendas com {pr["sobrep_emenda"]:.2f} s de sobreposicao (imagem e audio do trecho novo entram juntos)', '']
         if c['porque']:
             L += [f'Por que: {c["porque"]}', '']
@@ -268,9 +274,9 @@ def main() -> int:
     ap.add_argument('--estilo', choices=list(ESTILOS), default='curto', help='ritmo das pausas (padrao curto)')
     ap.add_argument('--limiar', type=float, help='limiar de silencio em dB (padrao: automatico)')
     ap.add_argument('--pausa-minima', type=float)
-    ap.add_argument('--pausa-final', type=float)
+    ap.add_argument('--pausa-final', type=float, help='pausa que sobra, em s; negativo = a pausa some e as vozes se sobrepoem')
     ap.add_argument('--sobreposicao-emenda', type=float)
-    ap.add_argument('--emenda-gap', type=float, help='negativo = as vozes se sobrepoem (padrao -0.10)')
+    ap.add_argument('--emenda-gap', type=float, help='negativo = as vozes se sobrepoem, em s (0.10 s = 3 quadros a 30 fps); o padrao depende do estilo')
     ap.add_argument('--cauda-final', type=float, help='s depois da ultima palavra no fim do corte')
     ap.add_argument('--so', default='', help='planejar so estes ids (separados por virgula)')
     a = ap.parse_args()

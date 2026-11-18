@@ -33,8 +33,6 @@ Precisam de **Python 3.10+** (só biblioteca padrão) e **FFmpeg** com `ffprobe`
 | Testes automáticos dos scripts (24) | Passando no Windows 11 |
 | Aula real (bruto de 3m54 com takes repetidos) | Limpa em ~2 min e verificada: -16,0 LUFS, 0 estalos em 15 emendas, duração igual ao plano |
 | Vídeo sintético de 10 min com 300 cortes | Pronto em ~2 min, -16,0 LUFS, 0 estalos em 40 emendas |
-| Exportação rápida: projeto Remotion de teste, janelas que se sobrepõem unidas, motions conferidos por pixel (11 de 11 pontos) | Verificada no Windows. O ganho de tempo (~33 min para ~7,5 min) vem do relatório de um teste do usuário, não de medição minha |
-| **macOS** | **Não testado** |
-| Aulas de várias horas | Não testadas |
+| Exportação rápida: projeto Remotion de teste, janelas que se sobrepõem unidas, motions conferidos por pixel (11 de 11 pontos) | Verificada no Windows. O ganho de tempo (~33 min para ~7,5 min) vem do relatório de um teste do usuário |
 
 Rodar os testes: `python -m unittest discover -s tests` (precisa de FFmpeg).

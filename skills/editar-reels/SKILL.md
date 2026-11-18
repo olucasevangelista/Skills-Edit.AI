@@ -11,7 +11,7 @@ Uma **estrela norte** para edição de vídeo curto: o que faz reter e quando ap
 
 - **Gancho (0 a 3 s):** logo ou nome do assunto em destaque no 1º segundo (se o vídeo é sobre uma marca ou ferramenta; senão, a palavra-chave) **mais** um texto curto (até ~6 palavras) que **complementa** a fala em vez de repetir: se a fala anuncia a novidade ("o Claude acabou de lançar um recurso"), o texto promete o ganho ou a curiosidade ("Chega de repetir prompt"), nunca reapresenta o anúncio ("Novo recurso do Claude"). Alternativa: tela dividida com a prova (tela, resultado).
 - **Ritmo:** um evento visual novo **a cada no máximo 3 s, ideal ~2 s**. Evento = insert, texto novo, mudança de zoom, corte, tela dividida ou cheia. Legenda e zoom lento sozinhos não contam. Alterne os tipos e ponha um marco grande (tela dividida, tela cheia, texto gigante) a cada ~8 a 10 s.
-- **Cortes entre takes: nada de corte seco nem de respiro.** O próximo take entra colado no começo da fala (sem respiro nem silêncio antes) e já começa durante o finalzinho do anterior (~0,1 a 0,25 s de sobreposição; as vozes se sobrepõem de propósito). A frase anterior termina inteira e a imagem corta junto com o áudio novo. Em todo corte; detalhes em `references/ritmo-e-zoom.md`. **Silêncio de 0,5 a 1 s que sobrou entre as frases é defeito** (quebra o ritmo): meça as pausas no áudio e escolha a melhor tentativa quando o take foi repetido (seção "Silêncios e takes repetidos" do mesmo arquivo).
+- **Cortes entre takes: emenda por sobreposição, em todo corte.** Imagem e áudio do take seguinte entram **juntos**, colados no começo da fala (sem respiro), **antes** de o take anterior acabar: a imagem corta seco por cima e a voz nova se sobrepõe à anterior por 3 a 6 quadros. A frase anterior termina inteira. O desenho e o passo a passo estão em `references/emenda.md`. **Silêncio de 0,5 a 1 s que sobrou entre as frases é defeito** (quebra o ritmo): meça as pausas no áudio e escolha a melhor tentativa quando o take foi repetido (seção "Silêncios e takes repetidos" de `references/ritmo-e-zoom.md`).
 - **Ênfase é relativa:** marque cada trecho como ★ chave, normal ou baixa. ★ = punch-in (~1,12 a 1,2) + texto grande + insert; baixa = volta a 1,0, sem texto nem insert. **Todo zoom tem retorno ao neutro.** ★ em no máximo ~30% do tempo, senão a ênfase se anula.
 - **Insert** ilustra a palavra falada e entra nela (±0,1 s); dura 1 a 2,5 s.
 - **Texto em tela:** fica 0,4 s + 0,3 s por palavra (mínimo 1 s). Zonas seguras em 1080×1920: topo 220 px, base 420 px, lateral direita 120 px livres.
@@ -46,7 +46,8 @@ Peça ou extraia a lista de eventos com tempos, calcule as lacunas e aponte-as p
 ## Referências (abra só se precisar de detalhe; não leia todas por padrão)
 
 - `references/gancho.md`: padrões de gancho visual e como escolher.
-- `references/ritmo-e-zoom.md`: valores de zoom, sincronia, cortes com sobreposição (como fazer em cada junção), tempo de leitura.
+- `references/emenda.md`: a emenda por sobreposição (o desenho, os valores, como fazer em cada junção).
+- `references/ritmo-e-zoom.md`: valores de zoom, sincronia, tempo de leitura, silêncios e takes repetidos.
 - `references/inserts-texto-e-logos.md`: tipos de insert, legendas, zonas seguras, como buscar logos.
 - `references/verificador.md`: auditoria completa, para revisar uma edição existente ou quando pedirem rigor.
 

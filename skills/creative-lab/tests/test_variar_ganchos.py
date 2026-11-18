@@ -124,7 +124,8 @@ class Variar(unittest.TestCase):
             t_video, t_audio, t_fim_g = entrada_do_corpo(self.out / f'anuncio__{nome}.mp4', g['f'])
             self.assertLess(abs(t_video - t_audio), 0.07, f'{nome}: imagem em {t_video:.3f} s e audio em {t_audio:.3f} s precisam entrar juntos')
             self.assertLess(t_audio, t_fim_g - 0.04, f'{nome}: o corpo tem que entrar antes de a fala do gancho acabar')
-            self.assertLess(t_fim_g - t_audio, 0.30, f'{nome}: as vozes se sobrepoem por pouco tempo')
+            sobreposta = t_fim_g - t_audio
+            self.assertTrue(0.10 <= sobreposta <= 0.21, f'{nome}: a voz do corpo deve se sobrepor a do gancho por 3 a 6 quadros, deu {sobreposta:.3f} s')
 
     def test_controle_sem_sobreposicao_reprova(self):
         out = self.tmp / 'sem_sobreposicao'
@@ -135,7 +136,7 @@ class Variar(unittest.TestCase):
     def test_duracao_bate_com_a_calculada(self):
         for linha in ler_matriz(self.out / 'matriz.csv'):
             g = {'g1': G1, 'g2': G2, 'g3': G3}[linha['gancho'].split('.')[0]]
-            esperado = (g['voz'][1] + 0.10 - 0.22) + (CORPO_DUR - (CORPO_VOZ[0] - 0.025))
+            esperado = (g['voz'][1] + 0.10 - 0.275) + (CORPO_DUR - (CORPO_VOZ[0] - 0.025))
             self.assertAlmostEqual(float(linha['duracao_total_s']), esperado, delta=0.15, msg=linha['gancho'])
 
     def test_volume_no_alvo_e_igual_entre_variantes(self):
@@ -147,7 +148,7 @@ class Variar(unittest.TestCase):
     def test_o_corpo_e_identico_em_todas_as_variantes(self):
         def quadro_do_corpo(nome, g):
             fr = frames(self.out / f'anuncio__{nome}.mp4')
-            emenda = g['voz'][1] + 0.10 - 0.22
+            emenda = g['voz'][1] + 0.10 - 0.275
             i = round((emenda + (4.0 - (CORPO_VOZ[0] - 0.025))) * FPS)     # o instante 4,0 s do corpo (branco)
             return hashlib.md5(fr[i]).hexdigest(), fr[i]
         h1, f1 = quadro_do_corpo('g1', G1)

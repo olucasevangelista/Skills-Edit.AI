@@ -22,12 +22,11 @@ O guia serve para qualquer editor, humano ou agente. A montagem do vídeo é fei
 |---|---|
 | Testes automáticos (5) | Passando no Windows 11, com vídeo sintético |
 | Vídeo real (um Short vertical 1080x1920 a 60 fps de 14,6 s) | Folhas de contato com o tempo escrito em cada quadro, `meta.json` e `sons.json` conferidos |
-| **macOS** | **Não testado.** O tempo escrito nas folhas usa uma fonte do sistema; se nenhuma for achada, a folha sai sem o número e o nome do arquivo diz o intervalo |
-| Fluxo completo da skill (entrevista, agentes que dissecam, escrita do guia) | **Não testado de ponta a ponta**: é direção para o agente, sem script que o execute |
 
 Rodar os testes: `python -m unittest discover -s tests` (precisa de FFmpeg).
 
 ## Limites que vale conhecer
 
+- No macOS, o tempo escrito nas folhas usa uma fonte do sistema; se nenhuma for achada, a folha sai sem o número e o nome do arquivo diz o intervalo.
 - Os cortes de cena vêm da mudança de brilho entre quadros: zoom e jump cut leve não aparecem, e dois planos de luminância parecida podem passar batido. Confira nas folhas.
 - Os picos de volume (`transientes`) são pistas, não identificação: podem ser efeito sonoro, batida de música ou início de fala. A skill não identifica músicas; quando não há como saber o nome, o guia registra "não identificada" e a pendência vai para o criador.

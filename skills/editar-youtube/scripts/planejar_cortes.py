@@ -20,13 +20,17 @@ import _ff  # noqa: E402
 
 JANELA = 0.01   # s por amostra do envelope
 FOLGA = 0.025   # s antes do primeiro som do trecho novo (para nao comer a consoante)
+PAUSA_CURTA = 0.08   # s: pausa que fica onde a voz nao cabe sobreposta (palavra solta entre duas pausas)
 
-# pausa_min: pausas maiores que isso sao encurtadas | pausa_final: pausa que sobra | sobrep_pausa: sobreposicao ao encurtar
-# emenda_gap (pode ser negativo = as vozes se sobrepoem) | sobrep_emenda: sobreposicao ao remover um erro
+# Voz do trecho novo sobre a do anterior: de 3 a 6 quadros (0,10 a 0,20 s a 30 fps). A sobreposicao total (sobrep_*) e a voz
+# sobreposta mais a folga (FOLGA) e a cauda do trecho anterior (~0,1 s).
+# pausa_min: pausas maiores que isso sao encurtadas | pausa_final: pausa que sobra (NEGATIVA = a pausa some e a fala seguinte entra
+# sobre o fim da anterior, com voz na sobreposicao) | sobrep_pausa: sobreposicao ao encurtar
+# emenda_gap (negativo = as vozes se sobrepoem, em s) | sobrep_emenda: sobreposicao ao remover um erro
 ESTILOS = {
-    'aula':  dict(pausa_min=0.55, pausa_final=0.30, sobrep_pausa=0.12, emenda_gap=-0.10, sobrep_emenda=0.22),
-    'curto': dict(pausa_min=0.22, pausa_final=0.08, sobrep_pausa=0.12, emenda_gap=-0.10, sobrep_emenda=0.22),
-    'suave': dict(pausa_min=0.90, pausa_final=0.55, sobrep_pausa=0.15, emenda_gap=-0.05, sobrep_emenda=0.20),
+    'aula':  dict(pausa_min=0.55, pausa_final=0.30, sobrep_pausa=0.12, emenda_gap=-0.12, sobrep_emenda=0.245),
+    'curto': dict(pausa_min=0.22, pausa_final=-0.15, sobrep_pausa=0.275, emenda_gap=-0.15, sobrep_emenda=0.275),
+    'suave': dict(pausa_min=0.90, pausa_final=0.55, sobrep_pausa=0.15, emenda_gap=-0.10, sobrep_emenda=0.225),
 }
 
 
@@ -156,7 +160,7 @@ def planejar(duracao: float, faixas, params: dict, remocoes=None, alinhar: bool 
     # Trecho curto (uma palavra solta entre duas pausas) nao comporta a sobreposicao dos dois lados. Antes de desfazer
     # o corte (o que deixa a pausa original inteira, perceptivel), REDUZ a sobreposicao ate o minimo (D_MIN). So junta
     # com o vizinho se nem assim couber.
-    D_MIN, reduzidos, unidos = 0.04, set(), []
+    D_MIN, reduzidos, unidos, com_pausa_curta = 0.04, set(), [], set()
     for _ in range(400):
         ajustou = False
         for i, s in enumerate(segs):
@@ -172,9 +176,17 @@ def planejar(duracao: float, faixas, params: dict, remocoes=None, alinhar: bool 
                         c['cauda'] = max(0.0, c['G'] + permitido - FOLGA)
                         reduzidos.add(id(c))
             else:
-                alvo = c_dep or c_ant
-                cortes = [c for c in cortes if c is not alvo]
-                unidos.append((faixas[alvo['a']][1], alvo['gap']))
+                # a voz nao cabe sobreposta: antes de deixar a pausa inteira, fica uma pausa curta (so onde a pausa ia sumir)
+                voz = [c for c in (c_dep, c_ant) if c and c['tipo'] == 'pausa' and c['G'] < 0]
+                if voz:
+                    for c in voz:
+                        c['G'] = PAUSA_CURTA
+                        c['cauda'] = max(0.0, c['G'] + c['d'] - FOLGA)
+                        com_pausa_curta.add(id(c))
+                else:
+                    alvo = c_dep or c_ant
+                    cortes = [c for c in cortes if c is not alvo]
+                    unidos.append((faixas[alvo['a']][1], alvo['gap']))
             segs = montar_segmentos(cortes)
             ajustou = True
             break
@@ -183,6 +195,9 @@ def planejar(duracao: float, faixas, params: dict, remocoes=None, alinhar: bool 
     if reduzidos:
         avisos.append(f'{len(reduzidos)} corte(s) com sobreposicao reduzida em trecho curto (palavra solta entre pausas): a pausa foi cortada '
                       'mesmo assim, com emenda mais curta.')
+    if com_pausa_curta:
+        avisos.append(f'{len(com_pausa_curta)} corte(s) em palavra curta (solta entre pausas): a voz nao coube sobreposta, '
+                      f'e a pausa ficou com {PAUSA_CURTA:.2f} s em vez de sumir.')
     for t, g in unidos:
         avisos.append(f'Trecho curtissimo em {_ff.mmss(t)}: nao coube corte ali e a pausa de {g:.2f} s ficou como no original. '
                       'Confira de ouvido; se incomodar, remova esse trecho com --remover.')
@@ -226,7 +241,9 @@ def relatorio_md(video: str, duracao: float, thr: float, estilo: str, params: di
          f'- Duracao bruta: {_ff.mmss(duracao)} | duracao final prevista: {_ff.mmss(plano["duracao_final"])} '
          f'(economia de {duracao - plano["duracao_final"]:.0f} s, {100 * (1 - plano["duracao_final"] / duracao):.0f}%)',
          f'- Estilo: {estilo} | limiar de silencio: {thr:.0f} dB | trechos mantidos: {len(plano["segmentos"])}',
-         f'- Pausas maiores que {params["pausa_min"]:.2f} s ficam com {params["pausa_final"]:.2f} s; '
+         (f'- Pausas maiores que {params["pausa_min"]:.2f} s somem: a fala seguinte entra sobre o fim da anterior '
+          f'(voz sobreposta por {-params["pausa_final"]:.2f} s); ' if params['pausa_final'] < 0 else
+          f'- Pausas maiores que {params["pausa_min"]:.2f} s ficam com {params["pausa_final"]:.2f} s; ') +
          f'emendas com {params["sobrep_emenda"]:.2f} s de sobreposicao.', '']
     if plano['avisos']:
         L += ['## Avisos', ''] + [f'- {a}' for a in plano['avisos']] + ['']
@@ -253,9 +270,9 @@ def main() -> int:
     ap.add_argument('--limiar', type=float, help='limiar de silencio em dB (padrao: automatico)')
     ap.add_argument('--sem-alinhar', action='store_true', help='nao alinha --remover as pausas (usa os tempos como estao)')
     ap.add_argument('--pausa-minima', type=float)
-    ap.add_argument('--pausa-final', type=float)
+    ap.add_argument('--pausa-final', type=float, help='pausa que sobra, em s; negativo = a pausa some e as vozes se sobrepoem')
     ap.add_argument('--sobreposicao-emenda', type=float)
-    ap.add_argument('--emenda-gap', type=float, help='negativo = as vozes se sobrepoem (padrao -0.10)')
+    ap.add_argument('--emenda-gap', type=float, help='negativo = as vozes se sobrepoem, em s (0.10 s = 3 quadros a 30 fps); o padrao depende do estilo')
     a = ap.parse_args()
 
     info = _ff.info_basica(a.video)

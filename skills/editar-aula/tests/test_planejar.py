@@ -137,5 +137,22 @@ class Entradas(unittest.TestCase):
         self.assertEqual(pc.parse_remocoes(''), [])
 
 
+class VozSobreposta(unittest.TestCase):
+    """Regra da emenda: a voz do trecho novo se sobrepoe a do anterior por 3 a 6 quadros (0,10 a 0,20 s a 30 fps)."""
+
+    def test_todo_estilo_tem_de_3_a_6_quadros_de_voz_sobreposta_na_emenda(self):
+        for nome, p in pc.ESTILOS.items():
+            self.assertTrue(0.10 <= -p['emenda_gap'] <= 0.20, f'{nome}: emenda_gap {p["emenda_gap"]}')
+
+    def test_no_estilo_curto_a_pausa_some_e_as_vozes_se_sobrepoem(self):
+        p = pc.ESTILOS['curto']
+        faixas = [(0.5, 2.0), (3.0, 5.0)]          # pausa de 1,0 s entre as duas falas
+        s0, s1 = pc.planejar(6.0, faixas, p)['segmentos']
+        fim_a = 2.0 - s0['ini']                                        # fim da 1a fala, no tempo do video final
+        ini_b = (s0['fim'] - s0['ini'] - s0['d']) + (3.0 - s1['ini'])  # inicio da 2a fala, no tempo do video final
+        sobreposta = fim_a - ini_b
+        self.assertTrue(0.10 <= sobreposta <= 0.20, f'voz sobreposta por {sobreposta:.3f} s (sem silencio entre as vozes)')
+
+
 if __name__ == '__main__':
     unittest.main()

@@ -174,8 +174,8 @@ class Puro(unittest.TestCase):
         ctx = {'f1': pc.contexto_fonte(ws, [(1.0, 1.5), (3.0, 3.5), (5.0, 5.5)], 8.0)}
         r = pc.planejar_corte(dict(id='c', trechos=[[1.0, 1.0], [5.0, 5.0]]), ctx, pc.ESTILOS['curto'], 'f1')
         s0, s1 = r['segmentos']
-        self.assertAlmostEqual(s0['d'], 0.22)
-        self.assertAlmostEqual(s0['fim'], 1.5 + 0.095, places=3)            # a frase anterior termina inteira
+        self.assertAlmostEqual(s0['d'], 0.275)
+        self.assertAlmostEqual(s0['fim'], 1.5 + 0.10, places=3)            # a frase anterior termina inteira
         self.assertAlmostEqual(s1['ini'], 5.0 - 0.025, places=3)            # o seguinte entra colado na voz
         self.assertEqual(r['texto'], 'a c')
         self.assertEqual(r['avisos'], [])
@@ -209,11 +209,12 @@ class PontaAPonta(unittest.TestCase):
         self.assertEqual([s['tipo'] for s in c['segmentos']], ['emenda', 'pausa', None])
         for s in c['segmentos']:
             self.assertFalse(2.3 < s['ini'] < 3.7 and 2.3 < s['fim'] < 3.7)
-        # a pausa de 0,5 s entre "cinco" e "seis" ficou com ~0,08 s
+        # a pausa de 0,5 s entre "cinco" e "seis" sumiu: "seis" entra sobre o fim de "cinco", com a voz sobreposta por 0,10 a 0,20 s
         s1, s2 = c['segmentos'][1], c['segmentos'][2]
         fim_cinco = s1['final_ini'] + (4.9 - s1['ini'])
         inicio_seis = s2['final_ini'] + (5.4 - s2['ini'])
-        self.assertAlmostEqual(inicio_seis - fim_cinco, 0.08, places=1)
+        sobreposta = fim_cinco - inicio_seis
+        self.assertTrue(0.10 <= sobreposta <= 0.20, f'voz sobreposta por {sobreposta:.3f} s')
 
     def test_imagem_e_audio_do_proximo_trecho_entram_juntos_antes_do_anterior_acabar(self):
         t_azul, t_b, t_a_fim = tempos_de_entrada_e_saida(self.out / 'c1.mp4')
@@ -266,6 +267,17 @@ class PontaAPonta(unittest.TestCase):
         r = py('ler.py', self.transc, 0, 6.5, '--video', self.fonte, '--silencio')
         self.assertIn('SIL', r.stdout)
         self.assertIn('lixo@2.60-3.00', r.stdout)
+
+
+class VozSobreposta(unittest.TestCase):
+    """Regra da emenda: a voz do trecho novo se sobrepoe a do anterior por 3 a 6 quadros (0,10 a 0,20 s a 30 fps)."""
+
+    def test_todo_estilo_tem_de_3_a_6_quadros_de_voz_sobreposta_na_emenda(self):
+        for nome, p in pc.ESTILOS.items():
+            self.assertTrue(0.10 <= -p['emenda_gap'] <= 0.20, f'{nome}: emenda_gap {p["emenda_gap"]}')
+
+    def test_no_estilo_curto_a_pausa_some_com_voz_sobreposta(self):
+        self.assertTrue(0.10 <= -pc.ESTILOS['curto']['pausa_final'] <= 0.20)
 
 
 if __name__ == '__main__':

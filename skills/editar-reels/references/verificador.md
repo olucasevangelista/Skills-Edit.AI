@@ -32,7 +32,7 @@ Tipos: insert, texto novo, zoom (punch-in ou saída), corte de câmera, tela div
 - [ ] O texto de gancho complementa a fala (não repete) e fica 2 a 3 s?
 
 **Conteúdo**
-- [ ] Cada corte entre takes entra colado no começo da fala (sem respiro nem silêncio antes) e começa durante o finalzinho do take anterior (~0,1 a 0,25 s de sobreposição), com a frase anterior terminando inteira e sem estalo?
+- [ ] Cada corte entre takes entra colado no começo da fala (sem respiro nem silêncio antes) e começa durante o finalzinho do take anterior (voz nova sobre a anterior por 3 a 6 quadros), com a frase anterior terminando inteira e sem estalo?
 - [ ] Nenhuma pausa maior que ~0,35 s sobrou entre as frases (medida com `silencedetect` no vídeo cortado, fora as pausas de efeito)? Takes repetidos: só a melhor tentativa ficou?
 - [ ] Cada insert aparece na palavra que ilustra (±0,1 s) e dura 1 a 2,5 s?
 - [ ] Todo texto tem tempo de leitura suficiente (0,4 s + 0,3 s por palavra)?

@@ -14,7 +14,7 @@ Depois da abertura, o que manda é **o estilo de edição da pessoa e o tipo do 
 
 ### Quanto de novidade visual
 
-Sem número fixo: o estilo da pessoa manda. Se ela não tem referência, um ponto de partida (**não medido**) é uma mudança visual a cada ~10 s no meio do vídeo (zoom, insert, texto, motion, troca de enquadramento), mais denso na abertura e nos momentos-chave, e **nenhum trecho longo de imagem parada sem nada novo**. Dinâmico não é frenético: vídeo longo precisa respirar onde a ideia pede (uma explicação mais calma pode usar o estilo de corte `aula`; veja `limpeza.md`).
+Sem número fixo: o estilo da pessoa manda. Se ela não tem referência, um ponto de partida é uma mudança visual a cada ~10 s no meio do vídeo (zoom, insert, texto, motion, troca de enquadramento), mais denso na abertura e nos momentos-chave, e **nenhum trecho longo de imagem parada sem nada novo**. Dinâmico não é frenético: vídeo longo precisa respirar onde a ideia pede (uma explicação mais calma pode usar o estilo de corte `aula`; veja `limpeza.md`).
 
 ## Momentos-chave
 
@@ -25,7 +25,7 @@ São os pontos em que o vídeo vira: a abertura, uma virada de assunto, a **demo
 
 ## A emenda com sobreposição (em todo corte)
 
-Em todo corte da fala, o próximo take entra **colado no começo da voz**, sem respiro, e começa ainda durante o finalzinho do anterior: **imagem e áudio novos entram juntos** (~0,1 a 0,25 s de sobreposição; as vozes se sobrepõem de propósito por esse instante). Nunca só a imagem, nunca só o áudio, nunca corte seco.
+Em todo corte da fala, imagem e áudio do take seguinte entram **juntos**, antes de o anterior acabar. O desenho, os valores e o passo a passo estão em `emenda.md`. Nunca só a imagem, nunca só o áudio, nunca corte seco.
 
 - **Dentro de um mesmo arquivo:** o `montar.py` aplica isso em todas as emendas (`limpeza.md`).
 - **Entre arquivos diferentes** (a pessoa e a gravação de tela, duas partes gravadas em dias diferentes): use a emenda do `limpeza.md`, seção "Casos".

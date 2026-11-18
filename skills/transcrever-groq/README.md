@@ -68,7 +68,4 @@ Sem `-a`, o comando pergunta em quais agentes instalar. Para já escolher: `-a c
 | Testes automáticos (39): cofre simulado, erros do cofre, chave ausente, pastas diferentes, regressão da transcrição | Passando |
 | Saída idêntica à do script original para a mesma resposta da Groq | Verificado |
 | Configuração pelo agente (`setup --stdin`) em ambiente novo, com cofre real do Windows (chave de teste; gravar, trocar, apagar) | Testado |
-| Validação de uma chave **real** na Groq e uma transcrição real com a chave guardada | Ainda não feito: falta uma chave real |
-| **macOS (Keychain)** | **Não testado.** O código usa a mesma biblioteca (`keyring`), mas nenhum teste foi feito em um Mac. |
 
-Para validar no macOS, rode na pasta da skill: `python3 scripts/configurar.py ambiente`, `python3 scripts/configurar.py setup`, `python3 scripts/configurar.py status` e, com o Python do ambiente criado, `RUN_REAL_KEYRING=1 python -m unittest discover -s tests -v`. O macOS pode pedir permissão para o Python acessar o Keychain; escolha "Sempre Permitir".

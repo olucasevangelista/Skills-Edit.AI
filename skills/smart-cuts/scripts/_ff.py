@@ -100,11 +100,13 @@ def percentil(valores: list[float], p: float) -> float:
 
 
 def flag_filtro_arquivo() -> str:
-    """-/filter_complex (FFmpeg 7+) ou -filter_complex_script (antigo). Filtros grandes vao por arquivo
-    porque o Windows limita o tamanho da linha de comando."""
-    r = rodar([exe('ffmpeg'), '-hide_banner', '-h', 'full'], check=False)
-    return '-/filter_complex' if '-/filter_complex' in (r.stdout or '') or 'deprecated, use -/filter_complex' in (r.stdout or '') \
-        else '-filter_complex_script'
+    """Opcao que le o filtro de um arquivo: `-/filter_complex` no FFmpeg 7 ou mais novo (a antiga
+    `-filter_complex_script` foi removida) e `-filter_complex_script` no FFmpeg 6 ou mais velho. Filtros grandes
+    vao por arquivo porque o Windows limita o tamanho da linha de comando. Versao nao reconhecida (build de
+    desenvolvimento): assume o FFmpeg novo."""
+    r = rodar([exe('ffmpeg'), '-version'], check=False)
+    m = re.search(r'version\s+n?(\d+)\.', r.stdout or '')
+    return '-filter_complex_script' if m and int(m.group(1)) < 7 else '-/filter_complex'
 
 
 def perfil_video(qualidade: str = 'boa') -> list[str]:

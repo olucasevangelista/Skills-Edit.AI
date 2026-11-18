@@ -124,7 +124,8 @@ def main() -> int:
     ap.add_argument('--ganchos', type=Path, nargs='+', required=True, help='arquivos de gancho, ou uma pasta com eles')
     ap.add_argument('--saida', type=Path, required=True)
     ap.add_argument('--prefixo', help='inicio do nome dos arquivos (padrao: o nome do corpo)')
-    ap.add_argument('--sobreposicao', type=float, default=0.22, help='s de sobreposicao na emenda (padrao 0.22)')
+    ap.add_argument('--sobreposicao', type=float, default=0.275,
+                    help='s de sobreposicao na emenda (padrao 0.275: a voz do corpo entra ~0,15 s, 4 a 5 quadros, sobre o fim do gancho)')
     ap.add_argument('--lufs', type=float, default=-14.0, help='volume alvo de todas as variantes (padrao -14)')
     ap.add_argument('--qualidade', choices=['boa', 'maxima'], default='boa', help='boa: CRF 18 | maxima: CRF 16, mais lento')
     ap.add_argument('--fps', type=float, help='padrao: o do corpo, no maximo 30')

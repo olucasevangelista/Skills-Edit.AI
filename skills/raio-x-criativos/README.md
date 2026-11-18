@@ -51,9 +51,6 @@ O script **mede**; não avalia qualidade. Nenhum valor do mapa é "bom" ou "ruim
 | Controles negativos | Alterei o script de três jeitos (janela dos 3 primeiros segundos, deslocamento do `--de` da janela, limite de pausa) e **cada alteração foi pega por um teste específico** |
 | Mapa de ritmo | Cortes nos 3 e 5 primeiros segundos, maior trecho sem corte, palavras (total, por minuto, nos 3 primeiros e nos 5 últimos segundos), pausas de fala, tempo com som e volume por trecho: todos conferidos contra os valores construídos |
 | Mídia real (os primeiros 45 s de um vídeo seu de 1080p60, com a transcrição que já existia) | Palavras (165), palavras por minuto (220), palavras nos 3 primeiros e nos 5 últimos segundos (12 e 22), primeira palavra e a pausa de 0,46 s **batem exatamente** com a contagem independente feita direto na transcrição. A folha do gancho saiu com 24 quadros e o tempo absoluto escrito em cada um. O script avisou que 1.981 palavras da transcrição eram posteriores ao fim do clipe e as ignorou |
-| **A análise (a direção)** | **Não foi testada com agente nem com um criativo de anúncio real.** O vídeo usado na mídia real não é um anúncio: só se conferiu a medição, não a interpretação |
-| **Os "porquês"** | **Nenhum foi validado contra desempenho real.** A skill produz hipóteses |
-| **macOS** | **Não testado** |
 
 Rodar os testes: `python -m unittest discover -s tests` (precisa de FFmpeg).
 

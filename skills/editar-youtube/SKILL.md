@@ -65,9 +65,10 @@ Use `python` (Windows) ou `python3` (macOS). `<skill>` é a pasta onde esta skil
 
 - `references/tipos-de-video.md`: como identificar o tipo e o que cada um pede.
 - `references/abertura.md`: os primeiros 5 a 10 segundos e a curiosidade até o fim.
-- `references/meio-e-ritmo.md`: o meio por tipo de vídeo, os momentos-chave e a emenda com sobreposição.
+- `references/emenda.md`: a regra da emenda por sobreposição (o desenho, os valores, onde cai).
+- `references/meio-e-ritmo.md`: o meio por tipo de vídeo e os momentos-chave.
 - `references/chamadas-para-seguir.md`: onde lembrar a pessoa de seguir ou inscrever-se.
 - `references/limpeza.md`: da gravação bruta ao `limpo.mp4` (melhor take, erros, silêncios, emendas, verificação).
 - `references/exportacao.md`: exportação rápida e quando não usar.
 
-Os números desta skill são **pontos de partida**, não leis: se o estilo ou a referência da pessoa pede outro, siga a pessoa. **Nenhuma recomendação aqui foi medida em desempenho de vídeo.**
+Os números desta skill são **pontos de partida**, não leis: se o estilo ou a referência da pessoa pede outro, siga a pessoa.

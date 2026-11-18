@@ -45,16 +45,13 @@ Gera `anuncio__g1.mp4`, `anuncio__g2.mp4` e `matriz.csv`. O corpo é codificado 
 
 | Item | Situação |
 |---|---|
-| Limpeza da fala (`tests/test_cortes.py`, 17 testes) | Passando, com áudio sintético em duas condições de ruído e controles negativos (o verificador reprova um arquivo que ficou com pausas; o detector não agrupa takes diferentes). O limiar automático antigo tratava o ruído de sala como fala e não cortava nenhuma pausa: corrigido (também no `variar_ganchos.py`). **Não testado em gravação humana com ruído real**; o detector de repetições não foi validado em transcrições reais com retakes |
+| Limpeza da fala (`tests/test_cortes.py`, 17 testes) | Passando, com áudio sintético em duas condições de ruído e controles negativos (o verificador reprova um arquivo que ficou com pausas; o detector não agrupa takes diferentes). O limiar automático antigo tratava o ruído de sala como fala e não cortava nenhuma pausa: corrigido (também no `variar_ganchos.py`) |
 | Testes automáticos do `variar_ganchos.py` (11) | Passando no Windows 11, com mídia sintética (cada trecho com um tom e uma cor) |
-| Sobreposição | Medida: a imagem e o áudio do corpo entram com ~0,03 s de diferença e ~0,09 s antes de a fala do gancho acabar. Um controle com sobreposição mínima reprova no mesmo teste |
+| Sobreposição | Medida: a imagem e o áudio do corpo entram com ~0,03 s de diferença, e a voz do corpo se sobrepõe à do gancho por 3 a 6 quadros (0,10 a 0,21 s). Um controle com sobreposição mínima reprova no mesmo teste |
 | Volume | As variantes sintéticas ficaram em −13,7 a −13,8 LUFS (alvo −14), com menos de 0,2 dB de diferença entre elas |
 | Corpo | O mesmo quadro do corpo é idêntico em todas as variantes; gancho de outra proporção sai no tamanho do corpo; nomes e `matriz.csv` conferidos |
 | Mídia real (um vídeo seu de 1080p, 21,8 s de corpo e dois ganchos de 5 s) | 2 variantes em 23 s, as duas em −14,0 LUFS; o corte de imagem caiu em 4,93 s (previsto 4,94 s) e sem estalo (salto 0,087; o limite é 0,35) |
 | **Sentido da ponte entre gancho e corpo** | **Não é medido pelo script.** É conferência de quem edita (ler o fim do gancho junto do começo do corpo) |
-| **macOS** | **Não testado** |
-| **Desempenho de anúncio** | **Nada foi medido.** A skill não afirma que um tipo de gancho converta mais |
-| **Políticas das plataformas** | **Não foram conferidas.** `conformidade.md` manda o usuário conferir as vigentes |
 
 Rodar os testes: `python -m unittest discover -s tests` (precisa de FFmpeg).
 

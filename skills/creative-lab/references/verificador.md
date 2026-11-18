@@ -40,7 +40,7 @@ Tipos: insert, texto novo, zoom (punch-in ou saída), troca de plano, tela divid
 - [ ] **Nada foi colocado na tela só porque está na página** (objeção, prova, mecanismo ou oferta que a fala não traz)? Tudo o que aparece é dito no anúncio ou foi pedido pelo usuário.
 
 **Conteúdo**
-- [ ] Cada corte entre takes entra colado no começo da fala (sem respiro) e começa durante o finalzinho do take anterior (~0,1 a 0,25 s), com **imagem e áudio juntos**, a frase anterior terminando inteira e sem estalo?
+- [ ] Cada corte entre takes entra colado no começo da fala (sem respiro) e começa durante o finalzinho do take anterior (voz nova sobre a anterior por 3 a 6 quadros), com **imagem e áudio juntos**, a frase anterior terminando inteira e sem estalo?
 - [ ] Cada insert aparece na palavra que ilustra (±0,1 s) e dura 1 a 2,5 s?
 - [ ] Todo texto tem tempo de leitura (0,4 s + 0,3 s por palavra)?
 - [ ] Nenhum elemento importante (texto, rosto, logo, CTA) fora da zona segura?

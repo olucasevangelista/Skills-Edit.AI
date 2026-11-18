@@ -52,19 +52,7 @@ Se mais de ~30% do anúncio estiver como ★, a marcação está generosa e a ê
 
 ## 5. Emenda com sobreposição (em todo corte)
 
-O corte **não tem respiro e o áudio não é cortado seco**. O próximo take entra **colado no começo da voz**, sem silêncio nem inspiração antes, e **começa ainda durante o finalzinho do take anterior**: a imagem e o áudio novos aparecem juntos enquanto a última sílaba da frase anterior termina. Em linguagem de editor, é um L-cut curto. Na linha do tempo, os dois clipes se sobrepõem por cerca de 0,1 a 0,25 s (3 a 8 quadros a 30 fps), e as vozes se sobrepõem de propósito só por esse instante.
-
-Em cada junção:
-
-1. **Deixe o take anterior terminar de falar.** Corte-o só depois da última palavra e do decaimento dela, nunca no meio da sílaba.
-2. **Corte o início do próximo rente à fala:** sem respiro, sem inspiração, sem ruído de sala. Comece no instante em que a voz começa, com no máximo ~20 a 30 ms de folga.
-3. **Posicione o próximo take** para que a primeira palavra dele comece no finalzinho da última palavra do anterior.
-4. **Áudio:** o do take anterior desce suavemente durante a sobreposição; o do novo entra com um fade bem curto (10 a 30 ms, só para evitar estalo). Confira que a soma das vozes não estoura o volume.
-5. **Imagem:** corta no mesmo instante em que o áudio novo entra (ou dissolve em 2 a 4 quadros).
-6. **Ajuste ao material:** se a última palavra termina seca, use o mínimo (~0,1 s); se tem decaimento longo, pode chegar a ~0,25 s. As vozes devem soar encadeadas, não embaralhadas.
-7. **Vale também onde as pausas dentro de um mesmo take são encurtadas** e na **junção do gancho com o corpo** (o script `variar_ganchos.py` faz essa junção assim).
-
-Não é o padrão: o áudio cortando seco (mesmo com a imagem entrando antes), nem o próximo take começando com respiro e pausa. **Para limpar uma gravação bruta (erros, repetições, silêncios) com essa emenda, use os scripts de `limpeza-da-fala.md`; não refaça à mão com `silenceremove`, que corta seco e deixa pausa. Um silêncio de 0,5 a 1 s que sobrou é defeito.**
+Imagem e áudio do take seguinte entram **juntos**, colados no começo da voz, antes de o take anterior acabar: o desenho, os valores e o passo a passo estão em `emenda.md`. Vale em todo corte, inclusive onde as pausas dentro de um take são encurtadas e na **junção do gancho com o corpo** (o script `variar_ganchos.py` faz essa junção assim). **Para limpar uma gravação bruta (erros, repetições, silêncios) com essa emenda, use os scripts de `limpeza-da-fala.md`; não refaça à mão com `silenceremove`, que corta seco e deixa pausa. Um silêncio de 0,5 a 1 s que sobrou é defeito.**
 
 ## 6. Texto, som e fechamento
 

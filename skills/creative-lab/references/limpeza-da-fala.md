@@ -1,8 +1,8 @@
 # Limpar a fala: erros, repetições e silêncios
 
-Quando o material é uma gravação falada (quase sempre), **limpe a fala antes de montar o anúncio**. O resultado é um `limpo.mp4`: só o que fica, sem silêncio perceptível entre as frases e com as emendas por sobreposição (`anuncio-e-retencao.md`, seção 5). Os inserts, a legenda, o motion e a tela dividida são feitos em cima dele, no Remotion ou no editor da pessoa.
+Quando o material é uma gravação falada (quase sempre), **limpe a fala antes de montar o anúncio**. O resultado é um `limpo.mp4`: só o que fica, sem silêncio perceptível entre as frases e com as emendas por sobreposição (`emenda.md`). Os inserts, a legenda, o motion e a tela dividida são feitos em cima dele, no Remotion ou no editor da pessoa.
 
-**Padrão de qualidade:** entre uma frase e a seguinte sobra no máximo **~0,1 s** (estilo `curto`). Um silêncio de meio segundo ou de um segundo que ficou é **defeito**: quebra o ritmo e o espectador sente, mesmo sem saber dizer o que foi. Não entregue assim e **não diga que terminou antes de o verificador passar**.
+**Padrão de qualidade:** entre uma frase e a seguinte quase não sobra pausa: no estilo `curto` ela some e a fala seguinte entra sobre o fim da anterior (`emenda.md`). Um silêncio de meio segundo ou de um segundo que ficou é **defeito**: quebra o ritmo e o espectador sente, mesmo sem saber dizer o que foi. Não entregue assim e **não diga que terminou antes de o verificador passar**.
 
 ## A ordem
 
@@ -44,11 +44,11 @@ O planejador mede o **volume do áudio** (não os tempos da transcrição) para 
 
 | Estilo | Pausa a partir de | Fica com | Para quê |
 |---|---|---|---|
-| `curto` (padrão) | 0,22 s | 0,08 s | anúncio, ritmo apertado |
+| `curto` (padrão) | 0,22 s | some (a fala seguinte entra sobre a anterior) | anúncio, ritmo apertado |
 | `aula` | 0,55 s | 0,30 s | fala didática, mais natural |
 | `suave` | 0,90 s | 0,55 s | depoimento emocional, tom calmo |
 
-Emendas: **0,12 s** de sobreposição ao encurtar uma pausa e **0,22 s** ao remover um erro, com as vozes ainda se sobrepondo ~0,1 s. Ajustes finos: `--pausa-minima`, `--pausa-final`, `--sobreposicao-emenda`, `--emenda-gap`, `--limiar` (em dB). No `montar.py`: `--lufs` (padrão -14, o de anúncio), `--fps`, `--qualidade maxima`, `--sem-tratamento-audio` (sem o equalizador e o compressor de voz).
+Emendas: a voz do trecho novo se sobrepõe à anterior por 0,10 a 0,15 s (3 a 5 quadros, conforme o estilo; 0,15 s no `curto`). No `curto`, tirar uma pausa usa essa mesma emenda; nos estilos `aula` e `suave`, a pausa que fica é emendada sobre o silêncio (0,12 s). Ajustes finos: `--pausa-minima`, `--pausa-final` (negativo = a pausa some e as vozes se sobrepõem), `--sobreposicao-emenda`, `--emenda-gap` (negativo = as vozes se sobrepõem, em s: 0,10 s são 3 quadros), `--limiar` (em dB). No `montar.py`: `--lufs` (padrão -14, o de anúncio), `--fps`, `--qualidade maxima`, `--sem-tratamento-audio` (sem o equalizador e o compressor de voz).
 
 **Leia o `plano_cortes.md` antes de montar**: a economia de tempo, o limiar e os **avisos**:
 
@@ -72,16 +72,10 @@ Além disso: olhe quadros logo antes e depois de algumas emendas e **transcreva 
 
 - **Corpo e gancho**: limpe o corpo antes de usar o `variar_ganchos.py` (`variacoes.md`); ele já emenda o gancho ao corpo com a mesma sobreposição.
 - **Vários arquivos do mesmo vídeo** (partes gravadas separadas): limpe cada um (`--saida limpeza/p1`, `p2`...) e depois una os arquivos limpos com a emenda abaixo.
-- **Emenda entre arquivos diferentes**: imagem e áudio do seguinte entram **juntos**, 0,13 s antes de a fala anterior acabar. A versão em que a imagem entra depois do áudio fica estranha. Com `D1` = duração do primeiro arquivo:
+- **Emenda entre arquivos diferentes**: a mesma regra de `emenda.md`: imagem e áudio do seguinte entram **juntos**, com a voz dele sobre o fim da voz anterior. Cada `limpo.mp4` traz ~0,25 s de silêncio no começo e ~0,35 s no fim, e é preciso tirá-los na junção; senão sobra quase meio segundo sem fala entre as vozes. Meça no áudio (`silencedetect`) onde a voz do primeiro arquivo termina (`V1`) e onde a do segundo começa (`V2`). Então `T1 = V1 + 0.10` (onde o primeiro termina) e `S2 = V2 - 0.025` (onde o segundo começa), com `d = 0.275` (a voz do segundo fica ~0,15 s, 4 a 5 quadros, sobre a do primeiro):
   ```
-  ffmpeg -y -i p1.mp4 -i p2.mp4 -filter_complex "[0:v]fps=30,trim=end=<D1-0.13>,setpts=PTS-STARTPTS[v0];[1:v]fps=30,setpts=PTS-STARTPTS[v1];[v0][v1]concat=n=2:v=1:a=0[v];[0:a][1:a]acrossfade=d=0.13:c1=tri:c2=tri[a]" -map "[v]" -map "[a]" -c:v libx264 -crf 18 -pix_fmt yuv420p -c:a aac -b:a 192k junto.mp4
+  ffmpeg -y -i p1.mp4 -i p2.mp4 -filter_complex "[0:v]fps=30,trim=end=<T1-0.275>,setpts=PTS-STARTPTS[v0];[1:v]fps=30,trim=start=<S2>,setpts=PTS-STARTPTS[v1];[v0][v1]concat=n=2:v=1:a=0[v];[0:a]atrim=end=<T1>,asetpts=PTS-STARTPTS[a0];[1:a]atrim=start=<S2>,asetpts=PTS-STARTPTS[a1];[a0][a1]acrossfade=d=0.275:c1=qsin:c2=nofade[a]" -map "[v]" -map "[a]" -c:v libx264 -crf 18 -pix_fmt yuv420p -c:a aac -b:a 192k junto.mp4
   ```
-  (Duração testada: a soma das duas menos 0,13 s, no vídeo e no áudio.)
+  (A duração final é `T1 + (duração de p2 - S2) - 0.275`, no vídeo e no áudio.)
 - **Já havia legenda do bruto**: o `timeline.json` converte o tempo: `final = final_ini + (t - bruto_ini)` do trecho em que `t` cai. Palavras de trechos removidos somem. Costuma ser mais simples e mais seguro transcrever o `limpo.mp4`.
 - **Só áudio** (sem imagem): o `montar.py` limpa o áudio e grava `limpo.m4a`.
-
-## O que foi testado (e o que não)
-
-- O planejador, o montador e o verificador passaram em testes com áudio sintético (tom com ruído de sala em dois níveis, pausas de 0,6 a 1,1 s) e em gravação de voz gerada por síntese de fala, com **controles negativos**: um arquivo que ficou com pausas é reprovado pelo verificador. O núcleo (medir o volume, achar a fala, emendar com sobreposição) já foi usado em vídeos reais de aula e de criativo.
-- **Não foi testado em gravação humana com ruído real** neste ajuste. O limiar se adapta ao piso de ruído medido no próprio áudio, mas sala muito ruidosa (ruído quase no nível da fala) pode exigir `--limiar` à mão.
-- O detector de repetições foi testado com transcrições sintéticas e uma transcrição real **sem** retakes (não inventou nenhum). **Não foi validado em transcrições reais com retakes**: trate a sugestão como pista e confirme lendo.

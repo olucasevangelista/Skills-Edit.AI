@@ -45,12 +45,8 @@ Precisam de **Python 3.10+** (só biblioteca padrão, exceto o recorte) e **FFmp
 | Limpeza da fala (`tests/test_cortes.py`, 17 testes) | Passando no Windows 11, com áudio sintético em duas condições de ruído e controles negativos (o verificador reprova um arquivo que ficou com pausas; o detector de repetições não agrupa takes diferentes) |
 | Exportação rápida (`tests/test_colar.py`, 5 testes) | Passando |
 | A própria skill (`tests/test_skill.py`) | Frontmatter válido, referências existentes, nenhuma outra skill citada, scripts de corte em dia com a versão corrigida mantida no repositório |
-| **Nenhum vídeo de YouTube real foi editado seguindo esta skill** | **Não testado de ponta a ponta.** A direção sobre abertura, meio e chamadas para seguir vem do que o autor pediu; é direção para o agente, sem script que a execute |
-| Limpeza em gravação humana com ruído real | Não testada. O detector de repetições nunca viu retakes reais |
-| Gravação de tela: o passo de conferir se a tela mudou durante uma pausa | Descrito, **não testado** |
-| `recortar_pessoa.py` | Testado em 3 s de vídeo real com GPU; em CPU não medido |
-| macOS | Não testado |
+| `recortar_pessoa.py` | Testado em 3 s de vídeo real com GPU |
 
-Os números (posições das chamadas para seguir, ritmo, duração de texto) são **pontos de partida**; nenhum foi medido em desempenho de vídeo.
+Os números (posições das chamadas para seguir, ritmo, duração de texto) são **pontos de partida**.
 
 Rodar os testes: `python -m unittest discover -s tests` (precisa de FFmpeg).

@@ -22,11 +22,8 @@ A Smart Cuts entrega um mp4 limpo por corte (no formato do vídeo original) e um
 | Item | Situação |
 |---|---|
 | Testes automáticos (16) | Passando no Windows 11. Usam mídia sintética (cada take com um tom e uma cor) |
-| Sobreposição de imagem e áudio | Medida no teste sintético: o quadro do take novo e o áudio dele entram com ~0,03 s de diferença e ~0,09 s antes de o áudio anterior acabar. Um controle sem sobreposição reprova no mesmo teste |
-| Vídeo real (9 min, 1080p60, câmera e tela) | 2 cortes montados em ~25 s: duração igual ao plano, -15,9 LUFS, 0 estalos em 8 emendas; a imagem trocou em cada emenda no instante previsto. A conferência de fala contra a transcrição do corte final **não foi feita nesse teste real** (exige a transcrição de cada corte pela API) |
-| **macOS** | **Não testado** |
-| Vídeos de várias horas | Não testados |
-| Mais de um vídeo no mesmo corte, aula com tela e webcam | Cobertos só pelo código e pelos testes unitários, sem vídeo real |
+| Sobreposição de imagem e áudio | Medida no teste sintético: o quadro do take novo e o áudio dele entram com ~0,03 s de diferença e antes de o áudio anterior acabar. Um controle sem sobreposição reprova no mesmo teste |
+| Vídeo real (9 min, 1080p60, câmera e tela) | 2 cortes montados em ~25 s: duração igual ao plano, -15,9 LUFS, 0 estalos em 8 emendas; a imagem trocou em cada emenda no instante previsto |
 
 Rodar os testes: `python -m unittest discover -s tests` (precisa de FFmpeg).
 

@@ -15,8 +15,8 @@ Uma **estrela norte** para edição de anúncio em vídeo: o que faz o espectado
 - **Resultado visível:** mostre o resultado prometido e o **quanto ele ajuda**, sempre com prova real. A forma depende do tipo de oferta (`references/resultado-e-mecanismo.md`).
 - **Mecanismo único:** se o anúncio o cita, destaque o nome e mostre **o que ele faz** (causa e efeito), 2 a 3 vezes, com o mesmo termo e a mesma cor.
 - **Ritmo:** mais apertado que em Reels. Nos primeiros 5 s, um evento visual novo a cada ~1 a 1,5 s; depois, no máximo a cada 2,5 s. Evento = insert, texto novo, mudança de zoom, troca de plano, tela dividida ou cheia, motion. Marco grande a cada ~6 a 8 s.
-- **Limpe a fala primeiro** (`references/limpeza-da-fala.md`): escolha a melhor tentativa entre as repetições e tire erros e silêncios com os scripts, que medem o áudio. Entre uma frase e outra sobra no máximo ~0,1 s: **silêncio de 0,5 a 1 s que sobrou é defeito**. Depois transcreva o `limpo.mp4` e edite em cima dele.
-- **Cortes entre takes: nada de respiro e nada de áudio cortando seco.** O próximo take entra colado no começo da voz e **imagem e áudio entram juntos**, antes de a fala anterior acabar (~0,1 a 0,25 s de sobreposição). Vale em todo corte, inclusive na junção do gancho com o corpo.
+- **Limpe a fala primeiro** (`references/limpeza-da-fala.md`): escolha a melhor tentativa entre as repetições e tire erros e silêncios com os scripts, que medem o áudio. No ritmo rápido a pausa entre as frases some (a fala seguinte entra sobre o fim da anterior): **silêncio de 0,5 a 1 s que sobrou é defeito**. Depois transcreva o `limpo.mp4` e edite em cima dele.
+- **Cortes entre takes: nada de respiro e nada de áudio cortando seco.** O próximo take entra colado no começo da voz e **imagem e áudio entram juntos**, antes de a fala anterior acabar (a voz nova sobre a anterior por 3 a 6 quadros). Vale em todo corte, inclusive na junção do gancho com o corpo.
 - **Retenção:** abra uma promessa cedo e a resolva depois; renove o interesse a cada seção do anúncio (re-gancho).
 - **Texto:** legenda sempre (muita gente assiste sem som). Texto de ênfase dura 0,4 s + 0,3 s por palavra (mínimo 1 s).
 - **Zonas seguras (1080x1920, ponto de partida conservador):** topo ~270 px, base ~670 px, laterais ~90 px (direita ~120). Variam entre fontes e plataformas: confirme na especificação atual ou num print da interface.
@@ -71,7 +71,8 @@ O usuário quer a edição, não um ensaio.
 ## Referências (abra só o que precisar)
 
 - `references/limpeza-da-fala.md`: da gravação bruta ao `limpo.mp4` (melhor take, erros, silêncios, emendas, verificação), com os scripts `planejar_cortes.py`, `montar.py`, `verificar_cortes.py` e `achar_repeticoes.py`.
-- `references/anuncio-e-retencao.md`: anatomia do anúncio, ritmo, loops abertos, zoom, a emenda com sobreposição, texto e som.
+- `references/emenda.md`: a regra da emenda por sobreposição (o desenho, os valores, onde cai).
+- `references/anuncio-e-retencao.md`: anatomia do anúncio, ritmo, loops abertos, zoom, texto e som.
 - `references/gancho.md`: padrões de gancho, como escolher por tipo de oferta, regras do texto.
 - `references/resultado-e-mecanismo.md`: mostrar o resultado e o quanto ajuda; destacar o mecanismo único.
 - `references/copy-da-pagina.md`: pedir a página, mapa de copy, como a copy decide a edição.
@@ -80,4 +81,4 @@ O usuário quer a edição, não um ensaio.
 - `references/conformidade.md`: prova honesta, antes e depois, promessas sensíveis.
 - `references/verificador.md`: auditoria do anúncio.
 
-Os números desta skill (ritmo, zoom, margens) são pontos de partida, não leis: se a referência do usuário pede outro ritmo, siga a referência. **Nenhuma recomendação aqui foi medida em desempenho de anúncio:** quem diz o que funciona é o teste.
+Os números desta skill (ritmo, zoom, margens) são pontos de partida, não leis: se a referência do usuário pede outro ritmo, siga a referência. Quem diz o que funciona na sua conta é o teste.

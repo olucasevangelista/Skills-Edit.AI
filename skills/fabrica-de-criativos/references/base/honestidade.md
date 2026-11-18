@@ -21,7 +21,7 @@ Eles usam a **linguagem visual** de um tipo de mídia ou de aplicativo, para ser
 - **Não simule que o anúncio foi transmitido, publicado ou endossado** por um veículo, programa ou perfil real.
 - **Manchete e texto** dizem o que o anúncio realmente afirma, sem fabricar um "fato" ou uma "pesquisa" que não existe.
 - **Dramatização** (conversa fictícia, chamada encenada, participantes atores) deve ser **indicada como tal** (um aviso curto e legível).
-- **Anúncio com aparência de reportagem** costuma ter regras específicas nas plataformas e na lei de publicidade (identificar que é publicidade). **Não foram conferidas as políticas atuais**: peça à pessoa que confira, e coloque um aviso de publicidade quando fizer sentido.
+- **Anúncio com aparência de reportagem** costuma ter regras específicas nas plataformas e na lei de publicidade (identificar que é publicidade). Peça à pessoa que confira as políticas atuais e coloque um aviso de publicidade quando fizer sentido.
 
 ## Antes e depois, depoimento e promessas sensíveis (saúde, estética, finanças)
 

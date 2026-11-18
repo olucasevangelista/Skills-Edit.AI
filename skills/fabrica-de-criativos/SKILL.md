@@ -21,8 +21,8 @@ Um **guia** para editar criativos de anúncio em vídeo, em vários formatos, co
 ## Receita rápida
 
 - **Formato primeiro** (ou mistura): abra o arquivo dele em `references/formatos/`. Os arquivos de `references/base/` valem para todos.
-- **Limpe a fala primeiro** (`references/base/limpar-a-fala.md`): escolha a melhor tentativa entre as repetições e tire erros e silêncios com os scripts, que medem o áudio. Entre uma frase e outra sobra no máximo ~0,1 s: **silêncio de 0,5 a 1 s que sobrou é defeito**. Depois transcreva o `limpo.mp4` e monte o formato em cima.
-- **Cortes:** emenda com sobreposição, sem respiro e sem áudio cortado seco: o próximo take entra colado na voz, **imagem e áudio juntos**, antes de a fala anterior acabar (~0,1 a 0,25 s).
+- **Limpe a fala primeiro** (`references/base/limpar-a-fala.md`): escolha a melhor tentativa entre as repetições e tire erros e silêncios com os scripts, que medem o áudio. No ritmo rápido a pausa entre as frases some (a fala seguinte entra sobre o fim da anterior): **silêncio de 0,5 a 1 s que sobrou é defeito**. Depois transcreva o `limpo.mp4` e monte o formato em cima.
+- **Cortes:** emenda com sobreposição, sem respiro e sem áudio cortado seco: o próximo take entra colado na voz, **imagem e áudio juntos**, antes de a fala anterior acabar (a voz nova sobre a anterior por 3 a 6 quadros).
 - **Ritmo:** evento visual novo nos primeiros 5 s a cada ~1 a 1,5 s; depois, no máximo a cada ~2,5 s (cada formato diz as exceções).
 - **Legenda** simples e constante, fora da base; texto e rosto dentro das zonas seguras (topo ~270 px, base ~670 px, laterais ~90 px; confirme na plataforma).
 - **Materiais são uma solicitação, não uma exigência**: peça, mas siga com o que existe e **busque sozinho** o que ajudar (música, imagens de apoio), registrando a origem (`base/materiais.md`).
@@ -120,7 +120,8 @@ O mesmo material em vários formatos, ou o mesmo corpo com vários ganchos: **um
 - `references/base/mistura-de-formatos.md`: como misturar formatos e alternar modos.
 - `references/base/fluxo.md`: do material ao arquivo final.
 - `references/base/limpar-a-fala.md`: da gravação bruta ao `limpo.mp4` (melhor take, erros, silêncios, emendas, verificação).
-- `references/base/cortes.md`: a regra da emenda com sobreposição, pausas e ritmo.
+- `references/base/emenda.md`: a regra da emenda por sobreposição (o desenho, os valores, onde cai).
+- `references/base/cortes.md`: a emenda no Remotion, pausas e ritmo.
 - `references/base/legenda-e-zonas.md`: legenda, texto, inserts, zonas seguras.
 - `references/base/materiais.md`: o que pedir e o que buscar, e como registrar.
 - `references/base/honestidade.md`: prova real, dramatização, formatos que imitam uma linguagem.
@@ -130,4 +131,4 @@ O mesmo material em vários formatos, ou o mesmo corpo com vários ganchos: **um
 - `assets/componentes/`: peças de código do Remotion para reaproveitar (copie e adapte): `CaixaPergunta.tsx` (formato 16), `MancheteNoticia.tsx` (formato 04), `EstudioTelejornal.tsx` (formato 11) e `TakesSobrepostos.tsx` (a emenda com sobreposição, de `base/cortes.md`).
 - `scripts/planejar_cortes.py`, `montar.py`, `verificar_cortes.py` e `achar_repeticoes.py`: limpam a fala do bruto e verificam o resultado (`limpar-a-fala.md`). `scripts/verificar_saida.py`: mede o arquivo final. `scripts/recortar_pessoa.py`: recorta a pessoa de qualquer fundo com RVM e grava onde está a cabeça (formatos 02 e 05), como material de apoio.
 
-Os números (zonas, ritmo, medidas de composição) são **pontos de partida**: se a referência da pessoa pede outro, siga a referência. **Nenhuma recomendação aqui foi medida em desempenho de anúncio.**
+Os números (zonas, ritmo, medidas de composição) são **pontos de partida**: se a referência da pessoa pede outro, siga a referência.
