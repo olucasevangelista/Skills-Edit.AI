@@ -7,7 +7,9 @@ Um kit pequeno em `<skill>/kit/`, para poupar trabalho. **Nada é obrigatório**
 | `kit/movimento.ts` | curvas, entradas, curva por chaves, drift, squash | `remotion` |
 | `kit/camera3d.tsx` | câmera por chaves, ambiente, luzes, piso de sombra | `three`, `@react-three/fiber`, `@remotion/three` |
 | `kit/exemplo/` | uma peça completa de 12 s em 9:16, 2D, com marca fictícia | `remotion` e `kit/movimento.ts` |
-| `kit/audio/sintetizar.py` | síntese de trilha e efeitos a partir de um mapa | Python 3.10+ e `numpy` |
+| `kit/audio/sintetizar.py` | síntese de trilha e efeitos a partir de um mapa, com eventos por nome e encaixe no quadro | Python 3.10+ e `numpy` |
+| `kit/audio/ataque.py` | mede o início, o pico e o fim de um efeito sonoro, para alinhá-lo ao evento | Python 3.10+, `numpy` e FFmpeg |
+| `kit/folha_de_quadros.py` | monta a folha numerada do storyboard (ou uma folha de contato) | Python 3.10+ e `Pillow` |
 
 ## `movimento.ts`
 
@@ -54,9 +56,13 @@ Use como **modelo de estrutura**, não como arte final: troque textos, cores, ob
 
 Observação sobre a zona segura: todo o texto fica dentro das margens; o pacote **sai** pela base da tela ao ser "enviado", o que é intencional (objeto saindo de cena).
 
-## `audio/sintetizar.py`
+## `audio/sintetizar.py` e `audio/ataque.py`
 
-Veja `audio.md` (como usar, mapa de eventos, limites). O `mapa-exemplo.json` casa com os tempos do `exemplo/`.
+Veja `audio.md` (como usar, mapa de eventos, som por evento, limites). O `mapa-exemplo.json` (instantes) e o `mapa-eventos-exemplo.json` (nomes lidos do `config.ts`) casam com os tempos do `exemplo/`, cujo `config.ts` exporta `EVENTOS`.
+
+## `folha_de_quadros.py`
+
+Veja o storyboard em `peca-inteira.md`. Também serve como folha de contato na revisão: sem `--legendas`, cada quadro leva o nome do arquivo.
 
 ## Estado verificado
 

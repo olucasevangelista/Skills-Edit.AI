@@ -4,7 +4,7 @@ Não confie na prévia: confira o que foi renderizado. Estes comandos foram usad
 
 ## 1. Quadros de diagnóstico
 
-Um quadro por instante-chave: o gancho, cada mudança de estado, a convergência e o último quadro.
+Um quadro por instante-chave: o gancho, cada mudança de estado, a convergência e o último quadro. **Cada transição, em 3 ou 4 pontos** (o começo, um terço, dois terços e o fim): é no meio dela que aparecem os erros que os quadros de repouso escondem.
 
 ```
 npx remotion still src/index.ts <IdDaComposicao> out/f120.png --frame=120
@@ -16,7 +16,7 @@ npx remotion still src/index.ts <IdDaComposicao> out/f120.png --frame=120
 ffmpeg -i out/f20.png -i out/f120.png -i out/f200.png -filter_complex "[0:v]scale=360:-1[a];[1:v]scale=360:-1[b];[2:v]scale=360:-1[c];[a][b][c]hstack=inputs=3" folha.png
 ```
 
-Olhe a folha e confira: o objeto herói aparece e é reconhecível, a ação corresponde à frase, o texto cabe e se lê, não há quadro vazio nem objeto no lugar errado. Inclua quadros **entre** os instantes-chave: é ali que a câmera e os cruzamentos mostram erros.
+Olhe a folha e confira: o objeto herói aparece e é reconhecível, a ação corresponde à frase, o texto cabe e se lê, não há quadro vazio nem objeto no lugar errado. Inclua quadros **entre** os instantes-chave: é ali que a câmera e os cruzamentos mostram erros. Compare cada transição com como seria na vida real: uma forma que vira do avesso, o lado esquerdo e o direito trocados, peças que se atravessam só aparecem se você procurar por elas. Corrija o que as regras acusariam antes de mostrar a alguém.
 
 ## 2. Medidas por pixel
 
@@ -43,8 +43,11 @@ Não esconda o código de saída de um render falho com `| tail`: confira o cód
 - [ ] Cada objeto assenta e fica estável tempo suficiente para ser percebido.
 - [ ] Texto curto, grande e dentro da zona segura em todos os quadros conferidos.
 - [ ] Nada muda de forma ou de lugar para esconder um erro; a continuidade entre objetos não mostra salto.
+- [ ] Cada transição foi vista em 3 ou 4 pontos, não só nos repousos.
 - [ ] O movimento termina em repouso; a peça termina em um quadro estável, sem fade para preto.
 - [ ] Os eventos sonoros caem nos instantes do mapa de som; a trilha termina em fade junto com a imagem.
+- [ ] Peça inteira: cada cena do storyboard aprovado existe na peça, na mesma ordem, e cada som cai no quadro do seu evento (no máximo um quadro de erro).
+- [ ] Peça inteira: a câmera não inverte a direção no mesmo assunto, nenhum movimento tem pico de velocidade no meio, e o último plano não tem deriva (olhe quadros **entre** as chaves).
 - [ ] O arquivo exportado tem a duração, as dimensões e o volume esperados.
 
 ## 5. O que declarar na entrega

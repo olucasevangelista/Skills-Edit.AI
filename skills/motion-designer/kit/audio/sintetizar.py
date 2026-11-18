@@ -6,19 +6,26 @@ Semente fixa: o mesmo mapa gera sempre o mesmo áudio. O resultado é eletrônic
 feito para ser substituível por uma música de verdade.
 
 Uso:
-  python sintetizar.py mapa.json --saida pasta
+  python sintetizar.py mapa.json --saida pasta [--eventos config.ts] [--fps 30]
 Gera em --saida: sfx.wav (efeitos), musica.wav (se o mapa tiver "trilha") e mix.wav (os dois, com limite de pico).
+
+Som por evento: em vez de um instante digitado à mão ("t"), um evento do mapa pode apontar para um NOME ("evento"),
+e os instantes vêm de --eventos: um .json ({"etapa.separa": 3.9}) ou o `config.ts` do projeto, que exporta
+`EVENTOS` com um nome e um número de segundos por linha. Mudou um tempo na animação? O som acompanha.
+--fps encaixa cada evento no quadro do vídeo (o mesmo arredondamento de `sec()` do kit de movimento).
 
 Formato do mapa (veja mapa-exemplo.json):
   {"duracao": 12, "semente": 7, "fade_final": 0.7,
    "trilha": {"bpm": 120, "de": 0, "ate": 12, "acordes": [[50,57,60,64], [46,53,57,62]], "ganho": 1.0},
-   "eventos": [{"t": 3.9, "tipo": "clique", "ganho": 0.8, "pan": 0.0}, {"t": 9.7, "tipo": "acorde", "nota": [57,60,64]}]}
+   "eventos": [{"t": 3.9, "tipo": "clique", "ganho": 0.8, "pan": 0.0}, {"t": 9.7, "tipo": "acorde", "nota": [57,60,64]},
+               {"evento": "etapa.separa", "deslocamento": -0.05, "tipo": "toque"}]}
 Tipos de evento: bumbo, clique, chiado, whoosh, toque (nota MIDI), acorde (lista de notas MIDI).
 """
 from __future__ import annotations
 
 import argparse
 import json
+import re
 import wave
 from pathlib import Path
 
@@ -130,18 +137,63 @@ def escrever(caminho: Path, bus: np.ndarray) -> None:
         w.writeframes(pcm.tobytes())
 
 
+def carregar_eventos(caminho: Path) -> dict[str, float]:
+    """Nome -> segundos. Aceita .json ({nome: t} ou [{nome, t}]) ou um .ts/.tsx/.js com `EVENTOS = { "nome": 3.9, ... }`
+    (um evento por linha, números literais em segundos)."""
+    texto = caminho.read_text(encoding="utf-8")
+    if caminho.suffix.lower() == ".json":
+        dados = json.loads(texto)
+        if isinstance(dados, dict):
+            return {str(k): float(v) for k, v in dados.items()}
+        return {str(e.get("nome") or e["name"]): float(e["t"]) for e in dados}
+    m = re.search(r"\bEVENTOS\b\s*(?::[^=]+)?=\s*\{(.*?)\n\s*\}", texto, re.S)
+    if not m:
+        raise SystemExit(f"Não achei `EVENTOS = {{ ... }}` em {caminho}.")
+    corpo = re.sub(r"/\*.*?\*/", "", m.group(1), flags=re.S)
+    eventos: dict[str, float] = {}
+    for linha in corpo.split("\n"):
+        linha = re.sub(r"//.*", "", linha).strip()
+        if not linha:
+            continue
+        par = re.fullmatch(r"""["']?([\w.\-]+)["']?\s*:\s*(-?\d+(?:\.\d+)?)\s*,?""", linha)
+        if not par:
+            raise SystemExit(f"EVENTOS em {caminho}: use um nome e um número de segundos por linha (não entendi: {linha!r}).")
+        eventos[par.group(1)] = float(par.group(2))
+    return eventos
+
+
+def instante(ev: dict, eventos: dict[str, float], fps: float | None) -> tuple[float, str]:
+    """Segundos em que o evento do mapa soa (e o nome, se houver). Com `fps`, cai no quadro do vídeo."""
+    if "evento" in ev:
+        if "t" in ev:
+            raise SystemExit(f"O evento {ev['evento']!r} tem 'evento' e 't' ao mesmo tempo: use só um (e 'deslocamento' para ajustar).")
+        if ev["evento"] not in eventos:
+            achados = ", ".join(sorted(eventos)) or "nenhum: passe --eventos"
+            raise SystemExit(f"Evento desconhecido: {ev['evento']!r} (eventos conhecidos: {achados})")
+        t, nome = eventos[ev["evento"]] + float(ev.get("deslocamento", 0.0)), ev["evento"]
+    else:
+        t, nome = float(ev["t"]), ""
+    return (round(t * fps) / fps if fps else t), nome
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("mapa", type=Path)
     ap.add_argument("--saida", type=Path, required=True)
+    ap.add_argument("--eventos", type=Path, help="eventos nomeados: um .json ou o config.ts do projeto (veja acima)")
+    ap.add_argument("--fps", type=float, help="encaixa cada evento no quadro do vídeo (ex.: 30)")
     a = ap.parse_args()
+    eventos = carregar_eventos(a.eventos) if a.eventos else {}
     mapa = json.loads(a.mapa.read_text(encoding="utf-8"))
     dur = float(mapa["duracao"])
     n = int(round(dur * SR))
     rng = np.random.default_rng(int(mapa.get("semente", 1)))
     sfx, musica = np.zeros((n, 2)), np.zeros((n, 2))
+    relatorio = []
     for ev in mapa.get("eventos", []):
-        tipo, em, g, pan = ev["tipo"], float(ev["t"]), float(ev.get("ganho", 1.0)), float(ev.get("pan", 0.0))
+        em, nome = instante(ev, eventos, a.fps)
+        tipo, g, pan = ev["tipo"], float(ev.get("ganho", 1.0)), float(ev.get("pan", 0.0))
+        relatorio.append((em, nome, tipo))
         if tipo == "toque":
             sinal = toque(rng, float(ev.get("nota", 81)))
         elif tipo == "acorde":
@@ -164,6 +216,11 @@ def main() -> int:
     if mapa.get("trilha"):
         escrever(a.saida / "musica.wav", musica * k)
     escrever(a.saida / "mix.wav", mix * k)
+    por_nome = [r for r in relatorio if r[1]]
+    if por_nome:
+        print("evento por nome -> instante" + (f" (quadro a {a.fps:g} fps)" if a.fps else ""))
+        for em, nome, tipo in sorted(por_nome):
+            print(f"  {nome:<24} {em:7.3f} s" + (f"  quadro {round(em * a.fps)}" if a.fps else "") + f"  {tipo}")
     print(f"{dur:g} s | {len(mapa.get('eventos', []))} eventos | trilha: {'sim' if mapa.get('trilha') else 'não'} | "
           f"pico da mistura {20 * np.log10(max(1e-9, np.max(np.abs(mix * k)))):.1f} dBFS | arquivos em {a.saida}")
     return 0

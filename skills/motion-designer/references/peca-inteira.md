@@ -37,6 +37,7 @@ Escreva antes do código e peça a aprovação da pessoa. Modelo:
 # Título da peça
 
 Duração, formato, taxa de quadros. Conceito não oficial, se for o caso.
+Ideia em uma frase e personalidade (três adjetivos), com a referência da pessoa, se houver.
 
 | Tempo | Direção |
 |---|---|
@@ -50,9 +51,27 @@ Mapa de som por instante (veja audio.md).
 Textos, exatamente como vão aparecer.
 ```
 
+## Storyboard visual (antes de animar)
+
+Só para peça inteira. Num motion explicativo dentro de um vídeo com pessoa, o `DIRECAO.md` basta.
+
+Depois que o `DIRECAO.md` for aprovado e **antes de animar**, monte um storyboard em imagem: um **quadro-chave por cena** (a cena parada no instante mais legível, já com as cores, a fonte e os materiais reais), numerado. É o ponto mais barato para mudar qualquer coisa: nada foi animado nem renderizado, e a pessoa pode dizer "a passagem do 4 para o 5 não funciona".
+
+1. Gere os quadros-chave (uma composição estática por cena, ou o quadro mais legível de cada uma, com `remotion still`).
+2. Junte numa folha numerada: `python <skill>/kit/folha_de_quadros.py quadros/ --saida storyboard.png --legendas legendas.json`. Cada quadro leva o tempo, o título, **o que se move** e **como vira o próximo**.
+3. Mostre a folha e as perguntas abaixo, **como perguntas para a pessoa**, e espere as notas por número de cena. Não anime antes da aprovação.
+
+| Pergunta | O que procurar |
+|---|---|
+| Cada cena vira a próxima? | Uma forma, uma cor ou o movimento da câmera passa de uma cena para a outra. Um corte que muda tudo de uma vez perde o olhar. |
+| O que importa está no mesmo lugar? | O objeto herói fica numa posição previsível, sem o olho ter de procurá-lo. |
+| Há sempre algo se movendo? | Inclusive nos repousos (`movimento.md`). |
+| O ritmo é rápido e depois lento? | Nada de cena apertada que o olho não acompanha. |
+| O texto é curto? | Uma frase por cena, dentro da zona segura. |
+
 ## `config.ts` único
 
-Formato, duração, textos, cores, tempos de cada cena e, no 3D, as chaves de câmera ficam em um arquivo só. Quem quiser mudar uma frase ou um tempo edita ali, e o resto da peça acompanha. O kit traz um exemplo (`references/kit.md`).
+Formato, duração, textos, cores, tempos de cada cena e, no 3D, as chaves de câmera ficam em um arquivo só. Quem quiser mudar uma frase ou um tempo edita ali, e o resto da peça acompanha. Os instantes de cada momento que pede som ficam em `EVENTOS`, uma lista de nomes e segundos que a animação **e** o som leem (`audio.md`). O kit traz um exemplo (`references/kit.md`).
 
 ## Cenas isoladas no Studio
 

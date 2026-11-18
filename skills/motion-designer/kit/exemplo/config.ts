@@ -38,14 +38,28 @@ export const CENAS = {
 } as const;
 
 /**
+ * Eventos nomeados: a ÚNICA lista de instantes (em segundos) que a imagem e o som leem. Mudou um tempo aqui? A animação e o
+ * som acompanham. Um evento por linha, número literal: o `sintetizar.py --eventos config.ts` lê exatamente esta forma.
+ * Em uma peça real, os instantes das palavras vêm da transcrição da narração.
+ */
+export const EVENTOS = {
+  "gancho.entra": 0.4,
+  "etapa.separa": 3.9,
+  "etapa.embala": 5.5,
+  "etapa.envia": 7.1,
+  "pacote.sai": 7.9,
+  "marca.assenta": 9.7,
+} as const;
+
+/**
  * A fala (ou o roteiro) com o instante em que cada etapa é dita. O movimento é ancorado nestes
  * instantes: o pacote chega à estação um pouco ANTES da palavra e muda de estado NA palavra.
  * Em uma peça real, estes tempos vêm da transcrição da narração.
  */
 export const ETAPAS = [
-  { palavra: "separa", t: 3.9, y: 760 },
-  { palavra: "embala", t: 5.5, y: 1060 },
-  { palavra: "envia", t: 7.1, y: 1360 },
+  { palavra: "separa", t: EVENTOS["etapa.separa"], y: 760 },
+  { palavra: "embala", t: EVENTOS["etapa.embala"], y: 1060 },
+  { palavra: "envia", t: EVENTOS["etapa.envia"], y: 1360 },
 ] as const;
 
 /** Quadros de antecedência com que o pacote chega antes da palavra. */

@@ -40,11 +40,30 @@ Quando um objeto dá lugar a outro (por exemplo um cartão que vira um celular),
 ## Câmera (3D)
 
 - **Coordenadas esféricas ao redor de um alvo** (azimute, elevação, distância, alvo, campo de visão), com **chaves** ao longo do tempo e `track()` entre elas. O kit tem `CamKey` e `camState()`.
-- Aproximação lenta e contínua nas cenas de apresentação (distância cai aos poucos); afastamento e órbita na convergência.
+- Aproximação lenta e contínua nas cenas de apresentação (distância cai aos poucos); afastamento e órbita na convergência, que é um **assunto novo** (todos os objetos reunidos). No mesmo assunto, a direção não se inverte (seção seguinte).
 - **Tremida mínima** no alvo (`drift`, de 2 a 3 centésimos) tira o aspecto de câmera de computador sem parecer câmera de mão.
 - **Lente deslocada** (`shiftPx`): sobe o assunto para dentro da zona segura sem mexer na composição. Positivo sobe o assunto (medido: 110 px de deslocamento levou o centro do objeto de 960 para 858 px).
 - Distâncias e ângulos mudam por cena: o objeto não pode ficar enquadrado igual o vídeo inteiro.
 - O alvo deve estar sempre dentro do quadro. Confira com quadros de diagnóstico nos instantes entre as chaves, não só nas chaves.
+
+## Câmera e ritmo de uma peça inteira
+
+Valem sobretudo para peças feitas só de motion (anúncio, conteúdo, vinheta), onde a câmera e o ritmo são o vídeo. Num motion explicativo curto dentro de um vídeo com pessoa, use só o que couber.
+
+| Regra | Como |
+|---|---|
+| **Uma câmera contínua** | Em cada cena a câmera faz um só gesto: **rápido no começo e devagar por muito tempo** (o recuo de abertura freia em curva exponencial; depois vêm empurrões suaves). Nunca um pico de velocidade no meio. |
+| **A direção não se inverte no mesmo assunto** | Aproximar e depois afastar do mesmo objeto, ou orbitar, parar e voltar, parece hesitação. Giros de até 90° são bons. Se algo precisa terminar de frente, deixe uma deriva lenta **chegar** lá, em vez de parar e girar de volta. Mudar de direção só faz sentido quando entra um assunto novo. |
+| **Uma curva por movimento** | Emendar duas curvas cria uma quina na velocidade. Passe todas as chaves de um movimento por um único `track()`. |
+| **Mais devagar do que parece certo** | O primeiro rascunho quase sempre sai rápido demais. Dê mais repouso às cenas e retarde em ~50% as viradas que o olho não acompanha. |
+| **Sempre algo se movendo** | Mesmo nos repousos, uma deriva lenta ou um empurrão leve. Um quadro parado entre dois movimentos grandes parece travado. Continua valendo **um movimento principal por vez**: o resto é fundo. |
+| **Antecipação** | Antes de um objeto crescer, sair ou saltar, comprima-o cerca de 8% por um instante (uma pose antes). É diferente do `squash` de impacto, que vem depois de uma batida. |
+| **Varie o ângulo em movimentos longos** | Um travelling ou uma rolagem com o mesmo ângulo do começo ao fim parece estático. Comece alto à esquerda e termine alto à direita, por exemplo. |
+| **Desfoque de movimento** | Faça a média de ~12 sub-quadros dentro de meia duração do quadro (obturador de 180°). Com 5, aparecem cópias fantasma. Custa até 12 vezes o tempo de render: ligue só no render final e só onde há movimento rápido. O Remotion tem um pacote próprio para isso: confira a documentação. |
+| **Profundidade de campo rasa (3D)** | Assunto nítido e fundo desfocado dão cara de filmado. É cara de renderizar: use no objeto herói e nos planos em que o fundo atrapalha. |
+| **Fim estável** | O último plano não tem deriva de câmera, e o logo fica centralizado pela caixa do que se vê. |
+
+Os defeitos que mais aparecem nesses movimentos estão em `problemas.md`.
 
 ## Sincronia com o som
 
